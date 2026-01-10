@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Trophy, Zap, Target, Clock, Star, Play, Home, BarChart3, ChevronDown } from 'lucide-react';
+import { getOrCreateUser, saveRaceResult, getGlobalLeaderboard as fetchGlobalLeaderboard, getRaceLeaderboard as fetchRaceLeaderboard, getUserStats } from './lib/api';
 
 // 100 German words database
 const WORDS_DATABASE = [
@@ -141,20 +142,68 @@ const DerDiedasDash = () => {
   const [showCombo, setShowCombo] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [questionTransition, setQuestionTransition] = useState('enter');
+  const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
+  const [raceLeaderboard, setRaceLeaderboard] = useState([]);
   const timerRef = useRef(null);
 
-  // Load user data on mount
+  // Load user data on mount (from localStorage username if exists, for backward compatibility)
   useEffect(() => {
     loadUserData();
   }, []);
 
-  const loadUserData = () => {
+  // Load race leaderboard when screen changes to raceResults
+  useEffect(() => {
+    if (screen === 'raceResults' && currentRace) {
+      const loadRaceLeaderboard = async () => {
+        const leaderboard = await getRaceLeaderboard(currentRace);
+        setRaceLeaderboard(leaderboard);
+      };
+      loadRaceLeaderboard();
+    }
+  }, [screen, currentRace]);
+
+  // Load global leaderboard when screen changes to globalStats
+  useEffect(() => {
+    if (screen === 'globalStats') {
+      const loadGlobalLeaderboard = async () => {
+        const leaderboard = await getGlobalLeaderboard();
+        setGlobalLeaderboard(leaderboard);
+      };
+      loadGlobalLeaderboard();
+    }
+  }, [screen]);
+
+  const loadUserData = async () => {
     try {
+      // Check localStorage for username (backward compatibility)
       const stored = localStorage.getItem('der-die-das-dash-user');
       if (stored) {
         const data = JSON.parse(stored);
-        setUserData(data);
-        setUsername(data.username);
+        if (data.username && data.userId) {
+          // Try to load user from Supabase
+          try {
+            const userStats = await getUserStats(data.userId);
+            if (userStats) {
+              setUserData(userStats);
+              setUsername(userStats.username);
+              // Update localStorage with userId
+              localStorage.setItem('der-die-das-dash-user', JSON.stringify({ username: userStats.username, userId: userStats.userId }));
+            } else {
+              // User exists in localStorage but not in DB, keep it for now
+              setUserData(data);
+              setUsername(data.username);
+            }
+          } catch (error) {
+            // If getUserStats fails (e.g., user not found), keep localStorage data
+            console.error('Error loading user from Supabase:', error);
+            setUserData(data);
+            setUsername(data.username);
+          }
+        } else if (data.username) {
+          // User exists in localStorage but no userId, will be created on next game start
+          setUserData(data);
+          setUsername(data.username);
+        }
       }
     } catch (error) {
       console.log('New user, starting fresh', error);
@@ -162,29 +211,37 @@ const DerDiedasDash = () => {
     setLoading(false);
   };
 
-  const saveUserData = (data) => {
-    try {
-      localStorage.setItem('der-die-das-dash-user', JSON.stringify(data));
-      setUserData(data);
-    } catch (error) {
-      console.error('Failed to save user data:', error);
+  const updateUserData = (data) => {
+    setUserData(data);
+    // Keep username and userId in localStorage for quick access
+    if (data.username) {
+      localStorage.setItem('der-die-das-dash-user', JSON.stringify({ 
+        username: data.username, 
+        userId: data.userId || data.id 
+      }));
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     if (!username.trim()) {
       alert('Please enter your name first!');
       return;
     }
 
-    if (!userData) {
-      const newUserData = {
-        username: username.trim(),
-        races: {},
-        totalRaces: 0,
-        totalScore: 0,
-      };
-      saveUserData(newUserData);
+    // Get or create user in Supabase
+    if (!userData || !userData.userId) {
+      try {
+        setLoading(true);
+        const user = await getOrCreateUser(username.trim());
+        const userStats = await getUserStats(user.id);
+        updateUserData(userStats);
+      } catch (error) {
+        console.error('Error creating/fetching user:', error);
+        alert('Failed to initialize user. Please try again.');
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
     }
 
     setScreen('game');
@@ -270,29 +327,26 @@ const DerDiedasDash = () => {
     }, 800);
   };
 
-  const finishRace = () => {
+  const finishRace = async () => {
     clearInterval(timerRef.current);
     
     // Trigger confetti celebration
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 4000);
     
-    // Save race results
-    const updatedUserData = {
-      ...userData,
-      races: {
-        ...userData.races,
-        [`race${currentRace}`]: {
-          score,
-          answers,
-          date: new Date().toISOString(),
-        }
-      },
-      totalRaces: (userData.totalRaces || 0) + 1,
-      totalScore: (userData.totalScore || 0) + score,
-    };
+    // Save race results to Supabase
+    if (userData && userData.userId) {
+      try {
+        await saveRaceResult(userData.userId, currentRace, score, answers);
+        // Refresh user stats
+        const updatedStats = await getUserStats(userData.userId);
+        updateUserData(updatedStats);
+      } catch (error) {
+        console.error('Error saving race result:', error);
+        alert('Failed to save race result. Please check your connection.');
+      }
+    }
     
-    saveUserData(updatedUserData);
     setScreen('raceResults');
   };
 
@@ -306,29 +360,41 @@ const DerDiedasDash = () => {
     return Object.keys(userData.races).length;
   };
 
-  const getRaceLeaderboard = (raceNum) => {
-    // For now, just show current user's score
-    // In a real app, this would fetch all users' scores from shared storage
-    if (!userData || !userData.races || !userData.races[`race${raceNum}`]) {
+  const getRaceLeaderboard = async (raceNum) => {
+    try {
+      const leaderboard = await fetchRaceLeaderboard(raceNum);
+      return leaderboard;
+    } catch (error) {
+      console.error('Error fetching race leaderboard:', error);
+      // Fallback to showing current user's score if available
+      if (userData && userData.races && userData.races[`race${raceNum}`]) {
+        return [{
+          username: userData.username,
+          score: userData.races[`race${raceNum}`].score,
+          date: userData.races[`race${raceNum}`].date,
+        }];
+      }
       return [];
     }
-    
-    return [{
-      username: userData.username,
-      score: userData.races[`race${raceNum}`].score,
-      date: userData.races[`race${raceNum}`].date,
-    }];
   };
 
-  const getGlobalLeaderboard = () => {
-    if (!userData) return [];
-    
-    return [{
-      username: userData.username,
-      totalRaces: userData.totalRaces || 0,
-      totalScore: userData.totalScore || 0,
-      avgScore: userData.totalRaces ? Math.round(userData.totalScore / userData.totalRaces) : 0,
-    }];
+  const getGlobalLeaderboard = async () => {
+    try {
+      const leaderboard = await fetchGlobalLeaderboard();
+      return leaderboard;
+    } catch (error) {
+      console.error('Error fetching global leaderboard:', error);
+      // Fallback to showing current user's stats if available
+      if (userData) {
+        return [{
+          username: userData.username,
+          totalRaces: userData.totalRaces || 0,
+          totalScore: userData.totalScore || 0,
+          avgScore: userData.totalRaces ? Math.round(userData.totalScore / userData.totalRaces) : 0,
+        }];
+      }
+      return [];
+    }
   };
 
   if (loading) {
@@ -873,7 +939,10 @@ const DerDiedasDash = () => {
           <div className="mb-12">
             <h2 className="text-3xl font-black text-white mb-6 text-center">Race {currentRace} Leaderboard</h2>
             <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm" style={{borderColor: '#21A8FF' + '30'}}>
-              {getRaceLeaderboard(currentRace).map((entry, idx) => (
+              {raceLeaderboard.length === 0 ? (
+                <div className="text-center py-8 text-slate-400">Loading leaderboard...</div>
+              ) : (
+                raceLeaderboard.map((entry, idx) => (
                 <div key={idx} className="flex items-center justify-between py-4 border-b border-slate-700 last:border-0">
                   <div className="flex items-center gap-4">
                     <div className="text-3xl font-black" style={{color: '#FFC300'}}>#{idx + 1}</div>
@@ -886,7 +955,8 @@ const DerDiedasDash = () => {
                   </div>
                   <div className="text-3xl font-black" style={{color: '#21A8FF'}}>{entry.score}</div>
                 </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 
@@ -982,7 +1052,10 @@ const DerDiedasDash = () => {
           <div className="mb-12">
             <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm" style={{borderColor: '#21A8FF' + '30'}}>
               <div className="space-y-4">
-                {getGlobalLeaderboard().map((entry, idx) => (
+                {globalLeaderboard.length === 0 ? (
+                  <div className="text-center py-8 text-slate-400">Loading leaderboard...</div>
+                ) : (
+                  globalLeaderboard.map((entry, idx) => (
                   <div key={idx} className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 border border-slate-700 rounded-xl p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-4">
@@ -1008,7 +1081,8 @@ const DerDiedasDash = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
