@@ -450,16 +450,12 @@ const DerDiedasDash = () => {
         <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
           {/* Title */}
           <div className="text-center mb-16 animate-fadeIn">
-            <div className="inline-block mb-4">
-              <Zap className="w-20 h-20 text-yellow-400 animate-bounce" />
-            </div>
-            
             {/* Logo */}
             <div className="mb-6 px-8">
               <img 
                 src="/logo.png" 
                 alt="Der Die Das Space" 
-                className="w-full max-w-md mx-auto"
+                className="w-full max-w-xs mx-auto"
                 style={{
                   filter: 'drop-shadow(0 0 30px rgba(255, 195, 0, 0.3))'
                 }}
@@ -545,7 +541,7 @@ const DerDiedasDash = () => {
               <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm pb-8" style={{borderColor: '#FFC300' + '20'}}>
                 <div className="space-y-4 text-slate-300">
                   <p className="text-lg leading-relaxed">
-                    <span className="font-black" style={{color: '#FFC300'}}>Der Die Das Space</span> is a high-speed German article learning game! Test your knowledge of German articles (<span className="font-bold" style={{color: '#FF0000'}}>der</span>, <span className="font-bold" style={{color: '#A200FF'}}>die</span>, <span className="font-bold" style={{color: '#21A8FF'}}>das</span>) against the clock.
+                    <span className="font-black" style={{color: '#FFC300'}}>Der Die Das Space</span> is a high-speed German article learning game! Test your knowledge of German articles (<span className="font-bold" style={{color: '#21A8FF'}}>der</span>, <span className="font-bold" style={{color: '#FF0000'}}>die</span>, <span className="font-bold" style={{color: '#FFC300'}}>das</span>) against the clock.
                   </p>
                   
                   <div className="border-l-4 pl-4" style={{borderColor: '#21A8FF' + '30'}}>
@@ -762,11 +758,15 @@ const DerDiedasDash = () => {
 
           {/* Word Display */}
           <div className="mb-16">
-            <div className={`bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-4 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden transition-all duration-300 ${
+            <div className={`bg-gradient-to-br border-4 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden transition-all duration-300 ${
               questionTransition === 'enter' ? 'animate-slideIn' : questionTransition === 'exit' ? 'animate-slideOut' : ''
-            }`} style={{borderColor: '#21A8FF' + '30'}}>
-              {/* Animated background */}
-              <div className="absolute inset-0 opacity-5">
+            }`} style={{
+              backgroundImage: 'linear-gradient(to bottom right, rgba(0, 204, 0, 0.15), rgba(0, 180, 0, 0.25))',
+              borderColor: '#00CC00' + '50',
+              boxShadow: '0 0 30px rgba(0, 204, 0, 0.3)'
+            }}>
+              {/* Animated background effect */}
+              <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0 animate-pulse" style={{backgroundImage: 'linear-gradient(to right, #FF0000, #FFC300, #21A8FF)'}}></div>
               </div>
               
@@ -774,7 +774,7 @@ const DerDiedasDash = () => {
                 <div className="text-7xl md:text-9xl font-black text-white mb-4" style={{fontFamily: '"Orbitron", sans-serif'}}>
                   {currentWord.word}
                 </div>
-                <div className="text-2xl font-bold" style={{color: '#21A8FF'}}>Which article?</div>
+                <div className="text-2xl font-bold" style={{color: '#00CC00'}}>Which article?</div>
               </div>
             </div>
           </div>
@@ -785,19 +785,19 @@ const DerDiedasDash = () => {
               // Logo renklerine uygun renkler
               const artikelColors = {
                 der: { 
-                  main: '#FF0000',      // Kırmızı - logo rengi
+                  main: '#21A8FF',      // Mavi - logo rengi (vibrant blue)
+                  dark: '#0066CC',      // Daha koyu mavi (gradient için)
+                  glow: '#4DB8FF'       // Glow efekti için
+                },
+                die: { 
+                  main: '#FF0000',      // Kırmızı - logo rengi (bright red)
                   dark: '#CC0000',      // Daha koyu kırmızı (gradient için)
                   glow: '#FF3333'       // Glow efekti için
                 },
-                die: { 
-                  main: '#A200FF',      // Mor/Pembe - logo rengi
-                  dark: '#7D00CC',      // Daha koyu mor (gradient için)
-                  glow: '#B833FF'       // Glow efekti için
-                },
                 das: { 
-                  main: '#21A8FF',      // Mavi - logo rengi
-                  dark: '#0066CC',      // Daha koyu mavi (gradient için)
-                  glow: '#4DB8FF'       // Glow efekti için
+                  main: '#FFC300',      // Altın sarısı - logo rengi (golden yellow)
+                  dark: '#CC9900',      // Daha koyu sarı (gradient için)
+                  glow: '#FFD700'       // Glow efekti için
                 }
               };
               
