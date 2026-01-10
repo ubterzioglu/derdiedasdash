@@ -212,7 +212,7 @@ const DerDiedasDash = () => {
               setUsername(data.username);
             }
           } catch (error) {
-            // If getUserStats fails (e.g., user not found), keep localStorage data
+            // If getUserStats fails (e.g., user not found, network error), keep localStorage data
             console.error('Error loading user from Supabase:', error);
             setUserData(data);
             setUsername(data.username);
@@ -224,9 +224,10 @@ const DerDiedasDash = () => {
         }
       }
     } catch (error) {
-      console.log('New user, starting fresh', error);
+      console.log('Error loading user data, starting fresh:', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const updateUserData = (data) => {

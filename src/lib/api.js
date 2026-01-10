@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase, canUseSupabase } from './supabase'
 
 /**
  * Get or create a user by username
@@ -6,6 +6,18 @@ import { supabase } from './supabase'
  * @returns {Promise<{id: string, username: string, created_at: string, total_races: number, total_score: number}>}
  */
 export async function getOrCreateUser(username) {
+  if (!canUseSupabase()) {
+    // Fallback: return a local user object with generated ID
+    const localUserId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    return {
+      id: localUserId,
+      username: username.trim(),
+      created_at: new Date().toISOString(),
+      total_races: 0,
+      total_score: 0,
+    }
+  }
+
   try {
     // Check if user exists
     const { data: existingUser, error: searchError } = await supabase
@@ -39,7 +51,15 @@ export async function getOrCreateUser(username) {
     return newUser
   } catch (error) {
     console.error('Error in getOrCreateUser:', error)
-    throw error
+    // Fallback on error
+    const localUserId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    return {
+      id: localUserId,
+      username: username.trim(),
+      created_at: new Date().toISOString(),
+      total_races: 0,
+      total_score: 0,
+    }
   }
 }
 
@@ -52,6 +72,21 @@ export async function getOrCreateUser(username) {
  * @returns {Promise<Object>}
  */
 export async function saveRaceResult(userId, raceNumber, score, answers) {
+  if (!canUseSupabase()) {
+    // Fallback: return mock result
+    console.warn('Supabase not configured, race result saved locally only')
+    return {
+      id: `local_${Date.now()}`,
+      user_id: userId,
+      race_number: raceNumber,
+      score: score,
+      answers: answers,
+      timestamp: new Date().toISOString(),
+      user_total_races: 0,
+      user_total_score: 0,
+    }
+  }
+
   try {
     // Insert race result
     const { data: raceResult, error: raceError } = await supabase
@@ -107,7 +142,17 @@ export async function saveRaceResult(userId, raceNumber, score, answers) {
     }
   } catch (error) {
     console.error('Error in saveRaceResult:', error)
-    throw error
+    // Return mock result on error
+    return {
+      id: `local_${Date.now()}`,
+      user_id: userId,
+      race_number: raceNumber,
+      score: score,
+      answers: answers,
+      timestamp: new Date().toISOString(),
+      user_total_races: 0,
+      user_total_score: 0,
+    }
   }
 }
 
@@ -117,6 +162,11 @@ export async function saveRaceResult(userId, raceNumber, score, answers) {
  * @returns {Promise<Array>}
  */
 export async function getGlobalLeaderboard(limit = 100) {
+  if (!canUseSupabase()) {
+    console.warn('Supabase not configured, returning empty leaderboard')
+    return []
+  }
+
   try {
     const { data, error } = await supabase
       .from('users')
@@ -126,7 +176,7 @@ export async function getGlobalLeaderboard(limit = 100) {
 
     if (error) {
       console.error('Error fetching global leaderboard:', error)
-      throw error
+      return []
     }
 
     return data.map((user) => ({
@@ -138,7 +188,7 @@ export async function getGlobalLeaderboard(limit = 100) {
     }))
   } catch (error) {
     console.error('Error in getGlobalLeaderboard:', error)
-    throw error
+    return []
   }
 }
 
@@ -149,6 +199,11 @@ export async function getGlobalLeaderboard(limit = 100) {
  * @returns {Promise<Array>}
  */
 export async function getRaceLeaderboard(raceNumber, limit = 100) {
+  if (!canUseSupabase()) {
+    console.warn('Supabase not configured, returning empty leaderboard')
+    return []
+  }
+
   try {
     // First get race results
     const { data: raceResults, error: raceError } = await supabase
@@ -160,7 +215,7 @@ export async function getRaceLeaderboard(raceNumber, limit = 100) {
 
     if (raceError) {
       console.error('Error fetching race leaderboard:', raceError)
-      throw raceError
+      return []
     }
 
     if (!raceResults || raceResults.length === 0) {
@@ -176,7 +231,7 @@ export async function getRaceLeaderboard(raceNumber, limit = 100) {
 
     if (usersError) {
       console.error('Error fetching users:', usersError)
-      throw usersError
+      return []
     }
 
     // Map results with usernames
@@ -188,7 +243,7 @@ export async function getRaceLeaderboard(raceNumber, limit = 100) {
     }))
   } catch (error) {
     console.error('Error in getRaceLeaderboard:', error)
-    throw error
+    return []
   }
 }
 
@@ -198,6 +253,11 @@ export async function getRaceLeaderboard(raceNumber, limit = 100) {
  * @returns {Promise<Object>}
  */
 export async function getUserStats(userId) {
+  if (!canUseSupabase()) {
+    console.warn('Supabase not configured, returning null')
+    return null
+  }
+
   try {
     // Get user info
     const { data: user, error: userError } = await supabase
@@ -208,7 +268,7 @@ export async function getUserStats(userId) {
 
     if (userError) {
       console.error('Error fetching user:', userError)
-      throw userError
+      return null
     }
 
     // Get all race results for this user
@@ -220,7 +280,14 @@ export async function getUserStats(userId) {
 
     if (raceError) {
       console.error('Error fetching race results:', raceError)
-      throw raceError
+      // Return user info without race results
+      return {
+        username: user.username,
+        races: {},
+        totalRaces: user.total_races || 0,
+        totalScore: user.total_score || 0,
+        userId: user.id,
+      }
     }
 
     // Transform race results to match expected format
@@ -242,7 +309,7 @@ export async function getUserStats(userId) {
     }
   } catch (error) {
     console.error('Error in getUserStats:', error)
-    throw error
+    return null
   }
 }
 
@@ -252,6 +319,11 @@ export async function getUserStats(userId) {
  * @returns {Promise<Object|null>}
  */
 export async function getUserByUsername(username) {
+  if (!canUseSupabase()) {
+    console.warn('Supabase not configured, returning null')
+    return null
+  }
+
   try {
     const { data, error } = await supabase
       .from('users')
@@ -265,12 +337,12 @@ export async function getUserByUsername(username) {
         return null
       }
       console.error('Error fetching user:', error)
-      throw error
+      return null
     }
 
     return data
   } catch (error) {
     console.error('Error in getUserByUsername:', error)
-    throw error
+    return null
   }
 }
