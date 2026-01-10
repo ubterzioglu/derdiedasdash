@@ -455,7 +455,7 @@ const DerDiedasDash = () => {
               <img 
                 src="/logo.png" 
                 alt="Der Die Das Space" 
-                className="w-full max-w-xs mx-auto"
+                className="w-full max-w-xs mx-auto animate-bounce"
                 style={{
                   filter: 'drop-shadow(0 0 30px rgba(255, 195, 0, 0.3))'
                 }}
