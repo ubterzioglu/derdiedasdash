@@ -319,21 +319,25 @@ const DerDiedasDash = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-fuchsia-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-12">
+        <div className="relative z-10 w-full max-w-sm mx-auto px-4 py-12">
           {/* Title */}
           <div className="text-center mb-16 animate-fadeIn">
             <div className="inline-block mb-4">
               <Zap className="w-20 h-20 text-yellow-400 animate-bounce" />
             </div>
-            <h1 className="text-7xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-yellow-400 bg-clip-text text-transparent uppercase tracking-wider" style={{fontFamily: '"Orbitron", sans-serif'}}>
+            <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-yellow-400 bg-clip-text text-transparent uppercase tracking-wider" style={{fontFamily: '"Orbitron", sans-serif'}}>
               Der Die Das Dash
             </h1>
-            <p className="text-2xl text-cyan-300 font-bold">Race Against Time!</p>
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-xl font-bold" style={{color: '#FF0000'}}>Find the Right One!</p>
+              <p className="text-xl font-bold" style={{color: '#21A8FF'}}>Race Against Time!</p>
+              <p className="text-xl font-bold" style={{color: '#FFC300'}}>Be the Best One!</p>
+            </div>
           </div>
 
           {/* Stats Overview */}
           {userData && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 gap-4 mb-8 w-full max-w-sm mx-auto">
               <div className="bg-gradient-to-br from-cyan-900/40 to-cyan-800/20 border-2 border-cyan-500/30 rounded-2xl p-6 backdrop-blur-sm">
                 <Trophy className="w-8 h-8 text-yellow-400 mb-2" />
                 <div className="text-3xl font-black text-white mb-1">{getCompletedRaces()}</div>
@@ -355,7 +359,7 @@ const DerDiedasDash = () => {
           )}
 
           {/* Username Input or Welcome */}
-          <div className="max-w-md mx-auto mb-12">
+          <div className="w-full max-w-sm mx-auto mb-8">
             {!userData ? (
               <div className="bg-slate-900/50 border-2 border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm">
                 <h2 className="text-2xl font-black text-cyan-400 mb-6 text-center">Hoş Geldin!</h2>
@@ -378,7 +382,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Race Selection */}
-          <div className="max-w-5xl mx-auto mb-12">
+          <div className="w-full max-w-sm mx-auto mb-8">
             <h3 className="text-3xl font-black text-center text-white mb-8 uppercase tracking-wide">Bir Yarışma Seç</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((raceNum) => {
@@ -449,7 +453,7 @@ const DerDiedasDash = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 via-fuchsia-500 to-yellow-500"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-8">
+        <div className="relative z-10 w-full max-w-sm mx-auto px-4 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
@@ -489,7 +493,7 @@ const DerDiedasDash = () => {
 
           {/* Timer */}
           <div className="mb-12">
-            <div className="max-w-xs mx-auto">
+            <div className="w-full max-w-sm mx-auto">
               <div className="flex items-center justify-center gap-3 mb-3">
                 <Clock className="w-6 h-6 text-yellow-400" />
                 <span className="text-xl font-bold text-yellow-300">Zeit</span>
@@ -508,25 +512,38 @@ const DerDiedasDash = () => {
             </div>
           </div>
 
-          {/* Word Display */}
-          <div className="max-w-2xl mx-auto mb-16">
-            <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-4 border-cyan-500/30 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden">
+          {/* Word Display - Mobile First */}
+          <div className="w-full max-w-sm mx-auto mb-8 px-4">
+            <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-4 border-cyan-500/30 rounded-3xl p-6 md:p-8 backdrop-blur-sm text-center relative overflow-visible">
               {/* Animated background */}
-              <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 opacity-5 rounded-3xl overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-yellow-500 animate-pulse"></div>
               </div>
               
-              <div className="relative z-10">
-                <div className="text-7xl md:text-9xl font-black text-white mb-4 animate-scaleIn" style={{fontFamily: '"Orbitron", sans-serif'}}>
+              <div className="relative z-10 py-2">
+                <div 
+                  className="font-black text-white mb-3 animate-scaleIn whitespace-nowrap overflow-visible" 
+                  style={{
+                    fontFamily: '"Orbitron", sans-serif',
+                    fontSize: 'clamp(3rem, 15vw, 5rem)',
+                    lineHeight: '1.1',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'normal',
+                    minHeight: '4rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
                   {currentWord.word}
                 </div>
-                <div className="text-2xl text-cyan-300 font-bold">Welcher Artikel?</div>
+                <div className="text-xl md:text-2xl text-cyan-300 font-bold">Welcher Artikel?</div>
               </div>
             </div>
           </div>
 
-          {/* Answer Buttons */}
-          <div className="max-w-3xl mx-auto grid grid-cols-3 gap-6">
+          {/* Answer Buttons - Mobile First */}
+          <div className="w-full max-w-sm mx-auto grid grid-cols-3 gap-3 md:gap-4 px-4">
             {['der', 'die', 'das'].map((artikel) => (
               <button
                 key={artikel}
@@ -536,9 +553,9 @@ const DerDiedasDash = () => {
                   artikel === 'der' ? 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 border-blue-400' :
                   artikel === 'die' ? 'bg-gradient-to-br from-pink-600 to-pink-700 hover:from-pink-500 hover:to-pink-600 border-pink-400' :
                   'bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 border-purple-400'
-                } border-4 rounded-2xl p-8 transition-all hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:scale-100`}
+                } border-4 rounded-2xl p-4 md:p-6 transition-all hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:scale-100`}
               >
-                <div className="text-5xl font-black text-white uppercase">{artikel}</div>
+                <div className="text-3xl md:text-4xl font-black text-white">{artikel}</div>
               </button>
             ))}
           </div>
@@ -546,7 +563,7 @@ const DerDiedasDash = () => {
           {/* Feedback Overlay */}
           {showFeedback && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm animate-fadeIn">
-              <div className={`text-9xl font-black animate-scaleIn ${feedbackType === 'correct' ? 'text-green-400' : 'text-red-400'}`}>
+              <div className={`text-8xl md:text-9xl font-black animate-scaleIn ${feedbackType === 'correct' ? 'text-green-400' : 'text-red-400'}`}>
                 {feedbackType === 'correct' ? '✓' : '✗'}
               </div>
             </div>
@@ -587,7 +604,7 @@ const DerDiedasDash = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-12">
+        <div className="relative z-10 w-full max-w-sm mx-auto px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12 animate-fadeIn">
             <Trophy className="w-24 h-24 text-yellow-400 mx-auto mb-6 animate-bounce" />
@@ -597,7 +614,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 gap-4 mb-8 w-full max-w-sm mx-auto">
             <div className="bg-gradient-to-br from-green-900/40 to-green-800/20 border-2 border-green-500/30 rounded-2xl p-6 backdrop-blur-sm text-center">
               <Star className="w-8 h-8 text-green-400 mx-auto mb-3" />
               <div className="text-4xl font-black text-white mb-2">{score}</div>
@@ -621,7 +638,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Answers Review */}
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="w-full max-w-sm mx-auto mb-8">
             <h2 className="text-3xl font-black text-white mb-6 text-center">Cevapların</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {answers.map((answer, idx) => (
@@ -662,7 +679,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Race Leaderboard */}
-          <div className="max-w-2xl mx-auto mb-12">
+          <div className="w-full max-w-sm mx-auto mb-8">
             <h2 className="text-3xl font-black text-white mb-6 text-center">Race {currentRace} Sıralaması</h2>
             <div className="bg-slate-900/50 border-2 border-cyan-500/30 rounded-2xl p-6 backdrop-blur-sm">
               {getRaceLeaderboard(currentRace).map((entry, idx) => (
@@ -721,7 +738,7 @@ const DerDiedasDash = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-fuchsia-500 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-12">
+        <div className="relative z-10 w-full max-w-sm mx-auto px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12">
             <BarChart3 className="w-20 h-20 text-cyan-400 mx-auto mb-6" />
@@ -732,7 +749,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Global Leaderboard */}
-          <div className="max-w-3xl mx-auto mb-12">
+          <div className="w-full max-w-sm mx-auto mb-8">
             <div className="bg-slate-900/50 border-2 border-cyan-500/30 rounded-2xl p-6 backdrop-blur-sm">
               <div className="space-y-4">
                 {getGlobalLeaderboard().map((entry, idx) => (
@@ -768,7 +785,7 @@ const DerDiedasDash = () => {
 
           {/* Individual Race Stats */}
           {userData && userData.races && Object.keys(userData.races).length > 0 && (
-            <div className="max-w-5xl mx-auto mb-12">
+            <div className="w-full max-w-sm mx-auto mb-8">
               <h2 className="text-3xl font-black text-white mb-6 text-center">Yarışma Detayları</h2>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {Object.entries(userData.races).map(([raceKey, raceData]) => {
