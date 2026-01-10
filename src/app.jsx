@@ -914,30 +914,28 @@ const DerDiedasDash = () => {
 
           {/* Word Display */}
           <div className="mb-16">
-            <div className={`bg-gradient-to-br border-4 rounded-3xl p-8 md:p-12 backdrop-blur-sm text-center relative overflow-visible transition-all duration-300 ${
+            <div className={`bg-gradient-to-br border-4 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden transition-all duration-300 ${
               questionTransition === 'enter' ? 'animate-slideIn' : questionTransition === 'exit' ? 'animate-slideOut' : ''
             }`} style={{
               backgroundImage: 'linear-gradient(to bottom right, rgba(0, 204, 0, 0.15), rgba(0, 180, 0, 0.25))',
               borderColor: '#00CC00' + '50',
-              boxShadow: '0 0 30px rgba(0, 204, 0, 0.3)',
-              minHeight: '200px'
+              boxShadow: '0 0 30px rgba(0, 204, 0, 0.3)'
             }}>
               {/* Animated background effect */}
-              <div className="absolute inset-0 opacity-10 rounded-3xl overflow-hidden">
+              <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0 animate-pulse" style={{backgroundImage: 'linear-gradient(to right, #FF0000, #FFC300, #21A8FF)'}}></div>
               </div>
               
-              <div className="relative z-10 flex flex-col items-center justify-center min-h-[180px]">
+              <div className="relative z-10 py-4">
                 <div 
-                  className="font-black text-white mb-4 break-words" 
+                  className="font-black text-white mb-4" 
                   style={{
                     fontFamily: '"Orbitron", sans-serif',
-                    fontSize: 'clamp(3rem, 8vw, 8rem)',
-                    lineHeight: '1.1',
-                    wordBreak: 'break-word',
-                    hyphens: 'auto',
-                    maxWidth: '100%',
-                    overflowWrap: 'break-word'
+                    fontSize: 'clamp(4rem, 12vw, 9rem)',
+                    lineHeight: '1',
+                    whiteSpace: 'normal',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'normal'
                   }}
                 >
                   {currentWord.word}
