@@ -124,7 +124,7 @@ const WORDS_DATABASE = [
   { word: "Welt", artikel: "die" },
 ];
 
-const DerDieDasSpace = () => {
+const DerDiedasDash = () => {
   const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
   const [username, setUsername] = useState('');
   const [currentRace, setCurrentRace] = useState(1);
@@ -148,23 +148,23 @@ const DerDieDasSpace = () => {
     loadUserData();
   }, []);
 
-  const loadUserData = async () => {
+  const loadUserData = () => {
     try {
-      const result = await window.storage.get('der-die-das-space-user');
-      if (result) {
-        const data = JSON.parse(result.value);
+      const stored = localStorage.getItem('der-die-das-dash-user');
+      if (stored) {
+        const data = JSON.parse(stored);
         setUserData(data);
         setUsername(data.username);
       }
     } catch (error) {
-      console.log('New user, starting fresh');
+      console.log('New user, starting fresh', error);
     }
     setLoading(false);
   };
 
-  const saveUserData = async (data) => {
+  const saveUserData = (data) => {
     try {
-      await window.storage.set('der-die-das-space-user', JSON.stringify(data));
+      localStorage.setItem('der-die-das-dash-user', JSON.stringify(data));
       setUserData(data);
     } catch (error) {
       console.error('Failed to save user data:', error);
@@ -1054,4 +1054,4 @@ const DerDieDasSpace = () => {
   return null;
 };
 
-export default DerDieDasSpace;
+export default DerDiedasDash;
