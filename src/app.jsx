@@ -125,6 +125,24 @@ const WORDS_DATABASE = [
   { word: "Welt", artikel: "die" },
 ];
 
+// Difficulty-based scoring configuration
+const DIFFICULTY_SCORING = {
+  1: { basePoints: 200, maxSpeedBonus: 200, maxPoints: 400, label: 'Very Easy', emoji: '🟢', color: '#00CC00' },
+  2: { basePoints: 350, maxSpeedBonus: 350, maxPoints: 700, label: 'Easy', emoji: '🔵', color: '#0088FF' },
+  3: { basePoints: 500, maxSpeedBonus: 500, maxPoints: 1000, label: 'Medium', emoji: '🟡', color: '#FFD700' },
+  4: { basePoints: 750, maxSpeedBonus: 750, maxPoints: 1500, label: 'Hard', emoji: '🟠', color: '#FF6600' },
+  5: { basePoints: 1000, maxSpeedBonus: 1000, maxPoints: 2000, label: 'Expert', emoji: '🔴', color: '#FF0000' },
+};
+
+// Get difficulty level from race number
+const getDifficultyLevel = (raceNumber) => {
+  if (raceNumber <= 2) return 1;      // Race 1-2: Very Easy
+  if (raceNumber <= 4) return 2;      // Race 3-4: Easy
+  if (raceNumber <= 6) return 3;      // Race 5-6: Medium
+  if (raceNumber <= 8) return 4;      // Race 7-8: Hard
+  return 5;                           // Race 9-10: Expert
+};
+
 const DerDiedasDash = () => {
   const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
   const [username, setUsername] = useState('');
@@ -276,16 +294,27 @@ const DerDiedasDash = () => {
     const isCorrect = selected === currentWord.artikel;
     const timeTaken = 5 - timeLeft;
     
-    // Calculate points: Speed bonus (0-500) + Accuracy (500)
+    // Get difficulty level and scoring config
+    const difficultyLevel = getDifficultyLevel(currentRace);
+    const scoring = DIFFICULTY_SCORING[difficultyLevel];
+    
+    // Calculate points with difficulty-based system
     let points = 0;
     let comboBonus = 0;
     if (isCorrect) {
-      const speedBonus = Math.max(0, Math.round((5 - timeTaken) * 100));
+      // Speed bonus: Based on difficulty
+      // Faster answers get more points (timeLeft closer to 5 = faster = more bonus)
+      // Formula: maxSpeedBonus * (timeLeft / 5)
+      const speedBonus = Math.max(0, Math.round((timeLeft / 5) * scoring.maxSpeedBonus));
+      
       const newCombo = combo + 1;
       
-      // Combo bonus: 50 points per combo level
-      comboBonus = newCombo >= 2 ? (newCombo - 1) * 50 : 0;
-      points = speedBonus + 500 + comboBonus;
+      // Combo bonus: 50 points per combo level, scaled by difficulty multiplier
+      // Higher difficulty = higher combo multiplier
+      const comboMultiplier = difficultyLevel * 0.5; // 0.5x, 1x, 1.5x, 2x, 2.5x
+      comboBonus = newCombo >= 2 ? Math.round((newCombo - 1) * 50 * comboMultiplier) : 0;
+      
+      points = scoring.basePoints + speedBonus + comboBonus;
       
       setCombo(newCombo);
       if (newCombo >= 2) {
@@ -303,7 +332,8 @@ const DerDiedasDash = () => {
       isCorrect,
       timeTaken,
       points,
-      combo: isCorrect ? combo + 1 : 0
+      combo: isCorrect ? combo + 1 : 0,
+      difficulty: difficultyLevel
     }]);
     
     setScore(score + points);
@@ -528,12 +558,15 @@ const DerDiedasDash = () => {
                   </div>
                   
                   <div className="border-l-4 pl-4" style={{borderColor: '#A200FF' + '30'}}>
-                    <h4 className="font-black mb-2" style={{color: '#A200FF'}}>Scoring System:</h4>
+                    <h4 className="font-black mb-2" style={{color: '#A200FF'}}>Difficulty-Based Scoring:</h4>
                     <ul className="space-y-2 text-sm">
-                      <li>• <span className="font-bold" style={{color: '#30B946'}}>Correct answer:</span> 500 base points</li>
-                      <li>• <span className="font-bold" style={{color: '#FFC300'}}>Speed bonus:</span> Up to 500 points (faster = more points)</li>
+                      <li>• <span className="font-bold" style={{color: '#00CC00'}}>🟢 Very Easy (Race 1-2):</span> Base 200 + Speed 0-200 = Max 400 pts</li>
+                      <li>• <span className="font-bold" style={{color: '#0088FF'}}>🔵 Easy (Race 3-4):</span> Base 350 + Speed 0-350 = Max 700 pts</li>
+                      <li>• <span className="font-bold" style={{color: '#FFD700'}}>🟡 Medium (Race 5-6):</span> Base 500 + Speed 0-500 = Max 1,000 pts</li>
+                      <li>• <span className="font-bold" style={{color: '#FF6600'}}>🟠 Hard (Race 7-8):</span> Base 750 + Speed 0-750 = Max 1,500 pts</li>
+                      <li>• <span className="font-bold" style={{color: '#FF0000'}}>🔴 Expert (Race 9-10):</span> Base 1,000 + Speed 0-1,000 = Max 2,000 pts</li>
+                      <li className="mt-2">• <span className="font-bold" style={{color: '#FFC300'}}>Combo Bonus:</span> Increases with difficulty level</li>
                       <li>• <span className="font-bold" style={{color: '#FF0000'}}>Wrong/timeout:</span> 0 points</li>
-                      <li>• <span className="font-bold" style={{color: '#21A8FF'}}>Max per question:</span> 1,000 points</li>
                     </ul>
                   </div>
                   
@@ -553,6 +586,8 @@ const DerDiedasDash = () => {
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((raceNum) => {
                 const completed = userData?.races?.[`race${raceNum}`];
+                const difficultyLevel = getDifficultyLevel(raceNum);
+                const difficulty = DIFFICULTY_SCORING[difficultyLevel];
                 return (
                   <button
                     key={raceNum}
@@ -572,15 +607,27 @@ const DerDiedasDash = () => {
                     style={completed ? {
                       backgroundImage: 'linear-gradient(to bottom right, #30B946, #30B946)',
                       borderColor: '#30B946'
-                    } : {}}
+                    } : {
+                      borderColor: difficulty.color + '50'
+                    }}
                   >
                     {completed && (
                       <div className="absolute top-2 right-2">
                         <Trophy className="w-5 h-5" style={{color: '#FFC300'}} />
                       </div>
                     )}
+                    {/* Difficulty Badge */}
+                    <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-black" style={{background: difficulty.color + '40', color: difficulty.color}}>
+                      <span>{difficulty.emoji}</span>
+                      <span>{difficulty.label}</span>
+                    </div>
                     <div className="text-4xl font-black text-white mb-2">{raceNum}</div>
                     <div className="text-xs font-semibold uppercase" style={{color: completed ? '#FFC300' : '#21A8FF'}}>Race {raceNum}</div>
+                    {!completed && (
+                      <div className="text-xs mt-2 font-bold" style={{color: difficulty.color}}>
+                        Max: {difficulty.maxPoints} pts
+                      </div>
+                    )}
                     {completed && (
                       <div className="text-xs mt-2 font-bold" style={{color: '#FFC300'}}>
                         {completed.score} pts
