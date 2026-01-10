@@ -539,10 +539,10 @@ const DerDiedasDash = () => {
             
             <div 
               className={`overflow-hidden transition-all duration-300 ${
-                infoExpanded ? 'max-h-[600px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+                infoExpanded ? 'max-h-[2000px] opacity-100 mt-4' : 'max-h-0 opacity-0'
               }`}
             >
-              <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm" style={{borderColor: '#FFC300' + '20'}}>
+              <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm pb-8" style={{borderColor: '#FFC300' + '20'}}>
                 <div className="space-y-4 text-slate-300">
                   <p className="text-lg leading-relaxed">
                     <span className="font-black" style={{color: '#FFC300'}}>Der Die Das Space</span> is a high-speed German article learning game! Test your knowledge of German articles (<span className="font-bold" style={{color: '#FF0000'}}>der</span>, <span className="font-bold" style={{color: '#A200FF'}}>die</span>, <span className="font-bold" style={{color: '#21A8FF'}}>das</span>) against the clock.
@@ -560,12 +560,27 @@ const DerDiedasDash = () => {
                   
                   <div className="border-l-4 pl-4" style={{borderColor: '#A200FF' + '30'}}>
                     <h4 className="font-black mb-2" style={{color: '#A200FF'}}>Difficulty-Based Scoring:</h4>
-                    <ul className="space-y-2 text-sm">
-                      <li>• <span className="font-bold" style={{color: '#00CC00'}}>🟢 Very Easy (Race 1-2):</span> Base 200 + Speed 0-200 = Max 400 pts</li>
-                      <li>• <span className="font-bold" style={{color: '#0088FF'}}>🔵 Easy (Race 3-4):</span> Base 350 + Speed 0-350 = Max 700 pts</li>
-                      <li>• <span className="font-bold" style={{color: '#FFD700'}}>🟡 Medium (Race 5-6):</span> Base 500 + Speed 0-500 = Max 1,000 pts</li>
-                      <li>• <span className="font-bold" style={{color: '#FF6600'}}>🟠 Hard (Race 7-8):</span> Base 750 + Speed 0-750 = Max 1,500 pts</li>
-                      <li>• <span className="font-bold" style={{color: '#FF0000'}}>🔴 Expert (Race 9-10):</span> Base 1,000 + Speed 0-1,000 = Max 2,000 pts</li>
+                    <ul className="space-y-3 text-sm">
+                      <li>
+                        <div>• <span className="font-bold" style={{color: '#00CC00'}}>🟢 Very Easy (Race 1-2):</span></div>
+                        <div className="ml-4 text-slate-300">Base 200 + Speed 0-200 = Max 400 pts</div>
+                      </li>
+                      <li>
+                        <div>• <span className="font-bold" style={{color: '#0088FF'}}>🔵 Easy (Race 3-4):</span></div>
+                        <div className="ml-4 text-slate-300">Base 350 + Speed 0-350 = Max 700 pts</div>
+                      </li>
+                      <li>
+                        <div>• <span className="font-bold" style={{color: '#FFD700'}}>🟡 Medium (Race 5-6):</span></div>
+                        <div className="ml-4 text-slate-300">Base 500 + Speed 0-500 = Max 1,000 pts</div>
+                      </li>
+                      <li>
+                        <div>• <span className="font-bold" style={{color: '#FF6600'}}>🟠 Hard (Race 7-8):</span></div>
+                        <div className="ml-4 text-slate-300">Base 750 + Speed 0-750 = Max 1,500 pts</div>
+                      </li>
+                      <li>
+                        <div>• <span className="font-bold" style={{color: '#FF0000'}}>🔴 Expert (Race 9-10):</span></div>
+                        <div className="ml-4 text-slate-300">Base 1,000 + Speed 0-1,000 = Max 2,000 pts</div>
+                      </li>
                       <li className="mt-2">• <span className="font-bold" style={{color: '#FFC300'}}>Combo Bonus:</span> Increases with difficulty level</li>
                       <li>• <span className="font-bold" style={{color: '#FF0000'}}>Wrong/timeout:</span> 0 points</li>
                     </ul>
@@ -766,32 +781,53 @@ const DerDiedasDash = () => {
 
           {/* Answer Buttons */}
           <div className="grid grid-cols-3 gap-4 md:gap-6">
-            {['der', 'die', 'das'].map((artikel) => (
-              <button
-                key={artikel}
-                onClick={() => handleAnswer(artikel)}
-                disabled={showFeedback}
-                className={`relative group border-4 rounded-2xl p-10 md:p-8 transition-all hover:scale-105 active:scale-95 hover:shadow-2xl disabled:opacity-50 disabled:scale-100 transform-gpu`}
-                style={{
-                  backgroundImage: artikel === 'der' 
-                    ? 'linear-gradient(to bottom right, #FF0000, #c70000)' 
-                    : artikel === 'die' 
-                    ? 'linear-gradient(to bottom right, #A200FF, #7a00cc)' 
-                    : 'linear-gradient(to bottom right, #21A8FF, #0088d4)',
-                  borderColor: artikel === 'der' ? '#FF0000' : artikel === 'die' ? '#A200FF' : '#21A8FF',
-                  minHeight: '100px'
-                }}
-              >
-                <div className="text-6xl md:text-5xl font-black text-white uppercase">{artikel}</div>
-                
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none" 
-                     style={{
-                       background: artikel === 'der' ? '#FF0000' : artikel === 'die' ? '#A200FF' : '#21A8FF',
-                       filter: 'blur(20px)'
-                     }}></div>
-              </button>
-            ))}
+            {['der', 'die', 'das'].map((artikel) => {
+              // Logo renklerine uygun renkler
+              const artikelColors = {
+                der: { 
+                  main: '#FF0000',      // Kırmızı - logo rengi
+                  dark: '#CC0000',      // Daha koyu kırmızı (gradient için)
+                  glow: '#FF3333'       // Glow efekti için
+                },
+                die: { 
+                  main: '#A200FF',      // Mor/Pembe - logo rengi
+                  dark: '#7D00CC',      // Daha koyu mor (gradient için)
+                  glow: '#B833FF'       // Glow efekti için
+                },
+                das: { 
+                  main: '#21A8FF',      // Mavi - logo rengi
+                  dark: '#0066CC',      // Daha koyu mavi (gradient için)
+                  glow: '#4DB8FF'       // Glow efekti için
+                }
+              };
+              
+              const colors = artikelColors[artikel];
+              
+              return (
+                <button
+                  key={artikel}
+                  onClick={() => handleAnswer(artikel)}
+                  disabled={showFeedback}
+                  className={`relative group border-4 rounded-2xl p-10 md:p-8 transition-all hover:scale-105 active:scale-95 hover:shadow-2xl disabled:opacity-50 disabled:scale-100 transform-gpu`}
+                  style={{
+                    backgroundImage: `linear-gradient(to bottom right, ${colors.main}, ${colors.dark})`,
+                    borderColor: colors.main,
+                    minHeight: '100px',
+                    boxShadow: `0 0 20px ${colors.main}40`
+                  }}
+                >
+                  <div className="text-6xl md:text-5xl font-black text-white drop-shadow-lg">{artikel}</div>
+                  
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" 
+                       style={{
+                         background: colors.main,
+                         filter: 'blur(25px)',
+                         boxShadow: `0 0 40px ${colors.glow}80`
+                       }}></div>
+                </button>
+              );
+            })}
           </div>
 
           {/* Feedback Overlay */}
