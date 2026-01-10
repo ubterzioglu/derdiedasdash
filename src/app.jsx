@@ -124,7 +124,7 @@ const WORDS_DATABASE = [
   { word: "Welt", artikel: "die" },
 ];
 
-const DerDiedasDash = () => {
+const DerDieDasSpace = () => {
   const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
   const [username, setUsername] = useState('');
   const [currentRace, setCurrentRace] = useState(1);
@@ -137,6 +137,10 @@ const DerDiedasDash = () => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [infoExpanded, setInfoExpanded] = useState(false);
+  const [combo, setCombo] = useState(0);
+  const [showCombo, setShowCombo] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [questionTransition, setQuestionTransition] = useState('enter');
   const timerRef = useRef(null);
 
   // Load user data on mount
@@ -146,7 +150,7 @@ const DerDiedasDash = () => {
 
   const loadUserData = async () => {
     try {
-      const result = await window.storage.get('der-die-das-dash-user');
+      const result = await window.storage.get('der-die-das-space-user');
       if (result) {
         const data = JSON.parse(result.value);
         setUserData(data);
@@ -160,7 +164,7 @@ const DerDiedasDash = () => {
 
   const saveUserData = async (data) => {
     try {
-      await window.storage.set('der-die-das-dash-user', JSON.stringify(data));
+      await window.storage.set('der-die-das-space-user', JSON.stringify(data));
       setUserData(data);
     } catch (error) {
       console.error('Failed to save user data:', error);
@@ -169,7 +173,7 @@ const DerDiedasDash = () => {
 
   const startGame = () => {
     if (!username.trim()) {
-      alert('Bitte gib einen Namen ein!');
+      alert('Please enter your name first!');
       return;
     }
 
@@ -188,6 +192,8 @@ const DerDiedasDash = () => {
     setScore(0);
     setAnswers([]);
     setTimeLeft(5);
+    setCombo(0);
+    setQuestionTransition('enter');
     startTimer();
   };
 
@@ -215,9 +221,22 @@ const DerDiedasDash = () => {
     
     // Calculate points: Speed bonus (0-500) + Accuracy (500)
     let points = 0;
+    let comboBonus = 0;
     if (isCorrect) {
       const speedBonus = Math.max(0, Math.round((5 - timeTaken) * 100));
-      points = speedBonus + 500;
+      const newCombo = combo + 1;
+      
+      // Combo bonus: 50 points per combo level
+      comboBonus = newCombo >= 2 ? (newCombo - 1) * 50 : 0;
+      points = speedBonus + 500 + comboBonus;
+      
+      setCombo(newCombo);
+      if (newCombo >= 2) {
+        setShowCombo(true);
+        setTimeout(() => setShowCombo(false), 1500);
+      }
+    } else {
+      setCombo(0); // Reset combo on wrong answer
     }
     
     setAnswers([...answers, {
@@ -226,7 +245,8 @@ const DerDiedasDash = () => {
       selected,
       isCorrect,
       timeTaken,
-      points
+      points,
+      combo: isCorrect ? combo + 1 : 0
     }]);
     
     setScore(score + points);
@@ -236,9 +256,14 @@ const DerDiedasDash = () => {
     setTimeout(() => {
       setShowFeedback(false);
       if (currentQuestion < 9) {
-        setCurrentQuestion(currentQuestion + 1);
-        setTimeLeft(5);
-        startTimer();
+        // Smooth transition
+        setQuestionTransition('exit');
+        setTimeout(() => {
+          setCurrentQuestion(currentQuestion + 1);
+          setTimeLeft(5);
+          setQuestionTransition('enter');
+          startTimer();
+        }, 300);
       } else {
         finishRace();
       }
@@ -247,6 +272,10 @@ const DerDiedasDash = () => {
 
   const finishRace = () => {
     clearInterval(timerRef.current);
+    
+    // Trigger confetti celebration
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 4000);
     
     // Save race results
     const updatedUserData = {
@@ -321,21 +350,31 @@ const DerDiedasDash = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s', background: '#21A8FF'}}></div>
         </div>
 
-        <div className="relative z-10 max-w-lg md:max-w-2xl mx-auto px-4 py-12">
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
           {/* Title */}
           <div className="text-center mb-16 animate-fadeIn">
             <div className="inline-block mb-4">
               <Zap className="w-20 h-20 text-yellow-400 animate-bounce" />
             </div>
-            <h1 className="text-7xl font-black mb-4 bg-gradient-to-r from-red-600 via-yellow-400 to-yellow-500 bg-clip-text text-transparent uppercase tracking-wider" style={{fontFamily: '"Orbitron", sans-serif'}}>
-              Der Die Das Dash
-            </h1>
+            
+            {/* Logo */}
+            <div className="mb-6 px-8">
+              <img 
+                src="/logo.png" 
+                alt="Der Die Das Space" 
+                className="w-full max-w-md mx-auto"
+                style={{
+                  filter: 'drop-shadow(0 0 30px rgba(255, 195, 0, 0.3))'
+                }}
+              />
+            </div>
+            
             <p className="text-2xl font-bold" style={{color: '#21A8FF'}}>Race Against Time!</p>
           </div>
 
           {/* Stats Overview */}
           {userData && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 gap-6 mb-12">
               <div className="bg-gradient-to-br from-red-900/40 to-red-800/20 border-2 border-red-500/30 rounded-2xl p-6 backdrop-blur-sm" style={{borderColor: '#FF0000' + '30'}}>
                 <Trophy className="w-8 h-8 mb-2" style={{color: '#FFC300'}} />
                 <div className="text-3xl font-black text-white mb-1">{getCompletedRaces()}</div>
@@ -392,7 +431,7 @@ const DerDiedasDash = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Zap className="w-6 h-6" style={{color: '#FFC300'}} />
-                  <h3 className="text-2xl font-black" style={{color: '#FFC300'}}>What is DDD Dash?</h3>
+                  <h3 className="text-2xl font-black" style={{color: '#FFC300'}}>What is Der Die Das Space?</h3>
                 </div>
                 <ChevronDown 
                   className={`w-6 h-6 transition-transform duration-300 ${infoExpanded ? 'rotate-180' : ''}`}
@@ -409,7 +448,7 @@ const DerDiedasDash = () => {
               <div className="bg-slate-900/50 border-2 rounded-2xl p-6 backdrop-blur-sm" style={{borderColor: '#FFC300' + '20'}}>
                 <div className="space-y-4 text-slate-300">
                   <p className="text-lg leading-relaxed">
-                    <span className="font-black" style={{color: '#FFC300'}}>Der Die Das Dash</span> is a high-speed German article learning game! Test your knowledge of German articles (<span className="font-bold" style={{color: '#FF0000'}}>der</span>, <span className="font-bold" style={{color: '#A200FF'}}>die</span>, <span className="font-bold" style={{color: '#21A8FF'}}>das</span>) against the clock.
+                    <span className="font-black" style={{color: '#FFC300'}}>Der Die Das Space</span> is a high-speed German article learning game! Test your knowledge of German articles (<span className="font-bold" style={{color: '#FF0000'}}>der</span>, <span className="font-bold" style={{color: '#A200FF'}}>die</span>, <span className="font-bold" style={{color: '#21A8FF'}}>das</span>) against the clock.
                   </p>
                   
                   <div className="border-l-4 pl-4" style={{borderColor: '#21A8FF' + '30'}}>
@@ -445,7 +484,7 @@ const DerDiedasDash = () => {
           {/* Race Selection */}
           <div className="mb-12">
             <h3 className="text-3xl font-black text-center text-white mb-8 uppercase tracking-wide">Choose a Race</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((raceNum) => {
                 const completed = userData?.races?.[`race${raceNum}`];
                 return (
@@ -519,7 +558,7 @@ const DerDiedasDash = () => {
           <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(to bottom right, #FF0000, #FFC300, #21A8FF)'}}></div>
         </div>
 
-        <div className="relative z-10 max-w-lg md:max-w-2xl mx-auto px-4 py-8">
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
@@ -543,18 +582,26 @@ const DerDiedasDash = () => {
             </div>
           </div>
 
-          {/* Progress Bar */}
+          {/* Progress Bar with Combo Counter */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-semibold" style={{color: '#21A8FF'}}>Question {currentQuestion + 1}/10</span>
-              <span className="text-sm font-semibold" style={{color: '#21A8FF'}}>{Math.round(progress)}%</span>
+              <div className="flex items-center gap-3">
+                {combo >= 2 && (
+                  <div className={`flex items-center gap-1 px-3 py-1 rounded-full transition-all ${showCombo ? 'animate-bounce' : ''}`} style={{background: 'linear-gradient(to right, #FFC300, #FF6219)'}}>
+                    <Zap className="w-4 h-4 text-white" />
+                    <span className="text-sm font-black text-white">{combo}x COMBO!</span>
+                  </div>
+                )}
+                <span className="text-sm font-semibold" style={{color: '#21A8FF'}}>{Math.round(progress)}%</span>
+              </div>
             </div>
-            <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-3 bg-slate-800 rounded-full overflow-hidden relative">
               <div
-                className="h-full transition-all duration-300"
+                className={`h-full transition-all duration-300 ${combo >= 3 ? 'animate-pulse' : ''}`}
                 style={{ 
                   width: `${progress}%`,
-                  backgroundImage: 'linear-gradient(to right, #FF0000, #FFC300)'
+                  backgroundImage: combo >= 3 ? 'linear-gradient(to right, #FFC300, #FF6219, #A200FF)' : 'linear-gradient(to right, #FF0000, #FFC300)'
                 }}
               ></div>
             </div>
@@ -586,14 +633,16 @@ const DerDiedasDash = () => {
 
           {/* Word Display */}
           <div className="mb-16">
-            <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-4 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden" style={{borderColor: '#21A8FF' + '30'}}>
+            <div className={`bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-4 rounded-3xl p-12 backdrop-blur-sm text-center relative overflow-hidden transition-all duration-300 ${
+              questionTransition === 'enter' ? 'animate-slideIn' : questionTransition === 'exit' ? 'animate-slideOut' : ''
+            }`} style={{borderColor: '#21A8FF' + '30'}}>
               {/* Animated background */}
               <div className="absolute inset-0 opacity-5">
                 <div className="absolute inset-0 animate-pulse" style={{backgroundImage: 'linear-gradient(to right, #FF0000, #FFC300, #21A8FF)'}}></div>
               </div>
               
               <div className="relative z-10">
-                <div className="text-7xl md:text-9xl font-black text-white mb-4 animate-scaleIn" style={{fontFamily: '"Orbitron", sans-serif'}}>
+                <div className="text-7xl md:text-9xl font-black text-white mb-4" style={{fontFamily: '"Orbitron", sans-serif'}}>
                   {currentWord.word}
                 </div>
                 <div className="text-2xl font-bold" style={{color: '#21A8FF'}}>Which article?</div>
@@ -602,23 +651,31 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Answer Buttons */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-4 md:gap-6">
             {['der', 'die', 'das'].map((artikel) => (
               <button
                 key={artikel}
                 onClick={() => handleAnswer(artikel)}
                 disabled={showFeedback}
-                className={`relative group border-4 rounded-2xl p-8 transition-all hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:scale-100`}
+                className={`relative group border-4 rounded-2xl p-10 md:p-8 transition-all hover:scale-105 active:scale-95 hover:shadow-2xl disabled:opacity-50 disabled:scale-100 transform-gpu`}
                 style={{
                   backgroundImage: artikel === 'der' 
                     ? 'linear-gradient(to bottom right, #FF0000, #c70000)' 
                     : artikel === 'die' 
                     ? 'linear-gradient(to bottom right, #A200FF, #7a00cc)' 
                     : 'linear-gradient(to bottom right, #21A8FF, #0088d4)',
-                  borderColor: artikel === 'der' ? '#FF0000' : artikel === 'die' ? '#A200FF' : '#21A8FF'
+                  borderColor: artikel === 'der' ? '#FF0000' : artikel === 'die' ? '#A200FF' : '#21A8FF',
+                  minHeight: '100px'
                 }}
               >
-                <div className="text-5xl font-black text-white uppercase">{artikel}</div>
+                <div className="text-6xl md:text-5xl font-black text-white uppercase">{artikel}</div>
+                
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none" 
+                     style={{
+                       background: artikel === 'der' ? '#FF0000' : artikel === 'die' ? '#A200FF' : '#21A8FF',
+                       filter: 'blur(20px)'
+                     }}></div>
               </button>
             ))}
           </div>
@@ -629,6 +686,28 @@ const DerDiedasDash = () => {
               <div className={`text-9xl font-black animate-scaleIn`} style={{color: feedbackType === 'correct' ? '#30B946' : '#FF0000'}}>
                 {feedbackType === 'correct' ? '✓' : '✗'}
               </div>
+            </div>
+          )}
+
+          {/* Confetti Overlay */}
+          {showConfetti && (
+            <div className="fixed inset-0 z-40 pointer-events-none">
+              {[...Array(50)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute confetti"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: '-10px',
+                    width: '10px',
+                    height: '10px',
+                    background: ['#FF0000', '#FFC300', '#21A8FF', '#A200FF', '#30B946'][Math.floor(Math.random() * 5)],
+                    transform: `rotate(${Math.random() * 360}deg)`,
+                    animationDelay: `${Math.random() * 0.5}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
             </div>
           )}
         </div>
@@ -642,11 +721,50 @@ const DerDiedasDash = () => {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
           }
+          @keyframes slideIn {
+            from { 
+              opacity: 0;
+              transform: translateX(50px) scale(0.9);
+            }
+            to { 
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
+          @keyframes slideOut {
+            from { 
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+            to { 
+              opacity: 0;
+              transform: translateX(-50px) scale(0.9);
+            }
+          }
+          @keyframes confettiFall {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(100vh) rotate(720deg);
+              opacity: 0;
+            }
+          }
           .animate-fadeIn {
             animation: fadeIn 0.3s ease-out;
           }
           .animate-scaleIn {
             animation: scaleIn 0.3s ease-out;
+          }
+          .animate-slideIn {
+            animation: slideIn 0.4s ease-out;
+          }
+          .animate-slideOut {
+            animation: slideOut 0.3s ease-in;
+          }
+          .confetti {
+            animation: confettiFall linear forwards;
           }
         `}</style>
       </div>
@@ -667,7 +785,7 @@ const DerDiedasDash = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s', background: '#FFC300'}}></div>
         </div>
 
-        <div className="relative z-10 max-w-lg md:max-w-2xl mx-auto px-4 py-12">
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12 animate-fadeIn">
             <Trophy className="w-24 h-24 mx-auto mb-6 animate-bounce" style={{color: '#FFC300'}} />
@@ -677,7 +795,7 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-2 gap-6 mb-12">
             <div className="bg-gradient-to-br from-green-900/40 to-green-800/20 border-2 rounded-2xl p-6 backdrop-blur-sm text-center" style={{borderColor: '#30B946' + '30'}}>
               <Star className="w-8 h-8 mx-auto mb-3" style={{color: '#30B946'}} />
               <div className="text-4xl font-black text-white mb-2">{score}</div>
@@ -703,7 +821,7 @@ const DerDiedasDash = () => {
           {/* Answers Review */}
           <div className="mb-12">
             <h2 className="text-3xl font-black text-white mb-6 text-center">Your Answers</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               {answers.map((answer, idx) => (
                 <div
                   key={idx}
@@ -716,7 +834,15 @@ const DerDiedasDash = () => {
                   }}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-2xl font-black text-white">{answer.word}</div>
+                    <div className="flex items-center gap-2">
+                      <div className="text-2xl font-black text-white">{answer.word}</div>
+                      {answer.combo >= 2 && (
+                        <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-black" style={{background: 'linear-gradient(to right, #FFC300, #FF6219)'}}>
+                          <Zap className="w-3 h-3 text-white" />
+                          <span className="text-white">{answer.combo}x</span>
+                        </div>
+                      )}
+                    </div>
                     <div className={`text-3xl`} style={{color: answer.isCorrect ? '#30B946' : '#FF0000'}}>
                       {answer.isCorrect ? '✓' : '✗'}
                     </div>
@@ -789,7 +915,45 @@ const DerDiedasDash = () => {
               {currentRace < 10 ? `Race ${currentRace + 1}` : 'Play Again'}
             </button>
           </div>
+
+          {/* Confetti Overlay */}
+          {showConfetti && (
+            <div className="fixed inset-0 z-40 pointer-events-none">
+              {[...Array(50)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute confetti"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: '-10px',
+                    width: '10px',
+                    height: '10px',
+                    background: ['#FF0000', '#FFC300', '#21A8FF', '#A200FF', '#30B946'][Math.floor(Math.random() * 5)],
+                    transform: `rotate(${Math.random() * 360}deg)`,
+                    animationDelay: `${Math.random() * 0.5}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
+
+        <style jsx>{`
+          @keyframes confettiFall {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(100vh) rotate(720deg);
+              opacity: 0;
+            }
+          }
+          .confetti {
+            animation: confettiFall linear forwards;
+          }
+        `}</style>
       </div>
     );
   }
@@ -804,7 +968,7 @@ const DerDiedasDash = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s', background: '#21A8FF'}}></div>
         </div>
 
-        <div className="relative z-10 max-w-lg md:max-w-2xl mx-auto px-4 py-12">
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12">
             <BarChart3 className="w-20 h-20 mx-auto mb-6" style={{color: '#21A8FF'}} />
@@ -890,4 +1054,4 @@ const DerDiedasDash = () => {
   return null;
 };
 
-export default DerDiedasDash;
+export default DerDieDasSpace;
