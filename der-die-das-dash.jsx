@@ -124,9 +124,9 @@ const WORDS_DATABASE = [
   { word: "Welt", artikel: "die" },
 ];
 
-const DerDiedasDash = () => {
+const DerDiedasDash = ({ authUser, onLogout }) => {
   const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(authUser?.email?.split('@')[0] || '');
   const [currentRace, setCurrentRace] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timeLeft, setTimeLeft] = useState(5);
