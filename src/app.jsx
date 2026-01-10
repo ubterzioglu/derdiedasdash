@@ -144,7 +144,7 @@ const getDifficultyLevel = (raceNumber) => {
 };
 
 const DerDiedasDash = () => {
-  const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
+  const [screen, setScreen] = useState('welcome'); // welcome, demo, game, raceResults, globalStats, demoResults
   const [username, setUsername] = useState('');
   const [currentRace, setCurrentRace] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -162,12 +162,25 @@ const DerDiedasDash = () => {
   const [questionTransition, setQuestionTransition] = useState('enter');
   const [globalLeaderboard, setGlobalLeaderboard] = useState([]);
   const [raceLeaderboard, setRaceLeaderboard] = useState([]);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const timerRef = useRef(null);
 
   // Load user data on mount (from localStorage username if exists, for backward compatibility)
   useEffect(() => {
     loadUserData();
   }, []);
+
+  // Check if user has visited before (show demo first time)
+  useEffect(() => {
+    if (!loading) {
+      const hasVisitedBefore = localStorage.getItem('derdiedasdash-visited');
+      if (!hasVisitedBefore && !userData && screen === 'welcome') {
+        // First time visitor, show demo
+        setScreen('demo');
+        localStorage.setItem('derdiedasdash-visited', 'true');
+      }
+    }
+  }, [loading, userData, screen]);
 
   // Load race leaderboard when screen changes to raceResults
   useEffect(() => {
@@ -227,6 +240,10 @@ const DerDiedasDash = () => {
       console.log('Error loading user data, starting fresh:', error);
     } finally {
       setLoading(false);
+      // If no user data and screen is welcome, show demo instead
+      if (!userData && screen === 'welcome') {
+        // Don't change screen here, let the render logic handle it
+      }
     }
   };
 
@@ -241,11 +258,26 @@ const DerDiedasDash = () => {
     }
   };
 
+  const startDemoGame = () => {
+    setIsDemoMode(true);
+    setScreen('game');
+    setCurrentQuestion(0);
+    setScore(0);
+    setAnswers([]);
+    setTimeLeft(5);
+    setCombo(0);
+    setQuestionTransition('enter');
+    setCurrentRace(1); // Demo always starts with race 1
+    startTimer();
+  };
+
   const startGame = async () => {
     if (!username.trim()) {
       alert('Please enter your name first!');
       return;
     }
+
+    setIsDemoMode(false);
 
     // Get or create user in Supabase
     if (!userData || !userData.userId) {
@@ -365,6 +397,12 @@ const DerDiedasDash = () => {
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 4000);
     
+    // If demo mode, go to demo results screen
+    if (isDemoMode) {
+      setScreen('demoResults');
+      return;
+    }
+    
     // Save race results to Supabase
     if (userData && userData.userId) {
       try {
@@ -436,6 +474,98 @@ const DerDiedasDash = () => {
     );
   }
 
+  // Demo Screen (shown first time users visit or when explicitly requested)
+  if (screen === 'demo') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+        {/* Animated background */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl animate-pulse" style={{background: '#00CC00'}}></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s', background: '#FFC300'}}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s', background: '#21A8FF'}}></div>
+        </div>
+
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
+          {/* Logo */}
+          <div className="text-center mb-12 animate-fadeIn">
+            <div className="mb-6 px-8">
+              <img 
+                src="/logo.png" 
+                alt="Der Die Das Dash" 
+                className="w-full max-w-xs mx-auto animate-bounce"
+                style={{
+                  filter: 'drop-shadow(0 0 30px rgba(255, 195, 0, 0.3))'
+                }}
+              />
+            </div>
+            
+            <div className="flex flex-col items-center gap-1 mb-8">
+              <p className="text-2xl font-black">
+                <span style={{color: '#21A8FF'}}>der</span>{' '}
+                <span style={{color: '#FF0000'}}>die</span>{' '}
+                <span style={{color: '#FFC300'}}>das</span>!
+              </p>
+              <p className="text-xl font-bold" style={{color: '#00CC00'}}>Find the Right One!</p>
+              <p className="text-lg font-semibold" style={{color: '#00CC00'}}>Race Against Time!</p>
+            </div>
+          </div>
+
+          {/* Demo Info Card */}
+          <div className="bg-gradient-to-br from-green-900/40 to-green-800/20 border-2 rounded-2xl p-8 mb-8 backdrop-blur-sm" style={{borderColor: '#00CC00' + '50'}}>
+            <div className="text-center mb-6">
+              <Star className="w-12 h-12 mx-auto mb-4" style={{color: '#FFC300'}} />
+              <h2 className="text-3xl font-black mb-3" style={{color: '#00CC00'}}>Try It Free!</h2>
+              <p className="text-slate-300 text-lg leading-relaxed">
+                Experience the thrill of learning German articles in a fast-paced race against time. No sign-up required!
+              </p>
+            </div>
+
+            <div className="space-y-3 mb-6">
+              <div className="flex items-start gap-3">
+                <Zap className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#00CC00'}} />
+                <p className="text-slate-300">Play a complete race with 10 questions</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Target className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#00CC00'}} />
+                <p className="text-slate-300">Test your knowledge and improve your speed</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Trophy className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#00CC00'}} />
+                <p className="text-slate-300">See your results and track your progress</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-yellow-900/30 to-green-900/30 border rounded-xl p-4 mb-6" style={{borderColor: '#FFC300' + '30'}}>
+              <p className="text-center text-sm text-slate-300">
+                <span className="font-bold text-white">Note:</span> Demo progress won't be saved. Sign up to save your scores and compete on leaderboards!
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={startDemoGame}
+                className="flex items-center justify-center gap-3 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg text-lg"
+                style={{backgroundImage: 'linear-gradient(to right, #00CC00, #00AA00)'}}
+              >
+                <Play className="w-6 h-6" />
+                Start Demo Game
+              </button>
+              <button
+                onClick={() => {
+                  setIsDemoMode(false);
+                  setScreen('welcome');
+                }}
+                className="flex items-center justify-center gap-3 text-white font-bold px-8 py-4 rounded-xl transition-all hover:scale-105 bg-slate-800/50 border-2 border-slate-600"
+              >
+                Sign Up to Save Progress
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Welcome Screen
   if (screen === 'welcome') {
     return (
@@ -462,7 +592,16 @@ const DerDiedasDash = () => {
               />
             </div>
             
-            <p className="text-2xl font-bold" style={{color: '#21A8FF'}}>Race Against Time!</p>
+            {/* Logo Altı Yazılar */}
+            <div className="flex flex-col items-center gap-1 mb-8">
+              <p className="text-2xl font-black">
+                <span style={{color: '#21A8FF'}}>der</span>{' '}
+                <span style={{color: '#FF0000'}}>die</span>{' '}
+                <span style={{color: '#FFC300'}}>das</span>!
+              </p>
+              <p className="text-xl font-bold" style={{color: '#00CC00'}}>Find the Right One!</p>
+              <p className="text-lg font-semibold" style={{color: '#00CC00'}}>Race Against Time!</p>
+            </div>
           </div>
 
           {/* Stats Overview */}
@@ -652,10 +791,18 @@ const DerDiedasDash = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button
+              onClick={startDemoGame}
+              className="flex items-center justify-center gap-2 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg"
+              style={{backgroundImage: 'linear-gradient(to right, #00CC00, #00AA00)'}}
+            >
+              <Play className="w-5 h-5" />
+              Play Demo
+            </button>
             <button
               onClick={() => setScreen('globalStats')}
-              className="flex items-center gap-2 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg"
+              className="flex items-center justify-center gap-2 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg"
               style={{backgroundImage: 'linear-gradient(to right, #A200FF, #21A8FF)'}}
             >
               <BarChart3 className="w-5 h-5" />
@@ -690,7 +837,11 @@ const DerDiedasDash = () => {
               <button
                 onClick={() => {
                   clearInterval(timerRef.current);
-                  setScreen('welcome');
+                  if (isDemoMode) {
+                    setScreen('demo');
+                  } else {
+                    setScreen('welcome');
+                  }
                 }}
                 className="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl transition-all"
               >
@@ -698,7 +849,12 @@ const DerDiedasDash = () => {
               </button>
               <div>
                 <div className="text-sm text-cyan-400 font-semibold">Race {currentRace}</div>
-                <div className="text-2xl font-black text-white">{username}</div>
+                <div className="text-2xl font-black text-white">
+                  {isDemoMode ? 'Demo Player' : username}
+                </div>
+                {isDemoMode && (
+                  <div className="text-xs font-bold" style={{color: '#00CC00'}}>DEMO MODE</div>
+                )}
               </div>
             </div>
             <div className="text-right">
@@ -917,6 +1073,155 @@ const DerDiedasDash = () => {
             animation: confettiFall linear forwards;
           }
         `}</style>
+      </div>
+    );
+  }
+
+  // Demo Results Screen
+  if (screen === 'demoResults') {
+    const correctAnswers = answers.filter(a => a.isCorrect).length;
+    const accuracy = Math.round((correctAnswers / 10) * 100);
+    const avgTime = answers.reduce((sum, a) => sum + a.timeTaken, 0) / 10;
+
+    return (
+      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+        {/* Animated background */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{background: '#00CC00'}}></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s', background: '#FFC300'}}></div>
+        </div>
+
+        <div className="relative z-10 max-w-lg mx-auto px-4 py-12">
+          {/* Header */}
+          <div className="text-center mb-12 animate-fadeIn">
+            <Star className="w-24 h-24 mx-auto mb-6 animate-bounce" style={{color: '#00CC00'}} />
+            <h1 className="text-6xl font-black mb-4 bg-clip-text text-transparent uppercase" style={{backgroundImage: 'linear-gradient(to right, #00CC00, #FFC300)'}}>
+              Demo Complete!
+            </h1>
+            <p className="text-xl text-slate-400">Great job! Ready to save your progress?</p>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 gap-6 mb-12">
+            <div className="bg-gradient-to-br from-green-900/40 to-green-800/20 border-2 rounded-2xl p-6 backdrop-blur-sm text-center" style={{borderColor: '#00CC00' + '30'}}>
+              <Star className="w-8 h-8 mx-auto mb-3" style={{color: '#00CC00'}} />
+              <div className="text-4xl font-black text-white mb-2">{score}</div>
+              <div className="text-sm font-semibold" style={{color: '#00CC00'}}>Total Score</div>
+            </div>
+            <div className="bg-gradient-to-br from-blue-900/40 to-blue-800/20 border-2 rounded-2xl p-6 backdrop-blur-sm text-center" style={{borderColor: '#21A8FF' + '30'}}>
+              <Target className="w-8 h-8 mx-auto mb-3" style={{color: '#21A8FF'}} />
+              <div className="text-4xl font-black text-white mb-2">{accuracy}%</div>
+              <div className="text-sm font-semibold" style={{color: '#21A8FF'}}>Accuracy</div>
+            </div>
+            <div className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 border-2 rounded-2xl p-6 backdrop-blur-sm text-center" style={{borderColor: '#A200FF' + '30'}}>
+              <Zap className="w-8 h-8 mx-auto mb-3" style={{color: '#A200FF'}} />
+              <div className="text-4xl font-black text-white mb-2">{correctAnswers}/10</div>
+              <div className="text-sm font-semibold" style={{color: '#A200FF'}}>Correct Answers</div>
+            </div>
+            <div className="bg-gradient-to-br from-yellow-900/40 to-yellow-800/20 border-2 rounded-2xl p-6 backdrop-blur-sm text-center" style={{borderColor: '#FFC300' + '30'}}>
+              <Clock className="w-8 h-8 mx-auto mb-3" style={{color: '#FFC300'}} />
+              <div className="text-4xl font-black text-white mb-2">{avgTime.toFixed(1)}s</div>
+              <div className="text-sm font-semibold" style={{color: '#FFC300'}}>Avg Time</div>
+            </div>
+          </div>
+
+          {/* Sign Up CTA */}
+          <div className="bg-gradient-to-br from-green-900/40 to-yellow-900/40 border-2 rounded-2xl p-8 mb-12 backdrop-blur-sm text-center" style={{borderColor: '#00CC00' + '50'}}>
+            <Trophy className="w-16 h-16 mx-auto mb-4" style={{color: '#FFC300'}} />
+            <h2 className="text-3xl font-black mb-4" style={{color: '#00CC00'}}>Save Your Progress!</h2>
+            <p className="text-slate-300 mb-6 leading-relaxed">
+              Sign up now to save your scores, track your progress, and compete on global leaderboards. Join thousands of learners mastering German articles!
+            </p>
+            <div className="space-y-3 mb-6 text-left max-w-md mx-auto">
+              <div className="flex items-start gap-3">
+                <Star className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#FFC300'}} />
+                <p className="text-slate-300">Save all your race results</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <BarChart3 className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#FFC300'}} />
+                <p className="text-slate-300">Compete on global leaderboards</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Target className="w-5 h-5 mt-1 flex-shrink-0" style={{color: '#FFC300'}} />
+                <p className="text-slate-300">Track your improvement over time</p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                setIsDemoMode(false);
+                setScreen('welcome');
+              }}
+              className="flex items-center justify-center gap-3 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg text-lg mx-auto"
+              style={{backgroundImage: 'linear-gradient(to right, #00CC00, #00AA00)'}}
+            >
+              <Trophy className="w-6 h-6" />
+              Sign Up Now - It's Free!
+            </button>
+          </div>
+
+          {/* Answers Review */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-black text-white mb-6 text-center">Your Answers</h2>
+            <div className="grid grid-cols-1 gap-4">
+              {answers.map((answer, idx) => (
+                <div
+                  key={idx}
+                  className={`border-2 rounded-xl p-4 backdrop-blur-sm`}
+                  style={{
+                    backgroundImage: answer.isCorrect 
+                      ? 'linear-gradient(to right, rgba(0, 204, 0, 0.4), rgba(0, 204, 0, 0.2))' 
+                      : 'linear-gradient(to right, rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.2))',
+                    borderColor: answer.isCorrect ? '#00CC00' + '30' : '#FF0000' + '30'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="text-2xl font-black text-white">{answer.word}</div>
+                      {answer.combo >= 2 && (
+                        <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-black" style={{background: 'linear-gradient(to right, #FFC300, #FF6219)'}}>
+                          <Zap className="w-3 h-3 text-white" />
+                          <span className="text-white">{answer.combo}x</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className={`text-3xl`} style={{color: answer.isCorrect ? '#00CC00' : '#FF0000'}}>
+                      {answer.isCorrect ? '✓' : '✗'}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div>
+                      <span className="text-slate-400">You chose: </span>
+                      <span className={`font-bold`} style={{color: answer.isCorrect ? '#00CC00' : '#FF0000'}}>
+                        {answer.selected === 'timeout' ? 'Timeout' : answer.selected}
+                      </span>
+                      {!answer.isCorrect && (
+                        <>
+                          <span className="text-slate-400"> • Correct: </span>
+                          <span className="font-bold" style={{color: '#00CC00'}}>{answer.correct}</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="text-slate-300">
+                      {answer.timeTaken.toFixed(1)}s • <span className="font-bold" style={{color: '#FFC300'}}>{answer.points}pts</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button
+              onClick={startDemoGame}
+              className="flex items-center justify-center gap-2 text-white font-black px-8 py-4 rounded-xl transition-all hover:scale-105 shadow-lg"
+              style={{backgroundImage: 'linear-gradient(to right, #00CC00, #00AA00)'}}
+            >
+              <Play className="w-5 h-5" />
+              Play Demo Again
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
