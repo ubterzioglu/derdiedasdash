@@ -324,8 +324,16 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
         <div className="relative z-10 w-full max-w-sm mx-auto px-4 py-12">
           {/* Title */}
           <div className="text-center mb-16 animate-fadeIn">
-            <div className="inline-block mb-4">
-              <Zap className="w-20 h-20 text-yellow-400 animate-bounce" />
+            {/* Logo */}
+            <div className="mb-6 px-8">
+              <img
+                src="/logo.png"
+                alt="Der Die Das Dash"
+                className="w-full max-w-xs mx-auto animate-bounce"
+                style={{
+                  filter: 'drop-shadow(0 0 30px rgba(255, 195, 0, 0.3))'
+                }}
+              />
             </div>
             <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-yellow-400 bg-clip-text text-transparent uppercase tracking-wider" style={{fontFamily: '"Orbitron", sans-serif'}}>
               Der Die Das Dash
