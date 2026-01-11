@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Der Die Dash - Artikel tahmin oyunu">
+  <title>Der Die Dash - Der Die Das Space</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/difficulty-badges.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="../index.html" class="navbar-brand">
+          <span>←</span>
+          <span data-i18n="back">Geri</span>
+        </a>
+        
+        <div class="navbar-actions">
+          <div class="game-meta">
+            <div class="score-display">
+              <span data-i18n="score">Skor:</span>
+              <span id="currentScore">0</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Game Title -->
+      <div class="text-center" style="margin: var(--space-xl) 0;">
+        <h1>🎯 Der Die Dash</h1>
+        <p id="setInfo" class="text-secondary">Demo Set - Level 1</p>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <p class="progress-text text-center" id="progressText">
+        <span data-i18n="question">Soru</span> 0/10
+      </p>
+
+      <!-- Timer + Combo -->
+      <div class="game-meta">
+        <div class="timer" id="timerDisplay">
+          <span>⏱</span>
+          <span class="timer-value">5s</span>
+        </div>
+        
+        <div class="combo-indicator" id="comboIndicator" style="display: none;">
+          🔥 <span class="combo-count">0x</span> COMBO!
+        </div>
+      </div>
+
+      <!-- Word Frame -->
+      <div class="word-frame" id="wordFrame">
+        <span id="currentWord">Yükleniyor...</span>
+      </div>
+
+      <!-- Artikel Buttons -->
+      <div class="artikel-buttons" id="artikelButtons">
+        <button class="artikel-btn artikel-btn-der" id="btnDer" data-article="der">
+          der
+        </button>
+        <button class="artikel-btn artikel-btn-die" id="btnDie" data-article="die">
+          die
+        </button>
+        <button class="artikel-btn artikel-btn-das" id="btnDas" data-article="das">
+          das
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="text-center" style="margin: var(--space-3xl) 0;">
+        <div class="spinner"></div>
+        <p data-i18n="loading">Yükleniyor...</p>
+      </div>
+
+      <!-- Game Over / Results -->
+      <div id="gameResults" style="display: none;">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="../js/core/i18n.js"></script>
+  <script type="module" src="../js/core/supabase.js"></script>
+  <script type="module" src="../js/core/auth.js"></script>
+  <script type="module" src="../js/core/scoring.js"></script>
+  <script type="module" src="../js/core/timer.js"></script>
+  <script type="module" src="../js/core/combo.js"></script>
+  <script type="module" src="../js/games/der-die-dash.js"></script>
+</body>
+</html>

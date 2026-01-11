@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Der Die Das Space</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .admin-login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-red) 100%);
+      padding: var(--space-xl);
+    }
+    .admin-login-card {
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+    }
+    .admin-login-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    .admin-login-header h1 {
+      color: var(--color-dark);
+      margin-bottom: var(--space-sm);
+    }
+    .admin-login-header p {
+      color: var(--text-secondary);
+    }
+    .admin-form-group {
+      margin-bottom: var(--space-lg);
+    }
+    .admin-form-group label {
+      display: block;
+      margin-bottom: var(--space-sm);
+      font-weight: 600;
+      color: var(--color-dark);
+    }
+    .admin-form-group input {
+      width: 100%;
+      padding: var(--space-md);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: var(--text-base);
+    }
+    .admin-form-group input:focus {
+      outline: none;
+      border-color: var(--color-blue);
+    }
+    .admin-error {
+      background: var(--color-wrong);
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+      display: none;
+    }
+    .admin-error.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-login">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <h1>🔐 Admin Panel</h1>
+        <p>Der Die Das Space</p>
+      </div>
+      
+      <div class="admin-error" id="errorMessage"></div>
+      
+      <form id="adminLoginForm">
+        <div class="admin-form-group">
+          <label for="apiKey">API Key</label>
+          <input 
+            type="password" 
+            id="apiKey" 
+            name="apiKey" 
+            placeholder="Enter your API key"
+            required
+            autocomplete="off"
+          />
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { adminLogin } from '../js/admin/auth.js';
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const apiKey = document.getElementById('apiKey').value;
+      const errorEl = document.getElementById('errorMessage');
+      
+      errorEl.classList.remove('show');
+      errorEl.textContent = '';
+      
+      try {
+        await adminLogin(apiKey);
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        errorEl.textContent = error.message || 'Invalid API key';
+        errorEl.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>

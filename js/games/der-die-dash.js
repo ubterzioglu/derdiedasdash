@@ -1,0 +1,486 @@
+/* ============================================
+   DER DIE DAS SPACE - DER DIE DASH GAME
+   Artikel tahmin oyunu logic
+   ============================================ */
+
+import { getSupabase } from '../core/supabase.js';
+import { isAuthenticated } from '../core/auth.js';
+import { GameTimer, updateTimerDisplay } from '../core/timer.js';
+import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
+import { calculateSetScore, normalizedScore } from '../core/scoring.js';
+import { t } from '../core/i18n.js';
+
+// Game state
+let gameState = {
+  currentSet: null,
+  questions: [],
+  currentQuestionIndex: 0,
+  answers: [],
+  score: 0,
+  timer: null,
+  combo: null,
+  isDemo: false,
+  gameKey: 'der_die_dash',
+  level: 1,
+  set_id: null
+};
+
+// UI Elements
+let elements = {};
+
+// Initialize game
+document.addEventListener('DOMContentLoaded', async () => {
+  await initGame();
+});
+
+async function initGame() {
+  // Get UI elements
+  elements = {
+    wordFrame: document.getElementById('wordFrame'),
+    currentWord: document.getElementById('currentWord'),
+    artikelButtons: document.getElementById('artikelButtons'),
+    btnDer: document.getElementById('btnDer'),
+    btnDie: document.getElementById('btnDie'),
+    btnDas: document.getElementById('btnDas'),
+    timerDisplay: document.getElementById('timerDisplay'),
+    comboIndicator: document.getElementById('comboIndicator'),
+    currentScore: document.getElementById('currentScore'),
+    progressFill: document.getElementById('progressFill'),
+    progressText: document.getElementById('progressText'),
+    loadingState: document.getElementById('loadingState'),
+    gameResults: document.getElementById('gameResults'),
+    setInfo: document.getElementById('setInfo')
+  };
+
+  // Check if user is authenticated
+  const user = await isAuthenticated();
+  if (!user) {
+    // Demo mode
+    gameState.isDemo = true;
+    await loadDemoSet();
+  } else {
+    // Load available sets for user
+    await loadAvailableSet();
+  }
+
+  // Initialize combo manager
+  gameState.combo = new ComboManager();
+  gameState.combo.onComboStart = (streak) => {
+    updateComboIndicator(elements.comboIndicator, streak);
+  };
+  gameState.combo.onComboUpdate = (streak) => {
+    updateComboIndicator(elements.comboIndicator, streak);
+  };
+  gameState.combo.onComboReset = () => {
+    hideComboIndicator(elements.comboIndicator);
+  };
+
+  // Setup artikel buttons
+  setupArtikelButtons();
+
+  // Start game
+  if (gameState.questions.length > 0) {
+    elements.loadingState.style.display = 'none';
+    startQuestion();
+  }
+}
+
+/**
+ * Load demo set
+ */
+async function loadDemoSet() {
+  const supabase = getSupabase();
+  if (!supabase) {
+    // Fallback: Use placeholder data
+    loadPlaceholderSet(true);
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('word_sets')
+      .select(`
+        *,
+        questions (*)
+      `)
+      .eq('game_type_id', 1) // der_die_dash
+      .eq('is_demo', true)
+      .single();
+
+    if (error || !data) {
+      console.warn('Demo set not found, using placeholder');
+      loadPlaceholderSet(true);
+      return;
+    }
+
+    gameState.currentSet = data;
+    gameState.set_id = data.id;
+    gameState.level = data.difficulty_level;
+    gameState.questions = data.questions
+      .sort((a, b) => a.order_in_set - b.order_in_set)
+      .map(q => q.question_data);
+    
+    if (elements.setInfo) {
+      elements.setInfo.textContent = `Demo Set - Level ${gameState.level}`;
+    }
+  } catch (error) {
+    console.error('Error loading demo set:', error);
+    loadPlaceholderSet(true);
+  }
+}
+
+/**
+ * Load available set for authenticated user
+ */
+async function loadAvailableSet() {
+  // TODO: Implement set selection logic
+  // For now, load demo set
+  await loadDemoSet();
+}
+
+/**
+ * Load placeholder set (for development/testing)
+ */
+function loadPlaceholderSet(isDemo) {
+  const placeholderQuestions = [
+    { word: 'Tisch', correct_article: 'der' },
+    { word: 'Tür', correct_article: 'die' },
+    { word: 'Auto', correct_article: 'das' },
+    { word: 'Buch', correct_article: 'das' },
+    { word: 'Stuhl', correct_article: 'der' },
+    { word: 'Lampe', correct_article: 'die' },
+    { word: 'Fenster', correct_article: 'das' },
+    { word: 'Baum', correct_article: 'der' },
+    { word: 'Blume', correct_article: 'die' },
+    { word: 'Kind', correct_article: 'das' }
+  ];
+
+  gameState.questions = placeholderQuestions;
+  gameState.level = 1;
+  gameState.isDemo = isDemo;
+  
+  if (elements.setInfo) {
+    elements.setInfo.textContent = isDemo ? 'Demo Set - Level 1' : 'Level 1 - Set 1';
+  }
+}
+
+/**
+ * Setup artikel buttons
+ */
+function setupArtikelButtons() {
+  const buttons = [elements.btnDer, elements.btnDie, elements.btnDas];
+  
+  buttons.forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (gameState.timer && !gameState.timer.getIsRunning()) return;
+        if (gameState.currentQuestionIndex >= gameState.questions.length) return;
+        
+        const selectedArticle = btn.dataset.article;
+        handleAnswer(selectedArticle);
+      });
+    }
+  });
+}
+
+/**
+ * Start a new question
+ */
+function startQuestion() {
+  if (gameState.currentQuestionIndex >= gameState.questions.length) {
+    endGame();
+    return;
+  }
+
+  const question = gameState.questions[gameState.currentQuestionIndex];
+  
+  // Update UI
+  if (elements.currentWord) {
+    elements.currentWord.textContent = question.word;
+  }
+  
+  // Reset buttons
+  resetButtons();
+
+  // Update progress
+  updateProgress();
+
+  // Start timer
+  const maxTime = 5; // 5 seconds for Der Die Dash
+  gameState.timer = new GameTimer(
+    maxTime,
+    (currentTime, timeUsed) => {
+      updateTimerDisplay(elements.timerDisplay, currentTime);
+    },
+    (timeUsed) => {
+      // Timeout - wrong answer
+      handleAnswer(null, true);
+    }
+  );
+
+  gameState.timer.start();
+}
+
+/**
+ * Handle answer
+ */
+function handleAnswer(selectedArticle, isTimeout = false) {
+  if (!gameState.timer) return;
+  
+  gameState.timer.stop();
+  const timeUsed = gameState.timer.getTimeUsed();
+
+  const question = gameState.questions[gameState.currentQuestionIndex];
+  const correctArticle = question.correct_article;
+  const isCorrect = selectedArticle === correctArticle;
+
+  // Update combo
+  if (isCorrect) {
+    gameState.combo.addCorrect();
+  } else {
+    gameState.combo.addWrong();
+  }
+
+  // Store answer
+  gameState.answers.push({
+    question: question,
+    selectedArticle: selectedArticle,
+    correctArticle: correctArticle,
+    isCorrect: isCorrect,
+    timeUsed: timeUsed,
+    isTimeout: isTimeout
+  });
+
+  // Show feedback
+  showFeedback(isCorrect, selectedArticle, correctArticle);
+
+  // Calculate and update score
+  const { calculateQuestionScore } = await import('../core/scoring.js');
+  const questionScore = calculateQuestionScore({
+    gameKey: gameState.gameKey,
+    level: gameState.level,
+    isCorrect: isCorrect,
+    timeUsed: timeUsed,
+    maxTime: 5,
+    comboStreak: gameState.combo.getStreak()
+  });
+
+  gameState.score += Math.max(0, questionScore);
+  if (elements.currentScore) {
+    elements.currentScore.textContent = gameState.score;
+    elements.currentScore.classList.add('score-display--updated');
+    setTimeout(() => {
+      elements.currentScore.classList.remove('score-display--updated');
+    }, 300);
+  }
+
+  // Move to next question after delay
+  setTimeout(() => {
+    gameState.currentQuestionIndex++;
+    if (gameState.currentQuestionIndex < gameState.questions.length) {
+      startQuestion();
+    } else {
+      endGame();
+    }
+  }, 1500);
+}
+
+/**
+ * Show feedback (correct/wrong)
+ */
+function showFeedback(isCorrect, selectedArticle, correctArticle) {
+  // Disable buttons
+  disableButtons();
+
+  // Highlight selected button
+  const buttons = {
+    'der': elements.btnDer,
+    'die': elements.btnDie,
+    'das': elements.btnDas
+  };
+
+  if (selectedArticle && buttons[selectedArticle]) {
+    if (isCorrect) {
+      buttons[selectedArticle].classList.add('artikel-btn--correct');
+    } else {
+      buttons[selectedArticle].classList.add('artikel-btn--wrong');
+      // Highlight correct answer
+      if (buttons[correctArticle]) {
+        buttons[correctArticle].classList.add('artikel-btn--correct');
+      }
+    }
+  } else {
+    // Timeout - highlight correct answer
+    if (buttons[correctArticle]) {
+      buttons[correctArticle].classList.add('artikel-btn--correct');
+    }
+    if (elements.wordFrame) {
+      elements.wordFrame.classList.add('word-frame--wrong');
+    }
+  }
+}
+
+/**
+ * Reset buttons
+ */
+function resetButtons() {
+  [elements.btnDer, elements.btnDie, elements.btnDas].forEach(btn => {
+    if (btn) {
+      btn.classList.remove('artikel-btn--correct', 'artikel-btn--wrong');
+      btn.disabled = false;
+    }
+  });
+
+  if (elements.wordFrame) {
+    elements.wordFrame.classList.remove('word-frame--wrong');
+  }
+}
+
+/**
+ * Disable buttons
+ */
+function disableButtons() {
+  [elements.btnDer, elements.btnDie, elements.btnDas].forEach(btn => {
+    if (btn) {
+      btn.disabled = true;
+    }
+  });
+}
+
+/**
+ * Update progress
+ */
+function updateProgress() {
+  const current = gameState.currentQuestionIndex + 1;
+  const total = gameState.questions.length;
+  const percentage = (current / total) * 100;
+
+  if (elements.progressFill) {
+    elements.progressFill.style.width = `${percentage}%`;
+  }
+
+  if (elements.progressText) {
+    elements.progressText.textContent = `${t('question')} ${current}/${total}`;
+  }
+}
+
+/**
+ * End game - show results
+ */
+async function endGame() {
+  // Calculate final score
+  const scoreData = calculateSetScore(
+    gameState.answers.map(answer => ({
+      gameKey: gameState.gameKey,
+      level: gameState.level,
+      isCorrect: answer.isCorrect,
+      timeUsed: answer.timeUsed,
+      maxTime: 5
+    }))
+  );
+
+  scoreData.maxCombo = gameState.combo.getMaxCombo();
+
+  // Save score if authenticated
+  if (!gameState.isDemo && await isAuthenticated()) {
+    await saveScore(scoreData);
+  }
+
+  // Show results screen
+  showResults(scoreData);
+}
+
+/**
+ * Show results screen
+ */
+function showResults(scoreData) {
+  // Hide game UI
+  if (elements.wordFrame) elements.wordFrame.style.display = 'none';
+  if (elements.artikelButtons) elements.artikelButtons.style.display = 'none';
+  if (elements.timerDisplay) elements.timerDisplay.style.display = 'none';
+
+  // Show results
+  if (elements.gameResults) {
+    elements.gameResults.style.display = 'block';
+    elements.gameResults.innerHTML = `
+      <div class="card">
+        <div class="card-header text-center">
+          <h2>🎉 ${t('setComplete')}</h2>
+        </div>
+        <div class="card-body">
+          <div class="text-center" style="margin: var(--space-xl) 0;">
+            <div style="font-size: var(--text-4xl); font-weight: 700; color: var(--color-blue);">
+              ${scoreData.setScore}
+            </div>
+            <p style="color: var(--text-secondary);">${t('yourScore')}</p>
+          </div>
+
+          <div style="margin: var(--space-xl) 0;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md);">
+              <div>
+                <strong>✅ ${t('correctAnswers')}:</strong> ${scoreData.correctAnswers}
+              </div>
+              <div>
+                <strong>❌ ${t('wrongAnswers')}:</strong> ${scoreData.wrongAnswers}
+              </div>
+              <div>
+                <strong>⏱ ${t('avgTime')}:</strong> ${scoreData.avgResponseTime.toFixed(1)}s
+              </div>
+              <div>
+                <strong>🔥 ${t('maxCombo')}:</strong> ${scoreData.maxCombo}
+              </div>
+            </div>
+          </div>
+
+          ${gameState.isDemo ? `
+            <div class="card" style="background: var(--bg-secondary); margin: var(--space-lg) 0;">
+              <p style="text-align: center; color: var(--text-secondary);">
+                ${t('demoMessage')}
+              </p>
+              <div style="text-align: center; margin-top: var(--space-md);">
+                <a href="../index.html?showRegister=true" class="btn btn-primary">
+                  ${t('register')}
+                </a>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+        <div class="card-footer">
+          <a href="../index.html" class="btn btn-primary">${t('backToHome')}</a>
+          <a href="../leaderboard.html" class="btn btn-secondary">${t('viewLeaderboard')}</a>
+        </div>
+      </div>
+    `;
+  }
+}
+
+/**
+ * Save score to database
+ */
+async function saveScore(scoreData) {
+  const supabase = getSupabase();
+  if (!supabase) return;
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const normalized = normalizedScore(
+      scoreData.setScore,
+      gameState.gameKey,
+      gameState.level
+    );
+
+    // TODO: Save to user_game_sets table
+    // This will be implemented when database schema is ready
+    
+    console.log('Score would be saved:', {
+      userId: user.id,
+      set_id: gameState.set_id,
+      scoreData,
+      normalized
+    });
+  } catch (error) {
+    console.error('Error saving score:', error);
+  }
+}

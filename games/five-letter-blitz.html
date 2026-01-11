@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="5-Letter Blitz - 5 harfi sırala oyunu">
+  <title>5-Letter Blitz - Der Die Das Space</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/difficulty-badges.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="../index.html" class="navbar-brand">
+          <span>←</span>
+          <span data-i18n="back">Geri</span>
+        </a>
+        
+        <div class="navbar-actions">
+          <div class="game-meta">
+            <div class="score-display">
+              <span data-i18n="score">Skor:</span>
+              <span id="currentScore">0</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Game Title -->
+      <div class="text-center" style="margin: var(--space-xl) 0;">
+        <h1>⚡ 5-Letter Blitz</h1>
+        <p id="setInfo" class="text-secondary">Demo Set - Level 1</p>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <p class="progress-text text-center" id="progressText">
+        <span data-i18n="question">Soru</span> 0/10
+      </p>
+
+      <!-- Timer + Combo -->
+      <div class="game-meta">
+        <div class="timer" id="timerDisplay">
+          <span>⏱</span>
+          <span class="timer-value">10s</span>
+        </div>
+        
+        <div class="combo-indicator" id="comboIndicator" style="display: none;">
+          🔥 <span class="combo-count">0x</span> COMBO!
+        </div>
+      </div>
+
+      <!-- Article Badge -->
+      <div class="text-center" style="margin: var(--space-lg) 0;">
+        <span id="articleBadge" class="article-badge">der</span>
+      </div>
+
+      <!-- Word Builder (Top Box) -->
+      <div class="letter-builder" id="letterBuilder">
+        <div class="letter-slot" id="letterSlot">
+          <span class="letter-placeholder" data-i18n="clickLettersToBuild">Harflere tıklayarak kelimeyi oluştur</span>
+        </div>
+        <div class="letter-count" id="letterCount">0/5</div>
+      </div>
+
+      <!-- Scrambled Letters (Bottom) -->
+      <div class="scrambled-letters" id="scrambledLetters">
+        <!-- Letters will be inserted here by JS -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="resetBtn" class="btn btn-secondary" data-i18n="reset">RESET</button>
+        <button id="okBtn" class="btn btn-primary" data-i18n="ok">OK</button>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="text-center" style="margin: var(--space-3xl) 0;">
+        <div class="spinner"></div>
+        <p data-i18n="loading">Yükleniyor...</p>
+      </div>
+
+      <!-- Game Over / Results -->
+      <div id="gameResults" style="display: none;">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="../js/core/i18n.js"></script>
+  <script type="module" src="../js/core/supabase.js"></script>
+  <script type="module" src="../js/core/auth.js"></script>
+  <script type="module" src="../js/core/scoring.js"></script>
+  <script type="module" src="../js/core/timer.js"></script>
+  <script type="module" src="../js/core/combo.js"></script>
+  <script type="module" src="../js/games/five-letter-blitz.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin Panel</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2>🔐 Admin Panel</h2>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-link active">📊 Dashboard</a>
+        <a href="sets.html" class="admin-nav-link">📚 Sets</a>
+        <a href="badges.html" class="admin-nav-link">🎖️ Badges</a>
+        <a href="games.html" class="admin-nav-link">🎮 Games</a>
+        <button class="admin-nav-link admin-logout-btn" id="logoutBtn">🚪 Logout</button>
+      </nav>
+    </aside>
+    
+    <main class="admin-content">
+      <header class="admin-header">
+        <h1>📊 Dashboard</h1>
+        <div class="admin-header-actions">
+          <select id="periodFilter" class="admin-filter">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+      </header>
+      
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">👥</div>
+          <div class="admin-stat-content">
+            <h3>Total Users</h3>
+            <p class="admin-stat-value" id="totalUsers">-</p>
+            <span class="admin-stat-change" id="usersChange">-</span>
+          </div>
+        </div>
+        
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">🎮</div>
+          <div class="admin-stat-content">
+            <h3>Games Played</h3>
+            <p class="admin-stat-value" id="totalGames">-</p>
+            <span class="admin-stat-change" id="gamesChange">-</span>
+          </div>
+        </div>
+        
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">🎖️</div>
+          <div class="admin-stat-content">
+            <h3>Badges Awarded</h3>
+            <p class="admin-stat-value" id="totalBadges">-</p>
+            <span class="admin-stat-change" id="badgesChange">-</span>
+          </div>
+        </div>
+        
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">📚</div>
+          <div class="admin-stat-content">
+            <h3>Total Sets</h3>
+            <p class="admin-stat-value" id="totalSets">-</p>
+            <span class="admin-stat-change" id="setsChange">-</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="admin-charts-grid">
+        <div class="admin-chart-card">
+          <h3>Active Users</h3>
+          <div id="usersChart" class="admin-chart-placeholder">
+            Chart will be displayed here
+          </div>
+        </div>
+        
+        <div class="admin-chart-card">
+          <h3>Daily Games</h3>
+          <div id="gamesChart" class="admin-chart-placeholder">
+            Chart will be displayed here
+          </div>
+        </div>
+      </div>
+      
+      <div class="admin-table-card">
+        <h3>Top Badges</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Badge</th>
+              <th>Users</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody id="topBadgesTable">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin/dashboard.js"></script>
+</body>
+</html>

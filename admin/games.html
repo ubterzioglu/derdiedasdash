@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Management - Admin Panel</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2>🔐 Admin Panel</h2>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-link">📊 Dashboard</a>
+        <a href="sets.html" class="admin-nav-link">📚 Sets</a>
+        <a href="badges.html" class="admin-nav-link">🎖️ Badges</a>
+        <a href="games.html" class="admin-nav-link active">🎮 Games</a>
+        <button class="admin-nav-link admin-logout-btn" id="logoutBtn">🚪 Logout</button>
+      </nav>
+    </aside>
+    
+    <main class="admin-content">
+      <header class="admin-header">
+        <h1>🎮 Game Type Management</h1>
+      </header>
+      
+      <div class="admin-table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Game Code</th>
+              <th>Name (EN)</th>
+              <th>Timer (s)</th>
+              <th>Base Score</th>
+              <th>Total Sets</th>
+              <th>Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="gamesTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Edit Game Modal -->
+      <div id="editGameModal" class="admin-modal">
+        <div class="admin-modal-content">
+          <div class="admin-modal-header">
+            <h2>Edit Game</h2>
+            <button class="admin-modal-close" onclick="hideEditGameModal()">×</button>
+          </div>
+          <form id="editGameForm">
+            <input type="hidden" id="editGameId">
+            
+            <div class="admin-form-group">
+              <label for="editGameCode">Game Code</label>
+              <input type="text" id="editGameCode" readonly>
+            </div>
+            
+            <div class="admin-form-group">
+              <label for="editGameNameEn">Name (EN)</label>
+              <input type="text" id="editGameNameEn" required>
+            </div>
+            
+            <div class="admin-form-group">
+              <label for="editTimerSeconds">Timer (seconds)</label>
+              <input type="number" id="editTimerSeconds" min="1" required>
+            </div>
+            
+            <div class="admin-form-group">
+              <label for="editBaseScore">Base Score</label>
+              <input type="number" id="editBaseScore" min="1" required>
+            </div>
+            
+            <div class="admin-form-group">
+              <label>
+                <input type="checkbox" id="editIsActive">
+                Active
+              </label>
+            </div>
+            
+            <div class="admin-modal-footer">
+              <button type="button" class="btn btn-secondary" onclick="hideEditGameModal()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin/games.js"></script>
+</body>
+</html>

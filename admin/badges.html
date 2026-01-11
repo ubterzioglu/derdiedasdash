@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badge Management - Admin Panel</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <h2>🔐 Admin Panel</h2>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-link">📊 Dashboard</a>
+        <a href="sets.html" class="admin-nav-link">📚 Sets</a>
+        <a href="badges.html" class="admin-nav-link active">🎖️ Badges</a>
+        <a href="games.html" class="admin-nav-link">🎮 Games</a>
+        <button class="admin-nav-link admin-logout-btn" id="logoutBtn">🚪 Logout</button>
+      </nav>
+    </aside>
+    
+    <main class="admin-content">
+      <header class="admin-header">
+        <h1>🎖️ Badge Management</h1>
+        <button class="btn btn-primary" onclick="showCreateBadgeModal()">+ New Badge</button>
+      </header>
+      
+      <div class="admin-filters">
+        <select id="badgeTypeFilter" class="admin-filter">
+          <option value="">All Types</option>
+          <option value="streak">Streak</option>
+          <option value="achievement">Achievement</option>
+          <option value="rank">Rank</option>
+          <option value="milestone">Milestone</option>
+        </select>
+        
+        <select id="badgeRarityFilter" class="admin-filter">
+          <option value="">All Rarities</option>
+          <option value="common">Common</option>
+          <option value="rare">Rare</option>
+          <option value="epic">Epic</option>
+          <option value="legendary">Legendary</option>
+        </select>
+        
+        <label class="admin-filter-checkbox">
+          <input type="checkbox" id="activeOnlyFilter">
+          Active only
+        </label>
+      </div>
+      
+      <div class="admin-table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Icon</th>
+              <th>Badge Code</th>
+              <th>Name (EN)</th>
+              <th>Type</th>
+              <th>Rarity</th>
+              <th>Active</th>
+              <th>Users</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="badgesTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Create Badge Modal -->
+  <div id="createBadgeModal" class="admin-modal">
+    <div class="admin-modal-content admin-modal-large">
+      <div class="admin-modal-header">
+        <h2>New Badge</h2>
+        <button class="admin-modal-close" onclick="hideCreateBadgeModal()">×</button>
+      </div>
+      <form id="createBadgeForm">
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="badgeCode">Badge Code</label>
+            <input type="text" id="badgeCode" required pattern="[a-z0-9_]+">
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="badgeType">Badge Type</label>
+            <select id="badgeType" required>
+              <option value="">Select type...</option>
+              <option value="streak">Streak</option>
+              <option value="achievement">Achievement</option>
+              <option value="rank">Rank</option>
+              <option value="milestone">Milestone</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="admin-form-section">
+          <h3>Names</h3>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label for="badgeNameTr">Turkish</label>
+              <input type="text" id="badgeNameTr" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="badgeNameEn">English</label>
+              <input type="text" id="badgeNameEn" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="badgeNameDe">German</label>
+              <input type="text" id="badgeNameDe" required>
+            </div>
+          </div>
+        </div>
+        
+        <div class="admin-form-section">
+          <h3>Descriptions</h3>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label for="badgeDescTr">Turkish</label>
+              <textarea id="badgeDescTr" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label for="badgeDescEn">English</label>
+              <textarea id="badgeDescEn" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label for="badgeDescDe">German</label>
+              <textarea id="badgeDescDe" required></textarea>
+            </div>
+          </div>
+        </div>
+        
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="badgeIcon">Icon (Emoji or URL)</label>
+            <input type="text" id="badgeIcon" placeholder="🎖️" required>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="badgeRarity">Rarity</label>
+            <select id="badgeRarity" required>
+              <option value="common">Common</option>
+              <option value="rare">Rare</option>
+              <option value="epic">Epic</option>
+              <option value="legendary">Legendary</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="admin-form-section">
+          <h3>Criteria (Parametric JSON)</h3>
+          <div id="criteriaBuilder">
+            <!-- Populated based on badge type -->
+          </div>
+          <div class="admin-form-group">
+            <label for="criteriaJSON">Criteria JSON</label>
+            <textarea id="criteriaJSON" rows="5" required></textarea>
+          </div>
+        </div>
+        
+        <div class="admin-form-group">
+          <label>
+            <input type="checkbox" id="badgeIsActive" checked>
+            Active
+          </label>
+        </div>
+        
+        <div class="admin-modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="hideCreateBadgeModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary" onclick="testBadge()">Test Badge</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/admin/badges.js"></script>
+</body>
+</html>

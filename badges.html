@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Badge Koleksiyonu - Der Die Das Space">
+  <title>Badge Koleksiyonu - Der Die Das Space</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/difficulty-badges.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+          <img src="assets/images/logo.png" alt="Der Die Das Space" class="logo">
+          <span class="brand-name">derdiedas.space</span>
+        </a>
+        
+        <div class="navbar-actions">
+          <div class="language-selector">
+            <button id="langTr" class="btn btn-sm" data-lang="tr">TR</button>
+            <button id="langEn" class="btn btn-sm" data-lang="en">EN</button>
+          </div>
+          
+          <a href="index.html" class="btn btn-sm" data-i18n="home">Ana Sayfa</a>
+          <a href="profile.html" class="btn btn-sm" data-i18n="profile">Profil</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Page Header -->
+      <section class="page-title-section">
+        <h1 data-i18n="badgeCollection">🎖️ Badge Koleksiyonu</h1>
+        <p id="badgeProgress" class="text-secondary">0/50 Badge Kazandın</p>
+      </section>
+
+      <!-- Filter Section -->
+      <section class="filter-section">
+        <div class="filter-controls">
+          <select id="filterType" class="filter-select">
+            <option value="all" data-i18n="allBadges">Tümü</option>
+            <option value="streak" data-i18n="streakBadges">Streak</option>
+            <option value="achievement" data-i18n="achievementBadges">Achievement</option>
+            <option value="rank" data-i18n="rankBadges">Rank</option>
+            <option value="milestone" data-i18n="milestoneBadges">Milestone</option>
+          </select>
+          
+          <select id="filterRarity" class="filter-select">
+            <option value="all" data-i18n="allRarities">Tüm Rarity'ler</option>
+            <option value="common" data-i18n="common">Common</option>
+            <option value="rare" data-i18n="rare">Rare</option>
+            <option value="epic" data-i18n="epic">Epic</option>
+            <option value="legendary" data-i18n="legendary">Legendary</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Badge Grid -->
+      <section class="badge-collection-section">
+        <div id="badgeGrid" class="badge-grid">
+          <!-- Badges will be inserted here -->
+        </div>
+      </section>
+
+      <!-- Empty State -->
+      <section id="emptyState" class="empty-state" style="display: none;">
+        <div class="text-center">
+          <p class="text-secondary" data-i18n="noBadgesFound">Badge bulunamadı</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Der Die Das Space. Tüm hakları saklıdır.</p>
+        <nav class="footer-nav">
+          <a href="leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="profile.html" data-i18n="profile">Profil</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Badge Detail Modal -->
+  <div id="badgeModal" class="modal-overlay" style="display: none;">
+    <div class="modal badge-modal">
+      <button class="modal-close" onclick="closeBadgeModal()">×</button>
+      <div id="badgeModalContent">
+        <!-- Badge details will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/core/supabase.js"></script>
+  <script type="module">
+    import { getCurrentUser } from './js/core/auth.js';
+    import { supabase } from './js/core/supabase.js';
+    import { t, getCurrentLanguage } from './js/core/i18n.js';
+
+    let allBadges = [];
+    let userBadges = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await getCurrentUser();
+      if (user) {
+        await loadUserBadges(user.id);
+      }
+      await loadAllBadges();
+      renderBadges();
+
+      // Filter handlers
+      document.getElementById('filterType')?.addEventListener('change', renderBadges);
+      document.getElementById('filterRarity')?.addEventListener('change', renderBadges);
+    });
+
+    async function loadAllBadges() {
+      const { data, error } = await supabase
+        .from('badges')
+        .select('*')
+        .eq('is_active', true)
+        .order('rarity', { ascending: false });
+
+      if (data) {
+        allBadges = data;
+      }
+    }
+
+    async function loadUserBadges(userId) {
+      const { data, error } = await supabase
+        .from('user_badges')
+        .select('badge_id')
+        .eq('user_id', userId);
+
+      if (data) {
+        userBadges = data.map(b => b.badge_id);
+      }
+    }
+
+    function renderBadges() {
+      const typeFilter = document.getElementById('filterType').value;
+      const rarityFilter = document.getElementById('filterRarity').value;
+      const badgeGrid = document.getElementById('badgeGrid');
+      badgeGrid.innerHTML = '';
+
+      let filtered = allBadges;
+      if (typeFilter !== 'all') {
+        filtered = filtered.filter(b => b.badge_type === typeFilter);
+      }
+      if (rarityFilter !== 'all') {
+        filtered = filtered.filter(b => b.rarity === rarityFilter);
+      }
+
+      if (filtered.length === 0) {
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('emptyState').style.display = 'none';
+
+      filtered.forEach(badge => {
+        const unlocked = userBadges.includes(badge.id);
+        const badgeCard = createBadgeCard(badge, unlocked);
+        badgeGrid.appendChild(badgeCard);
+      });
+
+      // Update progress
+      const lang = getCurrentLanguage();
+      const unlockedCount = allBadges.filter(b => userBadges.includes(b.id)).length;
+      document.getElementById('badgeProgress').textContent = 
+        `${unlockedCount}/${allBadges.length} ${t('badgesEarned')}`;
+    }
+
+    function createBadgeCard(badge, unlocked) {
+      const card = document.createElement('div');
+      card.className = `badge-card ${unlocked ? 'badge-card--unlocked' : 'badge-card--locked'} badge-card--${badge.rarity}`;
+      card.onclick = () => showBadgeModal(badge, unlocked);
+
+      const lang = getCurrentLanguage();
+      const name = lang === 'tr' ? badge.badge_name_tr : badge.badge_name_en;
+      const desc = lang === 'tr' ? badge.badge_description_tr : badge.badge_description_en;
+
+      card.innerHTML = `
+        <div class="badge-icon">${badge.icon_url || '🎖️'}</div>
+        <div class="badge-name">${name}</div>
+        <div class="badge-rarity rarity--${badge.rarity}">${badge.rarity.toUpperCase()}</div>
+        ${unlocked ? '<div class="badge-check">✓</div>' : '<div class="badge-locked">🔒</div>'}
+      `;
+
+      return card;
+    }
+
+    function showBadgeModal(badge, unlocked) {
+      const modal = document.getElementById('badgeModal');
+      const content = document.getElementById('badgeModalContent');
+      const lang = getCurrentLanguage();
+      const name = lang === 'tr' ? badge.badge_name_tr : badge.badge_name_en;
+      const desc = lang === 'tr' ? badge.badge_description_tr : badge.badge_description_en;
+
+      content.innerHTML = `
+        <div class="badge-modal-icon">${badge.icon_url || '🎖️'}</div>
+        <h2>${name}</h2>
+        <p class="text-secondary">${desc}</p>
+        <div class="badge-modal-meta">
+          <span class="badge-type">${badge.badge_type}</span>
+          <span class="badge-rarity rarity--${badge.rarity}">${badge.rarity.toUpperCase()}</span>
+        </div>
+        ${unlocked ? '<p class="badge-earned">✓ Kazandın!</p>' : '<p class="badge-locked-msg">Henüz kazanmadın</p>'}
+      `;
+
+      modal.style.display = 'flex';
+    }
+
+    function closeBadgeModal() {
+      document.getElementById('badgeModal').style.display = 'none';
+    }
+
+    window.closeBadgeModal = closeBadgeModal;
+  </script>
+</body>
+</html>

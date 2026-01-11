@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Leaderboard - Der Die Das Space">
+  <title>Leaderboard - Der Die Das Space</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/difficulty-badges.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+          <img src="assets/images/logo.png" alt="Der Die Das Space" class="logo">
+          <span class="brand-name">derdiedas.space</span>
+        </a>
+        
+        <div class="navbar-actions">
+          <a href="index.html" class="btn btn-sm" data-i18n="back">Geri</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="text-center" style="margin: var(--space-xl) 0;">
+        🏆 <span data-i18n="leaderboard">Skor Tablosu</span>
+      </h1>
+
+      <!-- Leaderboard Tabs -->
+      <div class="tabs" style="margin-bottom: var(--space-xl);">
+        <button class="tab-btn active" data-tab="global" data-i18n="globalLeaderboard">Global</button>
+        <button class="tab-btn" data-tab="game" data-i18n="gameLeaderboard">Oyun Bazlı</button>
+      </div>
+
+      <!-- Global Leaderboard -->
+      <section id="globalLeaderboard" class="leaderboard-section">
+        <div class="card">
+          <div class="card-header">
+            <h2 data-i18n="globalLeaderboard">Global Liderlik</h2>
+          </div>
+          <div class="card-body">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th data-i18n="rank">Sıra</th>
+                  <th data-i18n="player">Oyuncu</th>
+                  <th data-i18n="game">Oyun</th>
+                  <th data-i18n="level">Seviye</th>
+                  <th data-i18n="score">Skor</th>
+                </tr>
+              </thead>
+              <tbody id="globalLeaderboardBody">
+                <tr>
+                  <td colspan="5" class="text-center" data-i18n="loading">Yükleniyor...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game-Specific Leaderboard -->
+      <section id="gameLeaderboard" class="leaderboard-section" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <h2 data-i18n="gameLeaderboard">Oyun Liderliği</h2>
+          </div>
+          <div class="card-body">
+            <!-- Game filter -->
+            <div style="margin-bottom: var(--space-lg);">
+              <label class="form-label" data-i18n="game">Oyun:</label>
+              <select id="gameFilter" class="form-input">
+                <option value="der_die_dash">Der Die Dash</option>
+                <option value="case_control">Case Control</option>
+                <option value="word_salad">Word Salad</option>
+                <option value="translation_quest">Translation Quest</option>
+                <option value="five_letter_blitz">5-Letter Blitz</option>
+              </select>
+            </div>
+
+            <!-- Level filter -->
+            <div style="margin-bottom: var(--space-lg);">
+              <label class="form-label" data-i18n="level">Seviye:</label>
+              <select id="levelFilter" class="form-input">
+                <option value="">Tüm Seviyeler</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+                <option value="5">Level 5</option>
+              </select>
+            </div>
+
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th data-i18n="rank">Sıra</th>
+                  <th data-i18n="player">Oyuncu</th>
+                  <th data-i18n="level">Seviye</th>
+                  <th data-i18n="score">Skor</th>
+                </tr>
+              </thead>
+              <tbody id="gameLeaderboardBody">
+                <tr>
+                  <td colspan="4" class="text-center" data-i18n="loading">Yükleniyor...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Der Die Das Space. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/core/supabase.js"></script>
+  <script type="module" src="js/leaderboard.js"></script>
+</body>
+</html>

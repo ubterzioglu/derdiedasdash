@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Profil - Der Die Das Space">
+  <title>Profil - Der Die Das Space</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/difficulty-badges.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+          <img src="assets/images/logo.png" alt="Der Die Das Space" class="logo">
+          <span class="brand-name">derdiedas.space</span>
+        </a>
+        
+        <div class="navbar-actions">
+          <div class="language-selector">
+            <button id="langTr" class="btn btn-sm" data-lang="tr">TR</button>
+            <button id="langEn" class="btn btn-sm" data-lang="en">EN</button>
+          </div>
+          
+          <a href="index.html" class="btn btn-sm" data-i18n="home">Ana Sayfa</a>
+          <button id="logoutBtn" class="btn btn-sm btn-secondary" data-i18n="logout">Çıkış</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Profile Header -->
+      <section class="profile-header">
+        <div class="card">
+          <div class="card-body">
+            <h1 id="profileName">👤 Kullanıcı</h1>
+            
+            <div class="user-stats">
+              <div class="stat-item">
+                <span class="stat-icon">🏆</span>
+                <span class="stat-label" data-i18n="totalScore">Toplam Skor:</span>
+                <span id="totalScore" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <span class="stat-label" data-i18n="globalRank">Global Sıra:</span>
+                <span id="globalRank" class="stat-value">-</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">🎯</span>
+                <span class="stat-label" data-i18n="completedSets">Tamamlanan Set:</span>
+                <span id="completedSets" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">🎮</span>
+                <span class="stat-label" data-i18n="remainingSets">Kalan Set:</span>
+                <span id="remainingSets" class="stat-value">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Badge Collection -->
+      <section class="badge-section">
+        <h2 data-i18n="badgeCollection">🎖️ Badge Koleksiyonu</h2>
+        <p id="badgeCount" class="text-secondary">0/50 Badge Kazandın</p>
+        
+        <div id="badgeGrid" class="badge-grid">
+          <!-- Badges will be inserted here -->
+        </div>
+      </section>
+
+      <!-- Referral Section -->
+      <section class="referral-section">
+        <div class="card">
+          <div class="card-body">
+            <h3 data-i18n="inviteFriends">📱 Arkadaşlarını Davet Et</h3>
+            
+            <div class="referral-code-container">
+              <label data-i18n="yourReferralCode">Referral Kodun:</label>
+              <div class="referral-code-input">
+                <input type="text" id="referralCode" readonly>
+                <button id="copyReferralBtn" class="btn btn-sm" data-i18n="copy">📋 Kopyala</button>
+              </div>
+            </div>
+            
+            <button id="whatsappShareBtn" class="btn btn-primary btn-block" data-i18n="shareWhatsApp">
+              📱 WhatsApp ile Paylaş
+            </button>
+            
+            <div class="referral-stats">
+              <p>
+                <span data-i18n="invited">Davet Ettin:</span>
+                <span id="invitedCount">0</span>
+                <span>|</span>
+                <span data-i18n="pointsEarned">+<span id="referralPoints">0</span> puan</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game Statistics -->
+      <section class="game-stats-section">
+        <h2 data-i18n="gameStatistics">📊 Oyun İstatistikleri</h2>
+        
+        <div id="gameStatsGrid" class="stats-grid">
+          <!-- Game stats will be inserted here -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Der Die Das Space. Tüm hakları saklıdır.</p>
+        <nav class="footer-nav">
+          <a href="leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="badges.html" data-i18n="badges">Badge'ler</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/core/supabase.js"></script>
+  <script type="module" src="js/core/auth.js"></script>
+  <script type="module" src="js/core/referral.js"></script>
+  <script type="module">
+    import { getCurrentUser } from './js/core/auth.js';
+    import { supabase } from './js/core/supabase.js';
+    import { t } from './js/core/i18n.js';
+
+    // Check authentication
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await getCurrentUser();
+      if (!user) {
+        window.location.href = 'index.html?showLogin=true';
+        return;
+      }
+
+      // Load user profile
+      await loadUserProfile(user.id);
+      await loadUserBadges(user.id);
+      await loadGameStats(user.id);
+    });
+
+    async function loadUserProfile(userId) {
+      // Load profile data
+      const { data: userData } = await supabase
+        .from('users')
+        .select('display_name, email')
+        .eq('id', userId)
+        .single();
+
+      if (userData) {
+        document.getElementById('profileName').textContent = `👤 ${userData.display_name || userData.email}`;
+      }
+
+      // Load stats
+      const { data: scores } = await supabase
+        .from('user_game_sets')
+        .select('set_score, normalized_score')
+        .eq('user_id', userId);
+
+      if (scores && scores.length > 0) {
+        const totalScore = scores.reduce((sum, s) => sum + s.set_score, 0);
+        document.getElementById('totalScore').textContent = totalScore.toLocaleString();
+        document.getElementById('completedSets').textContent = scores.length;
+      }
+    }
+
+    async function loadUserBadges(userId) {
+      const { data: badges } = await supabase
+        .from('user_badges')
+        .select(`
+          badges (*)
+        `)
+        .eq('user_id', userId);
+
+      const badgeGrid = document.getElementById('badgeGrid');
+      if (badges && badges.length > 0) {
+        document.getElementById('badgeCount').textContent = `${badges.length}/50 Badge Kazandın`;
+        badges.forEach(badge => {
+          const badgeCard = createBadgeCard(badge.badges, true);
+          badgeGrid.appendChild(badgeCard);
+        });
+      }
+    }
+
+    function createBadgeCard(badge, unlocked) {
+      const card = document.createElement('div');
+      card.className = `badge-card ${unlocked ? 'badge-card--unlocked' : 'badge-card--locked'}`;
+      card.innerHTML = `
+        <div class="badge-icon">${badge.icon_url || '🎖️'}</div>
+        <div class="badge-name">${badge.badge_name_tr || badge.badge_name_en}</div>
+        ${unlocked ? '' : '<div class="badge-locked">🔒</div>'}
+      `;
+      return card;
+    }
+
+    async function loadGameStats(userId) {
+      // Load game-specific statistics
+      const { data: stats } = await supabase
+        .from('user_game_sets')
+        .select(`
+          game_type_id,
+          game_types (game_name_tr, game_name_en)
+        `)
+        .eq('user_id', userId);
+
+      // Group by game type
+      // Implementation here
+    }
+
+    // Logout
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      const { logout } = await import('./js/core/auth.js');
+      await logout();
+    });
+  </script>
+</body>
+</html>
