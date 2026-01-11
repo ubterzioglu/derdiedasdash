@@ -106,7 +106,7 @@ const AppContent = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-cyan-400 text-2xl font-bold animate-pulse">LOADING...</div>
       </div>
     );

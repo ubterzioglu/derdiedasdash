@@ -125,6 +125,24 @@ const WORDS_DATABASE = [
   { word: "Welt", artikel: "die" },
 ];
 
+// Difficulty-based scoring configuration
+const DIFFICULTY_SCORING = {
+  1: { basePoints: 200, maxSpeedBonus: 200, maxPoints: 400, label: 'Very Easy', color: '#00CC00' },
+  2: { basePoints: 350, maxSpeedBonus: 350, maxPoints: 700, label: 'Easy', color: '#0088FF' },
+  3: { basePoints: 500, maxSpeedBonus: 500, maxPoints: 1000, label: 'Medium', color: '#FFD700' },
+  4: { basePoints: 750, maxSpeedBonus: 750, maxPoints: 1500, label: 'Hard', color: '#FF6600' },
+  5: { basePoints: 1000, maxSpeedBonus: 1000, maxPoints: 2000, label: 'Expert', color: '#FF0000' },
+};
+
+// Get difficulty level from race number
+const getDifficultyLevel = (raceNumber) => {
+  if (raceNumber <= 2) return 1;      // Race 1-2: Very Easy
+  if (raceNumber <= 4) return 2;      // Race 3-4: Easy
+  if (raceNumber <= 6) return 3;      // Race 5-6: Medium
+  if (raceNumber <= 8) return 4;      // Race 7-8: Hard
+  return 5;                           // Race 9-10: Expert
+};
+
 const DerDiedasDash = ({ authUser, onLogout }) => {
   const { t } = useLanguage();
   const [screen, setScreen] = useState('welcome'); // welcome, game, raceResults, globalStats
@@ -305,7 +323,7 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-cyan-400 text-2xl font-bold animate-pulse">LOADING...</div>
       </div>
     );
@@ -314,7 +332,7 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
   // Welcome Screen
   if (screen === 'welcome') {
     return (
-      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+      <div className="min-h-screen bg-black text-white overflow-hidden relative">
         {/* Animated background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-64 h-64 bg-cyan-500 rounded-full blur-3xl animate-pulse"></div>
@@ -335,9 +353,6 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
                 }}
               />
             </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-yellow-400 bg-clip-text text-transparent uppercase tracking-wider" style={{fontFamily: '"Orbitron", sans-serif'}}>
-              Der Die Das Dash
-            </h1>
             <div className="flex flex-col items-center gap-1">
               <p className="text-xl font-bold" style={{color: '#FF0000'}}>{t('findRightOne')}</p>
               <p className="text-xl font-bold" style={{color: '#21A8FF'}}>{t('raceAgainstTime')}</p>
@@ -394,9 +409,11 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
           {/* Race Selection */}
           <div className="w-full max-w-sm mx-auto mb-8">
             <h3 className="text-3xl font-black text-center text-white mb-8 uppercase tracking-wide">{t('selectRace')}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((raceNum) => {
                 const completed = userData?.races?.[`race${raceNum}`];
+                const difficultyLevel = getDifficultyLevel(raceNum);
+                const difficulty = DIFFICULTY_SCORING[difficultyLevel];
                 return (
                   <button
                     key={raceNum}
@@ -408,22 +425,37 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
                       setCurrentRace(raceNum);
                       startGame();
                     }}
-                    className={`relative group ${
-                      completed 
-                        ? 'bg-gradient-to-br from-green-600 to-emerald-700 border-green-400' 
-                        : 'bg-gradient-to-br from-slate-800 to-slate-900 border-slate-600 hover:border-cyan-400'
-                    } border-2 rounded-2xl p-6 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20`}
+                    className="relative group bg-gradient-to-br from-slate-800 to-slate-900 border-2 rounded-2xl p-4 transition-all hover:scale-105 hover:shadow-2xl"
+                    style={{
+                      borderColor: difficulty.color + '40',
+                      boxShadow: completed ? `0 0 20px ${difficulty.color}40` : undefined
+                    }}
                   >
                     {completed && (
                       <div className="absolute top-2 right-2">
                         <Trophy className="w-5 h-5 text-yellow-400" />
                       </div>
                     )}
-                    <div className="text-4xl font-black text-white mb-2">{raceNum}</div>
-                    <div className="text-xs font-semibold text-cyan-300 uppercase">{t('raceLabel')} {raceNum}</div>
+                    {/* Difficulty Badge */}
+                    <div 
+                      className="w-full mb-3 rounded-full py-1 px-3 text-center"
+                      style={{ backgroundColor: difficulty.color }}
+                    >
+                      <span className="text-xs font-bold text-white">{difficulty.label}</span>
+                    </div>
+                    {/* Race Number */}
+                    <div className="text-5xl font-black text-white mb-2 text-center">{raceNum}</div>
+                    {/* Race Label */}
+                    <div className="text-xs font-semibold text-center mb-2" style={{color: '#21A8FF'}}>
+                      {t('raceLabel').toUpperCase()} {raceNum}
+                    </div>
+                    {/* Max Points */}
+                    <div className="text-xs font-bold text-center" style={{color: difficulty.color}}>
+                      Max: {difficulty.maxPoints} pts
+                    </div>
                     {completed && (
-                      <div className="text-xs text-green-300 mt-2 font-bold">
-                        {completed.score} {t('points')}
+                      <div className="text-xs text-green-300 mt-2 font-bold text-center">
+                        {completed.score} pts
                       </div>
                     )}
                   </button>
@@ -457,7 +489,7 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
     const progress = ((currentQuestion) / 10) * 100;
 
     return (
-      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+      <div className="min-h-screen bg-black text-white overflow-hidden relative">
         {/* Background effect */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 via-fuchsia-500 to-yellow-500"></div>
@@ -607,7 +639,7 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
     const avgTime = answers.reduce((sum, a) => sum + a.timeTaken, 0) / 10;
 
     return (
-      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+      <div className="min-h-screen bg-black text-white overflow-hidden relative">
         {/* Animated background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-96 h-96 bg-green-500 rounded-full blur-3xl animate-pulse"></div>
@@ -741,7 +773,7 @@ const DerDiedasDash = ({ authUser, onLogout }) => {
   // Global Stats Screen
   if (screen === 'globalStats') {
     return (
-      <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+      <div className="min-h-screen bg-black text-white overflow-hidden relative">
         {/* Animated background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-96 h-96 bg-cyan-500 rounded-full blur-3xl animate-pulse"></div>

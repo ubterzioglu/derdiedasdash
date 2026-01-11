@@ -67,7 +67,7 @@ const AuthCallback = ({ onSuccess }) => {
   }, [onSuccess]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
         {status === 'processing' && (
           <>
