@@ -119,6 +119,22 @@ const translations = {
     demoMessage: 'Kayıt olmadan oynuyorsunuz. Skorunuz kaydedilmeyecek.',
     registerToSave: 'Skorunuzu kaydetmek için kayıt olun',
     
+    // Actions
+    reset: 'RESET',
+    go: 'GO ➜',
+    ok: 'OK',
+    completed: 'Tamamlandı',
+    correctAnswer: 'Doğru Cevap',
+    
+    // Time
+    date: 'Tarih',
+    ago: 'önce',
+    justNow: 'Az önce',
+    
+    // Game instructions
+    clickWordsToBuild: 'Kelimelere tıklayarak cümleyi oluştur',
+    clickLettersToBuild: 'Harflere tıklayarak kelimeyi oluştur',
+    
     // How to Play
     howToPlayDesc1: 'Her oyundan 1 set ücretsiz oynayabilirsiniz!',
     howToPlayDesc2: 'Kayıt olun, skorunuzu kaydedin, badge kazanın!',
@@ -244,6 +260,22 @@ const translations = {
     demoMode: 'Demo Mode',
     demoMessage: 'Playing without registration. Your score won\'t be saved.',
     registerToSave: 'Register to save your score',
+    
+    // Actions
+    reset: 'RESET',
+    go: 'GO ➜',
+    ok: 'OK',
+    completed: 'Completed',
+    correctAnswer: 'Correct Answer',
+    
+    // Time
+    date: 'Date',
+    ago: 'ago',
+    justNow: 'Just now',
+    
+    // Game instructions
+    clickWordsToBuild: 'Click words to build sentence',
+    clickLettersToBuild: 'Click letters to build word',
     
     // How to Play
     howToPlayDesc1: 'You can play 1 free set from each game!',

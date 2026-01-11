@@ -17,12 +17,12 @@ ON CONFLICT (game_code) DO NOTHING;
 -- ============================================
 -- BADGES SEED DATA
 -- ============================================
-INSERT INTO badges (badge_code, badge_type, badge_name_tr, badge_name_en, badge_description_tr, badge_description_en, rarity, criteria, icon_url) VALUES
-  ('first_game', 'achievement', 'İlk Oyun', 'First Game', 'İlk oyununu tamamladın!', 'You completed your first game!', 'common', '{"type": "games_completed", "count": 1}', '🎮'),
-  ('streak_3_days', 'streak', '3 Günlük Seri', '3 Day Streak', '3 gün üst üste giriş yaptın!', 'Logged in for 3 consecutive days!', 'common', '{"type": "streak", "days": 3}', '🔥'),
-  ('streak_7_days', 'streak', '7 Günlük Seri', '7 Day Streak', '1 hafta boyunca her gün girdin!', 'Logged in every day for a week!', 'rare', '{"type": "streak", "days": 7}', '🔥🔥'),
-  ('perfect_game', 'achievement', 'Mükemmel Oyun', 'Perfect Game', '10/10 doğru cevap verdin!', 'Got 10/10 correct answers!', 'rare', '{"type": "perfect_score", "correct_answers": 10}', '⭐'),
-  ('sets_10', 'achievement', '10 Set Tamamladı', '10 Sets Completed', '10 set tamamladın, harikasın!', 'Completed 10 sets, amazing!', 'common', '{"type": "games_completed", "count": 10}', '🏆')
+INSERT INTO badges (badge_code, badge_type, badge_name_tr, badge_name_en, badge_name_de, badge_description_tr, badge_description_en, badge_description_de, rarity, criteria, icon_url) VALUES
+  ('first_game', 'achievement', 'İlk Oyun', 'First Game', 'Erstes Spiel', 'İlk oyununu tamamladın!', 'You completed your first game!', 'Du hast dein erstes Spiel abgeschlossen!', 'common', '{"type": "games_completed", "count": 1}', '🎮'),
+  ('streak_3_days', 'streak', '3 Günlük Seri', '3 Day Streak', '3-Tage-Serie', '3 gün üst üste giriş yaptın!', 'Logged in for 3 consecutive days!', 'Du hast dich 3 Tage hintereinander angemeldet!', 'common', '{"type": "streak", "days": 3}', '🔥'),
+  ('streak_7_days', 'streak', '7 Günlük Seri', '7 Day Streak', '7-Tage-Serie', '1 hafta boyunca her gün girdin!', 'Logged in every day for a week!', 'Eine Woche lang jeden Tag eingeloggt!', 'rare', '{"type": "streak", "days": 7}', '🔥🔥'),
+  ('perfect_game', 'achievement', 'Mükemmel Oyun', 'Perfect Game', 'Perfektes Spiel', '10/10 doğru cevap verdin!', 'Got 10/10 correct answers!', '10/10 richtige Antworten!', 'rare', '{"type": "perfect_score", "correct_answers": 10}', '⭐'),
+  ('sets_10', 'achievement', '10 Set Tamamladı', '10 Sets Completed', '10 Sets Abgeschlossen', '10 set tamamladın, harikasın!', 'Completed 10 sets, amazing!', '10 Sets abgeschlossen, fantastisch!', 'common', '{"type": "games_completed", "count": 10}', '🏆')
 ON CONFLICT (badge_code) DO NOTHING;
 
 -- ============================================
