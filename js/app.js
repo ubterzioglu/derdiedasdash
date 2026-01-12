@@ -27,7 +27,10 @@ async function initApp() {
   
   // Setup accordion
   setupAccordion();
-  
+
+  // Setup hamburger menu
+  setupHamburgerMenu();
+
   // Setup login/register modals
   setupAuthModals();
   
@@ -375,12 +378,61 @@ async function loadUserStats(userId) {
 async function checkReferralCode() {
   const { getReferralFromURL } = await import('./core/referral.js');
   const refCode = getReferralFromURL();
-  
+
   if (refCode) {
     // Store referral code for later processing
     localStorage.setItem('referralCode', refCode);
-    
+
     // Show welcome message if user registers
     console.log('Referral code detected:', refCode);
   }
+}
+
+/**
+ * Setup hamburger menu
+ */
+function setupHamburgerMenu() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const closeMenuBtn = document.getElementById('closeMenuBtn');
+  const slideMenu = document.getElementById('slideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  if (!hamburgerBtn || !slideMenu || !menuOverlay) return;
+
+  // Open menu
+  hamburgerBtn.addEventListener('click', () => {
+    slideMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close menu
+  const closeMenu = () => {
+    slideMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  closeMenuBtn?.addEventListener('click', closeMenu);
+  menuOverlay.addEventListener('click', closeMenu);
+
+  // Close on menu item click
+  const menuItems = document.querySelectorAll('.slide-menu-item');
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // If it's an anchor link, don't close immediately
+      if (item.getAttribute('href').startsWith('#')) {
+        setTimeout(closeMenu, 300);
+      } else {
+        closeMenu();
+      }
+    });
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
 }

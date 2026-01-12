@@ -53,20 +53,37 @@
             <button id="langTr" class="btn btn-sm" data-lang="tr">TR</button>
             <button id="langEn" class="btn btn-sm" data-lang="en">EN</button>
           </div>
-          
+
           <div id="authButtons" class="auth-buttons">
             <button id="loginBtn" class="btn btn-secondary" data-i18n="login">Giriş Yap</button>
             <button id="registerBtn" class="btn btn-primary" data-i18n="register">Kayıt Ol</button>
           </div>
-          
+
           <div id="userMenu" class="user-menu" style="display: none;">
             <span id="userName" class="user-name">👤 Umut</span>
             <a href="profile.html" class="btn btn-sm" data-i18n="profile">Profil</a>
             <button id="logoutBtn" class="btn btn-sm btn-secondary" data-i18n="logout">Çıkış</button>
           </div>
+
+          <!-- Hamburger Menu Button -->
+          <button id="hamburgerBtn" class="hamburger-btn btn-success">☰</button>
         </div>
       </nav>
+
+      <!-- Slide-in Menu -->
+      <div id="slideMenu" class="slide-menu">
+        <button id="closeMenuBtn" class="close-menu-btn">✕ Menüyü Kapat</button>
+        <nav class="slide-menu-nav">
+          <a href="contact.html" class="slide-menu-item" data-i18n="contact">İletişim</a>
+          <a href="leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Leaderboard</a>
+          <a href="badges.html" class="slide-menu-item" data-i18n="badges">Badges</a>
+          <a href="#howToPlayHeader" class="slide-menu-item" data-i18n="howToPlay">Nasıl Oynanır?</a>
+        </nav>
+      </div>
     </div>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay"></div>
   </header>
 
   <!-- Main Content -->

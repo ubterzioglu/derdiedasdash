@@ -818,6 +818,101 @@
   color: var(--text-primary);
 }
 
+/* === HAMBURGER MENU === */
+.hamburger-btn {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 1001;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-xl);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.hamburger-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Slide-in Menu */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 250px;
+  height: 25vh;
+  background: white;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+  z-index: 1002;
+  transition: right 0.3s var(--ease-smooth);
+  border-bottom-left-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.slide-menu.active {
+  right: 0;
+}
+
+.close-menu-btn {
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--color-danger);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--transition-normal);
+}
+
+.close-menu-btn:hover {
+  background: #cc0000;
+}
+
+.slide-menu-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) 0;
+}
+
+.slide-menu-item {
+  padding: var(--space-md) var(--space-lg);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+  transition: all var(--transition-normal);
+  font-weight: 500;
+}
+
+.slide-menu-item:hover {
+  background: var(--bg-secondary);
+  padding-left: var(--space-xl);
+  color: var(--color-primary);
+}
+
+/* Menu Overlay */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* === FOOTER === */
 .page-footer {
   background: var(--bg-secondary);
