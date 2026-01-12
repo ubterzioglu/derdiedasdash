@@ -144,13 +144,14 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/components/language-selector.js"></script>
   <script type="module" src="js/core/supabase.js"></script>
   <script type="module" src="js/core/auth.js"></script>
   <script type="module" src="js/core/referral.js"></script>
   <script type="module">
     import { getCurrentUser, logout } from './js/core/auth.js';
     import { getSupabase } from './js/core/supabase.js';
-    import { t, setLanguage, getCurrentLanguage } from './js/core/i18n.js';
+    import { t, getCurrentLanguage } from './js/core/i18n.js';
     import { shareOnWhatsApp, copyReferralLink, generateReferralCode } from './js/core/referral.js';
 
     // Check authentication
@@ -257,14 +258,6 @@
       document.getElementById('logoutBtn')?.addEventListener('click', async () => {
         await logout();
         window.location.href = 'index.html';
-      });
-
-      // Language buttons
-      document.getElementById('langTr')?.addEventListener('click', () => {
-        setLanguage('tr');
-      });
-      document.getElementById('langEn')?.addEventListener('click', () => {
-        setLanguage('en');
       });
 
       // Copy referral code

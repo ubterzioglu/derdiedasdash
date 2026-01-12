@@ -3,7 +3,7 @@
    Index page orchestrator
    ============================================ */
 
-import { setLanguage, getCurrentLanguage, t } from './core/i18n.js';
+import { t } from './core/i18n.js';
 import { getCurrentUser, isAuthenticated, onAuthStateChange, logout } from './core/auth.js';
 import { getSupabase } from './core/supabase.js';
 
@@ -14,14 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function initApp() {
   // Check if language is selected
-  const savedLang = localStorage.getItem('language');
-  if (!savedLang) {
-    showLanguageModal();
-  }
-  
-  // Setup language selector
-  setupLanguageSelector();
-  
   // Setup auth
   setupAuth();
   
@@ -41,48 +33,6 @@ async function initApp() {
   const user = await getCurrentUser();
   if (user) {
     await loadUserStats(user.id);
-  }
-}
-
-/**
- * Show language selection modal (first visit)
- */
-function showLanguageModal() {
-  const modal = document.getElementById('languageModal');
-  if (!modal) return;
-  
-  modal.style.display = 'flex';
-  
-  // Close on selection
-  const options = modal.querySelectorAll('.language-option');
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      const lang = option.dataset.lang;
-      setLanguage(lang);
-      modal.style.display = 'none';
-    });
-  });
-}
-
-/**
- * Setup language selector buttons
- */
-function setupLanguageSelector() {
-  const langTr = document.getElementById('langTr');
-  const langEn = document.getElementById('langEn');
-  
-  if (langTr) {
-    langTr.addEventListener('click', () => setLanguage('tr'));
-    if (getCurrentLanguage() === 'tr') {
-      langTr.classList.add('btn-primary');
-    }
-  }
-  
-  if (langEn) {
-    langEn.addEventListener('click', () => setLanguage('en'));
-    if (getCurrentLanguage() === 'en') {
-      langEn.classList.add('btn-primary');
-    }
   }
 }
 

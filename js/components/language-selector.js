@@ -3,7 +3,9 @@
    Dil değiştirici component
    ============================================ */
 
-import { setLanguage, getCurrentLanguage, t } from '../core/i18n.js';
+import { setLanguage, getCurrentLanguage } from '../core/i18n.js';
+
+const LANGUAGE_MODAL_KEY = 'languageModalSeen';
 
 /**
  * Initialize language selector
@@ -12,6 +14,7 @@ export function initLanguageSelector() {
   // Language buttons
   const langButtons = document.querySelectorAll('[data-lang]');
   langButtons.forEach(btn => {
+    if (btn.closest('#languageModal')) return;
     btn.addEventListener('click', () => {
       const lang = btn.dataset.lang;
       changeLanguage(lang);
@@ -45,10 +48,12 @@ function updateActiveLanguage() {
   const currentLang = getCurrentLanguage();
   
   document.querySelectorAll('[data-lang]').forEach(btn => {
-    if (btn.dataset.lang === currentLang) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
+    if (btn.closest('#languageModal')) return;
+    const isActive = btn.dataset.lang === currentLang;
+    btn.classList.toggle('active', isActive);
+
+    if (btn.classList.contains('btn')) {
+      btn.classList.toggle('btn-primary', isActive);
     }
   });
 }
@@ -63,7 +68,6 @@ export function showLanguageModal() {
   // Check if language already selected
   const savedLang = localStorage.getItem('language');
   if (savedLang) {
-    changeLanguage(savedLang);
     return;
   }
 
@@ -77,6 +81,7 @@ export function showLanguageModal() {
       const lang = btn.dataset.lang;
       changeLanguage(lang);
       modal.style.display = 'none';
+      localStorage.setItem(LANGUAGE_MODAL_KEY, 'true');
     });
   });
 }
@@ -93,13 +98,12 @@ export function hideLanguageModal() {
 
 // Auto-initialize on load
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if first visit
-  const hasVisited = localStorage.getItem('hasVisited');
-  if (!hasVisited) {
+  initLanguageSelector();
+
+  const savedLang = localStorage.getItem('language');
+  const hasSeenModal = localStorage.getItem(LANGUAGE_MODAL_KEY);
+  if (!savedLang && !hasSeenModal) {
     showLanguageModal();
-    localStorage.setItem('hasVisited', 'true');
-  } else {
-    initLanguageSelector();
   }
 });
 
