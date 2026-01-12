@@ -9,6 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
+import { animateCorrect, animateWrong } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -309,20 +310,20 @@ function showFeedback(isCorrect, selectedForm, correctForm) {
 
   if (selectedForm && buttons[selectedForm]) {
     if (isCorrect) {
-      buttons[selectedForm].classList.add('form-btn--correct');
+      animateCorrect(buttons[selectedForm]);
     } else {
-      buttons[selectedForm].classList.add('form-btn--wrong');
+      animateWrong(buttons[selectedForm]);
       if (buttons[correctForm]) {
-        buttons[correctForm].classList.add('form-btn--correct');
+        animateCorrect(buttons[correctForm]);
       }
     }
   } else {
     // Timeout
     if (buttons[correctForm]) {
-      buttons[correctForm].classList.add('form-btn--correct');
+      animateCorrect(buttons[correctForm]);
     }
     if (elements.prepositionFrame) {
-      elements.prepositionFrame.classList.add('preposition-frame--wrong');
+      animateWrong(elements.prepositionFrame);
     }
   }
 }

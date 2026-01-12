@@ -77,6 +77,9 @@
       <section class="badge-section">
         <h2 data-i18n="badgeCollection">🎖️ Badge Koleksiyonu</h2>
         <p id="badgeCount" class="text-secondary">0/50 Badge Kazandın</p>
+        <p class="text-secondary">
+          <a href="badges.html" data-i18n="viewAllBadges">Tüm badge'leri gör →</a>
+        </p>
         
         <div id="badgeGrid" class="badge-grid">
           <!-- Badges will be inserted here -->
@@ -144,9 +147,10 @@
   <script type="module" src="js/core/auth.js"></script>
   <script type="module" src="js/core/referral.js"></script>
   <script type="module">
-    import { getCurrentUser } from './js/core/auth.js';
-    import { supabase } from './js/core/supabase.js';
-    import { t } from './js/core/i18n.js';
+    import { getCurrentUser, logout } from './js/core/auth.js';
+    import { getSupabase } from './js/core/supabase.js';
+    import { t, setLanguage, getCurrentLanguage } from './js/core/i18n.js';
+    import { shareOnWhatsApp, copyReferralLink, generateReferralCode } from './js/core/referral.js';
 
     // Check authentication
     document.addEventListener('DOMContentLoaded', async () => {
@@ -163,6 +167,9 @@
     });
 
     async function loadUserProfile(userId) {
+      const supabase = getSupabase();
+      if (!supabase) return;
+
       // Load profile data
       const { data: userData } = await supabase
         .from('users')
@@ -172,6 +179,13 @@
 
       if (userData) {
         document.getElementById('profileName').textContent = `👤 ${userData.display_name || userData.email}`;
+      }
+
+      // Generate and display referral code
+      const referralCode = generateReferralCode(userId);
+      const referralInput = document.getElementById('referralCode');
+      if (referralInput) {
+        referralInput.value = referralCode;
       }
 
       // Load stats
@@ -188,6 +202,9 @@
     }
 
     async function loadUserBadges(userId) {
+      const supabase = getSupabase();
+      if (!supabase) return;
+
       const { data: badges } = await supabase
         .from('user_badges')
         .select(`
@@ -217,6 +234,9 @@
     }
 
     async function loadGameStats(userId) {
+      const supabase = getSupabase();
+      if (!supabase) return;
+
       // Load game-specific statistics
       const { data: stats } = await supabase
         .from('user_game_sets')
@@ -230,10 +250,44 @@
       // Implementation here
     }
 
-    // Logout
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      const { logout } = await import('./js/core/auth.js');
-      await logout();
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // Logout button
+      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+        await logout();
+        window.location.href = 'index.html';
+      });
+
+      // Language buttons
+      document.getElementById('langTr')?.addEventListener('click', () => {
+        setLanguage('tr');
+      });
+      document.getElementById('langEn')?.addEventListener('click', () => {
+        setLanguage('en');
+      });
+
+      // Copy referral code
+      document.getElementById('copyReferralBtn')?.addEventListener('click', async () => {
+        const referralInput = document.getElementById('referralCode');
+        if (referralInput && referralInput.value) {
+          const success = await copyReferralLink(referralInput.value);
+          if (success) {
+            alert(t('copied') || 'Kopyalandı!');
+          }
+        }
+      });
+
+      // WhatsApp share
+      document.getElementById('whatsappShareBtn')?.addEventListener('click', async () => {
+        const user = await getCurrentUser();
+        if (user) {
+          const supabase = getSupabase();
+          const referralCode = generateReferralCode(user.id);
+          const { data: userData } = await supabase.from('users').select('display_name').eq('id', user.id).single();
+          const displayName = userData?.display_name || 'Ben';
+          shareOnWhatsApp(referralCode, displayName);
+        }
+      });
     });
   </script>
 </body>

@@ -47,26 +47,7 @@
         <p id="badgeProgress" class="text-secondary">0/50 Badge Kazandın</p>
       </section>
 
-      <!-- Filter Section -->
-      <section class="filter-section">
-        <div class="filter-controls">
-          <select id="filterType" class="filter-select">
-            <option value="all" data-i18n="allBadges">Tümü</option>
-            <option value="streak" data-i18n="streakBadges">Streak</option>
-            <option value="achievement" data-i18n="achievementBadges">Achievement</option>
-            <option value="rank" data-i18n="rankBadges">Rank</option>
-            <option value="milestone" data-i18n="milestoneBadges">Milestone</option>
-          </select>
-          
-          <select id="filterRarity" class="filter-select">
-            <option value="all" data-i18n="allRarities">Tüm Rarity'ler</option>
-            <option value="common" data-i18n="common">Common</option>
-            <option value="rare" data-i18n="rare">Rare</option>
-            <option value="epic" data-i18n="epic">Epic</option>
-            <option value="legendary" data-i18n="legendary">Legendary</option>
-          </select>
-        </div>
-      </section>
+      <!-- Filter Section - REMOVED (all badges shown on one page) -->
 
       <!-- Badge Grid -->
       <section class="badge-collection-section">
@@ -93,6 +74,17 @@
           <a href="leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
           <a href="profile.html" data-i18n="profile">Profil</a>
         </nav>
+        <div class="social-icons">
+          <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
+          <a href="#" class="social-icon" title="Reddit">🔴</a>
+          <a href="#" class="social-icon" title="Facebook">f</a>
+          <a href="#" class="social-icon" title="WhatsApp">💬</a>
+          <a href="#" class="social-icon" title="LinkedIn">in</a>
+          <a href="#" class="social-icon" title="Instagram">📷</a>
+          <a href="#" class="social-icon" title="Google Maps">📍</a>
+          <a href="#" class="social-icon" title="Phone">📞</a>
+          <a href="#" class="social-icon" title="Email">✉️</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -120,6 +112,10 @@
     let userBadges = [];
 
     document.addEventListener('DOMContentLoaded', async () => {
+      // Language buttons
+      document.getElementById('langTr')?.addEventListener('click', () => setLanguage('tr'));
+      document.getElementById('langEn')?.addEventListener('click', () => setLanguage('en'));
+
       const user = await getCurrentUser();
       if (user) {
         await loadUserBadges(user.id);
@@ -127,12 +123,13 @@
       await loadAllBadges();
       renderBadges();
 
-      // Filter handlers
-      document.getElementById('filterType')?.addEventListener('change', renderBadges);
-      document.getElementById('filterRarity')?.addEventListener('change', renderBadges);
+      // No filters - show all badges
     });
 
     async function loadAllBadges() {
+      const supabase = getSupabase();
+      if (!supabase) return;
+
       const { data, error } = await supabase
         .from('badges')
         .select('*')
@@ -145,6 +142,9 @@
     }
 
     async function loadUserBadges(userId) {
+      const supabase = getSupabase();
+      if (!supabase) return;
+
       const { data, error } = await supabase
         .from('user_badges')
         .select('badge_id')
@@ -156,27 +156,18 @@
     }
 
     function renderBadges() {
-      const typeFilter = document.getElementById('filterType').value;
-      const rarityFilter = document.getElementById('filterRarity').value;
       const badgeGrid = document.getElementById('badgeGrid');
       badgeGrid.innerHTML = '';
 
-      let filtered = allBadges;
-      if (typeFilter !== 'all') {
-        filtered = filtered.filter(b => b.badge_type === typeFilter);
-      }
-      if (rarityFilter !== 'all') {
-        filtered = filtered.filter(b => b.rarity === rarityFilter);
-      }
-
-      if (filtered.length === 0) {
+      if (allBadges.length === 0) {
         document.getElementById('emptyState').style.display = 'block';
         return;
       }
 
       document.getElementById('emptyState').style.display = 'none';
 
-      filtered.forEach(badge => {
+      // Show all badges - unlocked ones are green, locked ones are grey
+      allBadges.forEach(badge => {
         const unlocked = userBadges.includes(badge.id);
         const badgeCard = createBadgeCard(badge, unlocked);
         badgeGrid.appendChild(badgeCard);

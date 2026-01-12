@@ -769,6 +769,140 @@
   text-decoration: underline;
 }
 
+/* === BADGE GRID === */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+.badge-card {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.badge-card--unlocked {
+  border-color: var(--color-correct);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.badge-card--locked {
+  opacity: 0.5;
+  filter: grayscale(100%);
+  background: var(--bg-secondary);
+}
+
+.badge-icon {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-sm);
+}
+
+.badge-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.badge-rarity {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-xs);
+}
+
+.rarity--common {
+  background: #95a5a6;
+  color: white;
+}
+
+.rarity--rare {
+  background: #3498db;
+  color: white;
+}
+
+.rarity--epic {
+  background: #9b59b6;
+  color: white;
+}
+
+.rarity--legendary {
+  background: #f39c12;
+  color: white;
+}
+
+.badge-check {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  color: var(--color-correct);
+  font-size: var(--text-lg);
+}
+
+.badge-locked {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+}
+
+/* === SOCIAL MEDIA ICONS === */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  font-size: var(--text-xl);
+}
+
+.social-icon:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-blue);
+}
+
+.social-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-xs);
+}
+
 /* === STATS === */
 .user-stats {
   display: grid;

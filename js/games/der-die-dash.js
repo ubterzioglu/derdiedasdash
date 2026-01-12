@@ -7,8 +7,9 @@ import { getSupabase } from '../core/supabase.js';
 import { isAuthenticated } from '../core/auth.js';
 import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
-import { calculateSetScore, normalizedScore } from '../core/scoring.js';
+import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
+import { animateCorrect, animateWrong } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -255,7 +256,6 @@ function handleAnswer(selectedArticle, isTimeout = false) {
   showFeedback(isCorrect, selectedArticle, correctArticle);
 
   // Calculate and update score
-  const { calculateQuestionScore } = await import('../core/scoring.js');
   const questionScore = calculateQuestionScore({
     gameKey: gameState.gameKey,
     level: gameState.level,
@@ -301,21 +301,21 @@ function showFeedback(isCorrect, selectedArticle, correctArticle) {
 
   if (selectedArticle && buttons[selectedArticle]) {
     if (isCorrect) {
-      buttons[selectedArticle].classList.add('artikel-btn--correct');
+      animateCorrect(buttons[selectedArticle]);
     } else {
-      buttons[selectedArticle].classList.add('artikel-btn--wrong');
+      animateWrong(buttons[selectedArticle]);
       // Highlight correct answer
       if (buttons[correctArticle]) {
-        buttons[correctArticle].classList.add('artikel-btn--correct');
+        animateCorrect(buttons[correctArticle]);
       }
     }
   } else {
     // Timeout - highlight correct answer
     if (buttons[correctArticle]) {
-      buttons[correctArticle].classList.add('artikel-btn--correct');
+      animateCorrect(buttons[correctArticle]);
     }
     if (elements.wordFrame) {
-      elements.wordFrame.classList.add('word-frame--wrong');
+      animateWrong(elements.wordFrame);
     }
   }
 }

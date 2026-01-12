@@ -9,6 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t, getCurrentLanguage } from '../core/i18n.js';
+import { animateCorrect, animateWrong } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -415,14 +416,14 @@ function showFeedback(isCorrect, selectedTranslation, correctTranslation) {
     
     if (translation === selectedTranslation) {
       if (isCorrect) {
-        btn.classList.add('translation-option--correct');
+        animateCorrect(btn);
       } else {
-        btn.classList.add('translation-option--wrong');
+        animateWrong(btn);
       }
     }
     
     if (isCorrectOption && !isCorrect) {
-      btn.classList.add('translation-option--correct');
+      animateCorrect(btn);
     }
   });
 }

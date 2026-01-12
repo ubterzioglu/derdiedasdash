@@ -9,6 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
+import { animateCorrect, animateWrong } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -312,6 +313,11 @@ function deselectLetter(index) {
  * Reset current question
  */
 function resetCurrentQuestion() {
+  // Only allow reset if timer is running (before timeout)
+  if (!gameState.timer || !gameState.timer.getIsRunning()) {
+    return;
+  }
+
   const question = gameState.questions[gameState.currentQuestionIndex];
   gameState.currentSelectedLetters = [];
   gameState.currentScrambledLetters = [...question.scrambled];
@@ -402,11 +408,11 @@ function showFeedback(isCorrect, userWord, correctWord) {
 
   if (isCorrect) {
     if (elements.letterBuilder) {
-      elements.letterBuilder.classList.add('letter-builder--correct');
+      animateCorrect(elements.letterBuilder);
     }
   } else {
     if (elements.letterBuilder) {
-      elements.letterBuilder.classList.add('letter-builder--wrong');
+      animateWrong(elements.letterBuilder);
     }
     
     // Show correct answer

@@ -9,6 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
+import { animateCorrect, animateWrong } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -316,6 +317,12 @@ function renderSelectedWords() {
     wordSpan.dataset.index = index;
     wordSpan.addEventListener('click', () => deselectWord(index));
     elements.sentenceSlot.appendChild(wordSpan);
+    
+    // Add space after word (except last)
+    if (index < gameState.currentSelectedWords.length - 1) {
+      const space = document.createTextNode(' ');
+      elements.sentenceSlot.appendChild(space);
+    }
   });
 }
 
@@ -343,6 +350,11 @@ function deselectWord(index) {
  * Reset current question
  */
 function resetCurrentQuestion() {
+  // Only allow reset if timer is running (before timeout)
+  if (!gameState.timer || !gameState.timer.getIsRunning()) {
+    return;
+  }
+
   const question = gameState.questions[gameState.currentQuestionIndex];
   gameState.currentSelectedWords = [];
   gameState.currentScrambledWords = [...question.scrambled_words];
@@ -434,11 +446,11 @@ function showFeedback(isCorrect, userSentence, correctSentence) {
 
   if (isCorrect) {
     if (elements.sentenceBuilder) {
-      elements.sentenceBuilder.classList.add('sentence-builder--correct');
+      animateCorrect(elements.sentenceBuilder);
     }
   } else {
     if (elements.sentenceBuilder) {
-      elements.sentenceBuilder.classList.add('sentence-builder--wrong');
+      animateWrong(elements.sentenceBuilder);
     }
     
     // Show correct answer

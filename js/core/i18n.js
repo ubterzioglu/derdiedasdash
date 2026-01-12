@@ -98,6 +98,8 @@ const translations = {
     earnedBadges: 'Kazanılan Rozetler',
     newBadge: 'Yeni Rozet!',
     badgeEarned: 'Rozet Kazandın!',
+    badgesEarned: 'Badge Kazandın',
+    viewAllBadges: 'Tüm badge\'leri gör',
     
     // Errors
     errorGeneric: 'Bir hata oluştu',
@@ -125,6 +127,7 @@ const translations = {
     ok: 'OK',
     completed: 'Tamamlandı',
     correctAnswer: 'Doğru Cevap',
+    copied: 'Kopyalandı!',
     
     // Time
     date: 'Tarih',
@@ -240,6 +243,8 @@ const translations = {
     earnedBadges: 'Earned Badges',
     newBadge: 'New Badge!',
     badgeEarned: 'Badge Earned!',
+    badgesEarned: 'Badges Earned',
+    viewAllBadges: 'View All Badges',
     
     // Errors
     errorGeneric: 'An error occurred',
@@ -267,6 +272,7 @@ const translations = {
     ok: 'OK',
     completed: 'Completed',
     correctAnswer: 'Correct Answer',
+    copied: 'Copied!',
     
     // Time
     date: 'Date',
