@@ -131,18 +131,20 @@
 
 .btn-der,
 .artikel-btn-der {
-  background: linear-gradient(135deg, #FF4444 0%, #FF6666 100%);
+  background: linear-gradient(135deg, #FF5C6E 0%, #FF7080 100%);
   color: white;
   flex: 1;
   min-width: 100px;
   padding: 2rem 1.5rem;
   font-size: var(--text-2xl);
   letter-spacing: 2px;
+  box-shadow: 0 4px 12px rgba(255, 92, 110, 0.3);
 }
 
 .btn-der:hover,
 .artikel-btn-der:hover {
-  background: linear-gradient(135deg, #FF5555 0%, #FF7777 100%);
+  background: linear-gradient(135deg, #FF6C7E 0%, #FF8090 100%);
+  box-shadow: 0 8px 20px rgba(255, 92, 110, 0.4);
 }
 
 .btn-die,
@@ -154,11 +156,13 @@
   padding: 2rem 1.5rem;
   font-size: var(--text-2xl);
   letter-spacing: 2px;
+  box-shadow: var(--shadow-blue);
 }
 
 .btn-die:hover,
 .artikel-btn-die:hover {
   background: linear-gradient(135deg, #00AAFF 0%, #44BBFF 100%);
+  box-shadow: var(--shadow-blue-lg);
 }
 
 .btn-das,
@@ -170,11 +174,13 @@
   padding: 2rem 1.5rem;
   font-size: var(--text-2xl);
   letter-spacing: 2px;
+  box-shadow: var(--shadow-yellow);
 }
 
 .btn-das:hover,
 .artikel-btn-das:hover {
   background: linear-gradient(135deg, #FFDD11 0%, #FFEE44 100%);
+  box-shadow: 0 8px 20px rgba(255, 204, 0, 0.35);
 }
 
 @media (min-width: 768px) {
