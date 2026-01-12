@@ -288,9 +288,18 @@ a:hover {
     gap: var(--space-xl);
     padding: var(--space-2xl);
   }
-  
+
   .set-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* Large Desktop - 5 games in one row */
+@media (min-width: 1280px) {
+  .game-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-lg);
+    padding: var(--space-2xl);
   }
 }
 

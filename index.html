@@ -47,7 +47,7 @@
       <nav class="navbar">
         <div class="navbar-brand">
           <img src="assets/images/logo.png" alt="Der Die Das Space" class="logo">
-          <span class="brand-name">derdiedas.space</span>
+          <span class="brand-name">derdiedas</span>
         </div>
         
         <div class="navbar-actions">
@@ -132,24 +132,40 @@
             <span class="accordion-icon">▼</span>
           </div>
           <div class="accordion-body" id="howToPlayBody">
-            <p data-i18n="howToPlayDesc1">Her oyundan 1 set ücretsiz oynayabilirsiniz!</p>
-            <p data-i18n="howToPlayDesc2">Kayıt olun, skorunuzu kaydedin, badge kazanın!</p>
-            
-            <h4 data-i18n="scoringSystem">Puanlama Sistemi:</h4>
+            <h4 data-i18n="commonFeatures">🎮 Tüm Oyunlarda Ortak Özellikler:</h4>
             <ul>
-              <li data-i18n="scoringBase">Base puan: Zorluk seviyesine göre (20-30 puan)</li>
-              <li data-i18n="scoringSpeed">Hız bonusu: Hızlı cevap vererek ekstra puan kazan</li>
-              <li data-i18n="scoringCombo">Combo bonusu: Üst üste doğru cevaplarla combo yakala!</li>
+              <li>Her oyundan 1 set ücretsiz oynayabilirsiniz</li>
+              <li>Kayıt olun, skorunuzu kaydedin, badge kazanın</li>
+              <li>Hız bonusu: Hızlı cevap vererek ekstra puan kazanın</li>
+              <li>Combo bonusu: Üst üste doğru cevaplarla combo yakalayın</li>
             </ul>
-            
-            <h4 data-i18n="difficultyLevels">Zorluk Seviyeleri:</h4>
-            <ul>
-              <li><span class="difficulty-badge difficulty-badge--easy">EASY</span> - Kolay kelimeler</li>
-              <li><span class="difficulty-badge difficulty-badge--medium">MEDIUM</span> - Orta seviye</li>
-              <li><span class="difficulty-badge difficulty-badge--hard">HARD</span> - Zor kelimeler</li>
-              <li><span class="difficulty-badge difficulty-badge--very-hard">VERY HARD</span> - Çok zor</li>
-              <li><span class="difficulty-badge difficulty-badge--expert">EXPERT</span> - Uzman seviyesi</li>
-            </ul>
+
+            <h4 data-i18n="gamesExplanation">🎯 Oyunların Açıklamaları:</h4>
+
+            <div style="margin: 1rem 0;">
+              <h5>🎯 Der Die Dash</h5>
+              <p>Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
+            </div>
+
+            <div style="margin: 1rem 0;">
+              <h5>📍 Case Control</h5>
+              <p>Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
+            </div>
+
+            <div style="margin: 1rem 0;">
+              <h5>🥗 Word Salad</h5>
+              <p>Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
+            </div>
+
+            <div style="margin: 1rem 0;">
+              <h5>🌍 Translation Quest</h5>
+              <p>Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
+            </div>
+
+            <div style="margin: 1rem 0;">
+              <h5>⚡ 5-Letter Blitz</h5>
+              <p>5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
+            </div>
           </div>
         </div>
       </section>
@@ -160,69 +176,39 @@
         
         <div class="game-grid">
           <!-- Der Die Dash -->
-          <div class="game-card" data-game="der-die-dash">
+          <a href="games/der-die-dash.html" class="game-card" data-game="der-die-dash">
             <div class="game-card-icon">🎯</div>
             <h3 class="game-card-title">Der Die Dash</h3>
             <p class="game-card-description" data-i18n="derDieDashDesc">Artikel tahmin oyunu</p>
-            <span class="difficulty-badge difficulty-badge--easy">EASY</span>
-            <a href="games/der-die-dash.html" class="btn btn-primary" data-i18n="play">OYNA ></a>
-            <div class="game-card-meta">
-              <span data-i18n="timer">⏱ 5s</span>
-              <span data-i18n="questions">❓ 10</span>
-            </div>
-          </div>
+          </a>
 
           <!-- Case Control -->
-          <div class="game-card" data-game="case-control">
+          <a href="games/case-control.html" class="game-card" data-game="case-control">
             <div class="game-card-icon">📍</div>
             <h3 class="game-card-title">Case Control</h3>
             <p class="game-card-description" data-i18n="caseControlDesc">Preposition challenge</p>
-            <span class="difficulty-badge difficulty-badge--medium">MEDIUM</span>
-            <a href="games/case-control.html" class="btn btn-primary" data-i18n="play">OYNA ></a>
-            <div class="game-card-meta">
-              <span data-i18n="timer">⏱ 5s</span>
-              <span data-i18n="questions">❓ 10</span>
-            </div>
-          </div>
+          </a>
 
           <!-- Word Salad -->
-          <div class="game-card" data-game="word-salad">
+          <a href="games/word-salad.html" class="game-card" data-game="word-salad">
             <div class="game-card-icon">🥗</div>
             <h3 class="game-card-title">Word Salad</h3>
             <p class="game-card-description" data-i18n="wordSaladDesc">Kelimelerden cümle kur</p>
-            <span class="difficulty-badge difficulty-badge--hard">HARD</span>
-            <a href="games/word-salad.html" class="btn btn-primary" data-i18n="play">OYNA ></a>
-            <div class="game-card-meta">
-              <span data-i18n="timer">⏱ 20s</span>
-              <span data-i18n="questions">❓ 10</span>
-            </div>
-          </div>
+          </a>
 
           <!-- Translation Quest -->
-          <div class="game-card" data-game="translation-quest">
+          <a href="games/translation-quest.html" class="game-card" data-game="translation-quest">
             <div class="game-card-icon">🌍</div>
             <h3 class="game-card-title">Translation Quest</h3>
             <p class="game-card-description" data-i18n="translationQuestDesc">Almanca → TR/EN çeviri</p>
-            <span class="difficulty-badge difficulty-badge--very-hard">VERY HARD</span>
-            <a href="games/translation-quest.html" class="btn btn-primary" data-i18n="play">OYNA ></a>
-            <div class="game-card-meta">
-              <span data-i18n="timer">⏱ 8s</span>
-              <span data-i18n="questions">❓ 10</span>
-            </div>
-          </div>
+          </a>
 
           <!-- 5-Letter Blitz -->
-          <div class="game-card" data-game="five-letter-blitz">
+          <a href="games/five-letter-blitz.html" class="game-card" data-game="five-letter-blitz">
             <div class="game-card-icon">⚡</div>
             <h3 class="game-card-title">5-Letter Blitz</h3>
             <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfi sırala</p>
-            <span class="difficulty-badge difficulty-badge--expert">EXPERT</span>
-            <a href="games/five-letter-blitz.html" class="btn btn-primary" data-i18n="play">OYNA ></a>
-            <div class="game-card-meta">
-              <span data-i18n="timer">⏱ 10s</span>
-              <span data-i18n="questions">❓ 10</span>
-            </div>
-          </div>
+          </a>
         </div>
       </section>
 
@@ -252,18 +238,8 @@
         <nav class="footer-nav">
           <a href="leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
           <a href="badges.html" data-i18n="badges">Badge'ler</a>
+          <a href="contact.html" data-i18n="contact">İletişim</a>
         </nav>
-        <div class="social-icons">
-          <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
-          <a href="#" class="social-icon" title="Reddit">🔴</a>
-          <a href="#" class="social-icon" title="Facebook">f</a>
-          <a href="#" class="social-icon" title="WhatsApp">💬</a>
-          <a href="#" class="social-icon" title="LinkedIn">in</a>
-          <a href="#" class="social-icon" title="Instagram">📷</a>
-          <a href="#" class="social-icon" title="Google Maps">📍</a>
-          <a href="#" class="social-icon" title="Phone">📞</a>
-          <a href="#" class="social-icon" title="Email">✉️</a>
-        </div>
       </div>
     </div>
   </footer>
