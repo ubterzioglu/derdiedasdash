@@ -821,36 +821,51 @@
 /* === HAMBURGER MENU === */
 .hamburger-btn {
   position: fixed;
-  top: var(--space-md);
-  right: var(--space-md);
+  top: 20px;
+  right: 20px;
   z-index: 1001;
-  padding: var(--space-sm) var(--space-md);
-  font-size: var(--text-xl);
-  border-radius: var(--border-radius);
+  padding: 12px 20px;
+  font-size: 20px;
+  border-radius: 8px;
   cursor: pointer;
   border: none;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-normal);
+  background: var(--color-success);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .hamburger-btn:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  background: #28a745;
+}
+
+.hamburger-btn::before {
+  content: '☰';
+  font-size: 24px;
 }
 
 /* Slide-in Menu */
 .slide-menu {
   position: fixed;
   top: 0;
-  right: -300px;
-  width: 250px;
-  height: 25vh;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
   background: white;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
   z-index: 1002;
-  transition: right 0.3s var(--ease-smooth);
-  border-bottom-left-radius: var(--border-radius-lg);
-  overflow: hidden;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .slide-menu.active {
@@ -859,14 +874,16 @@
 
 .close-menu-btn {
   width: 100%;
-  padding: var(--space-md);
+  padding: 18px 20px;
   background: var(--color-danger);
   color: white;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
   text-align: center;
-  transition: background var(--transition-normal);
+  transition: background 0.2s ease;
+  flex-shrink: 0;
 }
 
 .close-menu-btn:hover {
@@ -876,21 +893,25 @@
 .slide-menu-nav {
   display: flex;
   flex-direction: column;
-  padding: var(--space-md) 0;
+  padding: 0;
+  flex: 1;
 }
 
 .slide-menu-item {
-  padding: var(--space-md) var(--space-lg);
+  padding: 20px 24px;
   color: var(--text-primary);
   text-decoration: none;
   border-bottom: 1px solid var(--border-color);
-  transition: all var(--transition-normal);
-  font-weight: 500;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .slide-menu-item:hover {
   background: var(--bg-secondary);
-  padding-left: var(--space-xl);
+  padding-left: 32px;
   color: var(--color-primary);
 }
 
