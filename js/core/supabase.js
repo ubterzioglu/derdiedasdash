@@ -6,9 +6,9 @@
 // Supabase CDN - Add this script to HTML: 
 // <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-// Configuration - Replace with your Supabase credentials
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+// Configuration - Supabase credentials
+const SUPABASE_URL = 'https://zacsokxnytyfisagshlb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphY3Nva3hueXR5ZmlzYWdzaGxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgwNTI4OTYsImV4cCI6MjA4MzYyODg5Nn0._1WR5u-WKhUPZ6-IeuIyWWOka1QHB9HoEOkcpprK0KA';
 
 // Initialize Supabase client
 let supabaseClient = null;

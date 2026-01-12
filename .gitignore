@@ -45,3 +45,7 @@ out
 # OS
 Thumbs.db
 .DS_Store
+
+# Supabase SQL scripts (may contain sensitive data)
+sql/
+*.sql
