@@ -779,8 +779,9 @@
 }
 
 .language-selector .btn {
-  min-width: 45px;
-  width: 45px;
+  flex: 1;
+  min-width: 70px;
+  width: 70px;
   padding: 8px 4px;
   font-size: 0.875rem;
 }
@@ -791,8 +792,9 @@
 }
 
 .auth-buttons .btn {
-  min-width: 80px;
-  width: 80px;
+  flex: 1;
+  min-width: 70px;
+  width: 70px;
   padding: 8px 4px;
   font-size: 0.75rem;
   white-space: nowrap;
@@ -848,8 +850,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 100vw; /* Tam genişlik */
-  max-width: 375px; /* Sayfanın max genişliği */
+  width: calc(25% + 4px); /* Close button genişliği + 4px */
+  min-width: 120px;
   height: 100vh; /* Tam yükseklik */
   background: white;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
