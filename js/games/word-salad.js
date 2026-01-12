@@ -607,18 +607,80 @@ async function saveScore(scoreData) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
+    if (!gameState.set_id) {
+      console.warn('Set ID not available, cannot save score');
+      return;
+    }
+
+    // Get game_type_id from game_code
+    const { data: gameType, error: gameTypeError } = await supabase
+      .from('game_types')
+      .select('id')
+      .eq('game_code', gameState.gameKey)
+      .single();
+
+    if (gameTypeError || !gameType) {
+      console.error('Error getting game type:', gameTypeError);
+      return;
+    }
+
     const normalized = normalizedScore(
       scoreData.setScore,
       gameState.gameKey,
       gameState.level
     );
 
-    console.log('Score would be saved:', {
-      userId: user.id,
-      set_id: gameState.set_id,
-      scoreData,
-      normalized
-    });
+    // Save to user_game_sets table
+    const { data, error } = await supabase
+      .from('user_game_sets')
+      .insert({
+        user_id: user.id,
+        set_id: gameState.set_id,
+        game_type_id: gameType.id,
+        level: gameState.level,
+        set_score: scoreData.setScore,
+        normalized_score: normalized,
+        base_total: scoreData.baseTotal || 0,
+        speed_bonus_total: scoreData.speedBonusTotal || 0,
+        combo_bonus_total: scoreData.comboBonusTotal || 0,
+        penalty_total: scoreData.penaltyTotal || 0,
+        correct_answers: scoreData.correctAnswers,
+        wrong_answers: scoreData.wrongAnswers,
+        max_combo: scoreData.maxCombo || 0,
+        avg_response_time: scoreData.avgResponseTime || 0,
+        accuracy_percentage: scoreData.accuracyPercentage || 0
+      })
+      .select()
+      .single();
+
+    if (error) {
+      if (error.code === '23505') {
+        const { error: updateError } = await supabase
+          .from('user_game_sets')
+          .update({
+            set_score: scoreData.setScore,
+            normalized_score: normalized,
+            base_total: scoreData.baseTotal || 0,
+            speed_bonus_total: scoreData.speedBonusTotal || 0,
+            combo_bonus_total: scoreData.comboBonusTotal || 0,
+            penalty_total: scoreData.penaltyTotal || 0,
+            correct_answers: scoreData.correctAnswers,
+            wrong_answers: scoreData.wrongAnswers,
+            max_combo: scoreData.maxCombo || 0,
+            avg_response_time: scoreData.avgResponseTime || 0,
+            accuracy_percentage: scoreData.accuracyPercentage || 0,
+            completed_at: new Date().toISOString()
+          })
+          .eq('user_id', user.id)
+          .eq('set_id', gameState.set_id);
+
+        if (updateError) {
+          console.error('Error updating score:', updateError);
+        }
+      } else {
+        console.error('Error saving score:', error);
+      }
+    }
   } catch (error) {
     console.error('Error saving score:', error);
   }
