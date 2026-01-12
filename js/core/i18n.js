@@ -29,6 +29,12 @@ const translations = {
     selectGame: 'Oyun Seç',
     allGamesFree: '🎮 Tüm Oyunlar Ücretsiz!',
     registerPrompt: 'Skorunuzu kaydetmek için kayıt olun',
+
+    // Hero Section
+    heroTitle: 'Almanca Artikellerini Oyunla Öğren!',
+    heroSubtitle: 'Der, Die, Das artikellerini 5 eğlenceli oyunla master et. Ücretsiz, eğlenceli ve etkili!',
+    startLearning: 'Öğrenmeye Başla 🚀',
+    exploreGames: 'Oyunları Keşfet',
     
     // Game UI
     correct: 'Doğru!',
@@ -174,6 +180,12 @@ const translations = {
     selectGame: 'Select Game',
     allGamesFree: '🎮 All Games Free!',
     registerPrompt: 'Register to save your score',
+
+    // Hero Section
+    heroTitle: 'Learn German Articles with Games!',
+    heroSubtitle: 'Master Der, Die, Das articles with 5 fun games. Free, fun, and effective!',
+    startLearning: 'Start Learning 🚀',
+    exploreGames: 'Explore Games',
     
     // Game UI
     correct: 'Correct!',

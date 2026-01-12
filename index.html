@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <meta name="description" content="Der Die Das Space - Almanca öğrenme platformu. 5 farklı oyun ile Almanca artikellerini öğren!">
   <title>Der Die Das Space - Almanca Öğrenme Platformu</title>
   
@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/difficulty-badges.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/responsive.css">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
@@ -71,6 +73,20 @@
 
   <!-- Main Content -->
   <main class="main-content">
+    <!-- Hero Section (First-time Visitors) -->
+    <section id="heroSection" class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title" data-i18n="heroTitle">Almanca Artikellerini Oyunla Öğren!</h1>
+          <p class="hero-subtitle" data-i18n="heroSubtitle">Der, Die, Das artikellerini 5 eğlenceli oyunla master et. Ücretsiz, eğlenceli ve etkili!</p>
+          <div class="hero-cta">
+            <button id="heroRegisterBtn" class="btn btn-primary btn-lg" data-i18n="startLearning">Öğrenmeye Başla 🚀</button>
+            <a href="#games-section" class="btn btn-success btn-lg" data-i18n="exploreGames">Oyunları Keşfet</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div class="container">
       <!-- Welcome Section (Logged In Users) -->
       <section id="welcomeSection" class="welcome-section" style="display: none;">
@@ -139,7 +155,7 @@
       </section>
 
       <!-- Game Selection Grid -->
-      <section class="games-section">
+      <section id="games-section" class="games-section">
         <h2 class="text-center" data-i18n="selectGame">Oyun Seç</h2>
         
         <div class="game-grid">
