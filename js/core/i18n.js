@@ -26,7 +26,7 @@ const translations = {
     welcomeBack: 'Hoş Geldin!',
     profile: 'Profil',
     howToPlay: '❓ Nasıl Oynanır?',
-    selectGame: 'Oyunun Seç!',
+    selectGame: 'Oyununu Seç!',
     allGamesFree: '🎮 Tüm Oyunlar Ücretsiz!',
     registerPrompt: 'Skorunuzu kaydetmek için kayıt olun',
 
