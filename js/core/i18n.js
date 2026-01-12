@@ -26,7 +26,7 @@ const translations = {
     welcomeBack: 'Hoş Geldin!',
     profile: 'Profil',
     howToPlay: '❓ Nasıl Oynanır?',
-    selectGame: 'Oyun Seç',
+    selectGame: 'Oyunun Seç!',
     allGamesFree: '🎮 Tüm Oyunlar Ücretsiz!',
     registerPrompt: 'Skorunuzu kaydetmek için kayıt olun',
 
@@ -177,7 +177,7 @@ const translations = {
     welcomeBack: 'Welcome Back!',
     profile: 'Profile',
     howToPlay: '❓ How to Play?',
-    selectGame: 'Select Game',
+    selectGame: 'Choose Your Game!',
     allGamesFree: '🎮 All Games Free!',
     registerPrompt: 'Register to save your score',
 
