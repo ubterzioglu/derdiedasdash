@@ -158,16 +158,7 @@
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Desktop Font Sizes (1024px+) */
-@media (min-width: 1024px) {
-  :root {
-    --text-lg: 1.25rem;    /* 20px */
-    --text-xl: 1.5rem;     /* 24px */
-    --text-2xl: 2rem;      /* 32px */
-    --text-3xl: 2.5rem;    /* 40px */
-    --text-4xl: 3rem;      /* 48px */
-  }
-}
+/* Fixed font sizes - no responsive scaling */
 
 /* === RESET & BASE STYLES === */
 * {
@@ -231,30 +222,16 @@ a:hover {
 }
 
 /* === LAYOUT === */
+/* Fixed width for all devices - matches mobile screenshot */
 .container {
-  width: 100%;
-  max-width: 100%;
+  width: 375px;
+  max-width: 375px;
   padding: var(--space-md);
   margin: 0 auto;
 }
 
-/* Tablet (768px - 1023px) */
-@media (min-width: 768px) {
-  .container {
-    padding: var(--space-xl);
-    max-width: 720px;
-  }
-}
-
-/* Desktop (1024px+) */
-@media (min-width: 1024px) {
-  .container {
-    padding: var(--space-2xl);
-    max-width: 1200px;
-  }
-}
-
 /* === GRID SYSTEM === */
+/* Fixed single column layout for all devices */
 .game-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -264,43 +241,8 @@ a:hover {
 
 .set-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--space-md);
-}
-
-/* Tablet */
-@media (min-width: 768px) {
-  .game-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
-    padding: var(--space-xl);
-  }
-  
-  .set-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-  .game-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-xl);
-    padding: var(--space-2xl);
-  }
-
-  .set-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-}
-
-/* Large Desktop - 5 games in one row */
-@media (min-width: 1280px) {
-  .game-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-lg);
-    padding: var(--space-2xl);
-  }
 }
 
 /* === UTILITY CLASSES === */

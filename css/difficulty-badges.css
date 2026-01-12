@@ -193,23 +193,21 @@
   animation: badgePulse 2s ease infinite;
 }
 
-/* === RESPONSIVE === */
-@media (max-width: 767px) {
-  .difficulty-badge {
-    font-size: 0.65rem;
-    padding: 0.25rem 0.625rem;
-  }
-  
-  .set-card .difficulty-badge {
-    top: var(--space-sm);
-    right: var(--space-sm);
-  }
-  
-  .set-card--completed::after {
-    top: var(--space-sm);
-    left: var(--space-sm);
-    width: 24px;
-    height: 24px;
-    font-size: var(--text-base);
-  }
+/* === FIXED LAYOUT - MOBILE FIRST ALWAYS === */
+.difficulty-badge {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.set-card .difficulty-badge {
+  top: var(--space-sm);
+  right: var(--space-sm);
+}
+
+.set-card--completed::after {
+  top: var(--space-sm);
+  left: var(--space-sm);
+  width: 24px;
+  height: 24px;
+  font-size: var(--text-base);
 }

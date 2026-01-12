@@ -183,24 +183,6 @@
   box-shadow: 0 8px 20px rgba(255, 204, 0, 0.35);
 }
 
-@media (min-width: 768px) {
-  .artikel-buttons {
-    gap: var(--space-xl);
-    margin: var(--space-3xl) 0;
-  }
-  
-  .btn-der,
-  .btn-die,
-  .btn-das,
-  .artikel-btn-der,
-  .artikel-btn-die,
-  .artikel-btn-das {
-    min-width: 150px;
-    padding: 2.5rem 2rem;
-    font-size: var(--text-3xl);
-    letter-spacing: 3px;
-  }
-}
 
 /* Button Sizes */
 .btn-sm {
@@ -320,13 +302,6 @@
   justify-content: center;
 }
 
-@media (max-width: 767px) {
-  .word-frame {
-    font-size: var(--text-3xl);
-    padding: 2rem 1.5rem;
-    min-height: 150px;
-  }
-}
 
 /* === MODAL === */
 .modal-overlay {
@@ -617,13 +592,6 @@
   border-top: 1px solid var(--border-color);
 }
 
-@media (min-width: 1024px) {
-  .sticky-cta {
-    position: static;
-    box-shadow: none;
-    border-top: none;
-  }
-}
 
 /* === BADGE === */
 .badge {
@@ -1280,19 +1248,6 @@
   pointer-events: none;
 }
 
-@media (min-width: 768px) {
-  .scrambled-letters {
-    gap: var(--space-lg);
-    margin: var(--space-3xl) 0;
-  }
-  
-  .letter-btn {
-    width: 100px;
-    height: 100px;
-    font-size: var(--text-4xl);
-    border-width: 4px;
-  }
-}
 
 /* === LETTER BUILDER === */
 .letter-builder {
@@ -1355,18 +1310,6 @@
   font-weight: 600;
 }
 
-@media (min-width: 768px) {
-  .letter-builder {
-    padding: var(--space-2xl);
-    min-height: 150px;
-  }
-  
-  .selected-letter {
-    width: 80px;
-    height: 80px;
-    font-size: var(--text-3xl);
-  }
-}
 
 /* === ACTION BUTTONS === */
 .action-buttons {

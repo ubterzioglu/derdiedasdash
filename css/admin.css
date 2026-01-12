@@ -423,23 +423,21 @@
   margin-top: var(--space-lg);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .admin-sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  
-  .admin-content {
-    margin-left: 0;
-  }
-  
-  .admin-charts-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .admin-form-row {
-    grid-template-columns: 1fr;
-  }
+/* Fixed Layout - Mobile First Always */
+.admin-sidebar {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.admin-content {
+  margin-left: 0;
+}
+
+.admin-charts-grid {
+  grid-template-columns: 1fr;
+}
+
+.admin-form-row {
+  grid-template-columns: 1fr;
 }

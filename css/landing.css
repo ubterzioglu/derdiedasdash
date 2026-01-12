@@ -80,15 +80,7 @@
   flex-wrap: wrap;
 }
 
-@media (min-width: 768px) {
-  .hero-title {
-    font-size: 3.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: var(--text-2xl);
-  }
-}
+/* Removed responsive media query - using fixed width */
 
 /* === WELCOME SECTION ENHANCEMENT === */
 .welcome-section {
@@ -388,36 +380,35 @@
   font-weight: var(--font-weight-bold);
 }
 
-/* === RESPONSIVE ADJUSTMENTS === */
-@media (max-width: 767px) {
-  .hero-section {
-    padding: var(--space-2xl) 0;
-  }
+/* === FIXED LAYOUT - NO RESPONSIVE ADJUSTMENTS === */
+/* Mobile-first design is now default for all devices */
+.hero-section {
+  padding: var(--space-2xl) 0;
+}
 
-  .hero-title {
-    font-size: var(--text-3xl);
-  }
+.hero-title {
+  font-size: var(--text-3xl);
+}
 
-  .hero-subtitle {
-    font-size: var(--text-base);
-  }
+.hero-subtitle {
+  font-size: var(--text-base);
+}
 
-  .hero-cta {
-    flex-direction: column;
-    align-items: stretch;
-  }
+.hero-cta {
+  flex-direction: column;
+  align-items: stretch;
+}
 
-  .hero-cta .btn {
-    width: 100%;
-  }
+.hero-cta .btn {
+  width: 100%;
+}
 
-  .games-section > h2 {
-    font-size: var(--text-2xl);
-  }
+.games-section > h2 {
+  font-size: var(--text-2xl);
+}
 
-  .game-card-icon {
-    font-size: 3rem;
-  }
+.game-card-icon {
+  font-size: 3rem;
 }
 
 /* === LOADING STATE === */
