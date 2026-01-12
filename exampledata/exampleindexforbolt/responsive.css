@@ -1,0 +1,541 @@
+/* ============================================
+   DER DIE DAS SPACE - RESPONSIVE ENHANCEMENTS
+   Mobile-first responsive improvements
+   ============================================ */
+
+/* ============================================
+   MOBILE FIRST (320px - 374px)
+   Small phones optimization
+   ============================================ */
+@media (max-width: 374px) {
+  /* Typography Adjustments */
+  :root {
+    --text-3xl: 1.5rem;    /* 24px - smaller on tiny screens */
+    --text-4xl: 1.875rem;  /* 30px - smaller on tiny screens */
+  }
+
+  /* Container */
+  .container {
+    padding: var(--space-sm);
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .hero-title {
+    font-size: var(--text-2xl);
+    line-height: 1.3;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-sm);
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 0.625rem 1rem;
+    font-size: var(--text-sm);
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: var(--text-base);
+  }
+
+  /* Game Cards */
+  .game-card {
+    padding: var(--space-md);
+  }
+
+  .game-card-icon {
+    font-size: 2.5rem;
+  }
+
+  .game-card-title {
+    font-size: var(--text-lg);
+  }
+
+  /* Artikel Buttons */
+  .artikel-buttons {
+    gap: var(--space-sm);
+  }
+
+  .btn-der,
+  .btn-die,
+  .btn-das,
+  .artikel-btn-der,
+  .artikel-btn-die,
+  .artikel-btn-das {
+    min-width: 80px;
+    padding: 1.5rem 1rem;
+    font-size: var(--text-xl);
+    letter-spacing: 1px;
+  }
+
+  /* Stats Grid */
+  .user-stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  /* Footer */
+  .social-icons {
+    gap: var(--space-xs);
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    font-size: var(--text-base);
+  }
+}
+
+/* ============================================
+   STANDARD MOBILE (375px - 767px)
+   Most common phone size
+   ============================================ */
+@media (min-width: 375px) and (max-width: 767px) {
+  /* Touch Targets - Minimum 44x44px */
+  .btn,
+  .game-card,
+  .language-option,
+  .tab-btn,
+  .accordion-header {
+    min-height: 44px;
+  }
+
+  /* Navbar - Vertical centered layout on mobile */
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) 0;
+  }
+
+  .navbar-brand {
+    order: 1;
+  }
+
+  /* Large brand name on mobile - 50px margins */
+  .brand-name {
+    font-size: calc(100vw - 100px);
+    font-size: clamp(2rem, calc(100vw - 100px), 5rem);
+  }
+
+  .navbar-actions {
+    order: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    width: 100%;
+  }
+
+  .language-selector {
+    order: 1;
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  .auth-buttons {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  /* Hero Section */
+  .hero-section::before,
+  .hero-section::after {
+    display: none; /* Hide decorative elements on mobile */
+  }
+
+  /* Game Grid */
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modals */
+  .modal {
+    max-width: 90vw;
+    padding: var(--space-lg);
+  }
+
+  /* Tables */
+  .leaderboard-table {
+    font-size: var(--text-sm);
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: var(--space-sm);
+  }
+
+  /* Hide less critical columns on mobile */
+  .leaderboard-table th:nth-child(4),
+  .leaderboard-table td:nth-child(4) {
+    display: none; /* Hide date column */
+  }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE (568px - 767px)
+   Mobile in landscape orientation
+   ============================================ */
+@media (min-width: 568px) and (max-width: 767px) and (orientation: landscape) {
+  /* Reduce vertical spacing */
+  .hero-section {
+    padding: var(--space-xl) 0;
+  }
+
+  /* Make game grid 2 columns in landscape */
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  /* Compact game cards */
+  .game-card {
+    padding: var(--space-md);
+  }
+
+  .game-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+
+  /* Horizontal user stats */
+  .user-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================
+   TABLET PORTRAIT (768px - 1023px)
+   iPad and similar tablets
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Container */
+  .container {
+    max-width: 720px;
+    padding: var(--space-lg);
+  }
+
+  /* Game Grid */
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  /* Stats */
+  .user-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Artikel Buttons - Side by side */
+  .artikel-buttons {
+    gap: var(--space-md);
+  }
+
+  .btn-der,
+  .btn-die,
+  .btn-das,
+  .artikel-btn-der,
+  .artikel-btn-die,
+  .artikel-btn-das {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* Badge Grid */
+  .badge-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Leaderboard */
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: var(--space-md);
+  }
+
+  /* Modal */
+  .modal {
+    max-width: 600px;
+  }
+}
+
+/* ============================================
+   TABLET LANDSCAPE (1024px - 1279px)
+   iPad Pro and large tablets
+   ============================================ */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  /* Container */
+  .container {
+    max-width: 960px;
+    padding: var(--space-xl);
+  }
+
+  /* Game Grid */
+  .game-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--space-3xl) 0;
+  }
+
+  /* Badge Grid */
+  .badge-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  /* Remove sticky CTA on tablet landscape */
+  .sticky-cta {
+    position: static;
+    box-shadow: none;
+    border-top: none;
+  }
+}
+
+/* ============================================
+   DESKTOP (1280px - 1919px)
+   Standard desktop screens
+   ============================================ */
+@media (min-width: 1280px) and (max-width: 1919px) {
+  /* Container */
+  .container {
+    max-width: 1200px;
+  }
+
+  /* Game Grid */
+  .game-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Badge Grid */
+  .badge-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ============================================
+   LARGE DESKTOP (1920px+)
+   4K and ultra-wide screens
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Container */
+  .container {
+    max-width: 1400px;
+  }
+
+  /* Typography scales up */
+  :root {
+    --text-base: 1.125rem;  /* 18px */
+    --text-lg: 1.375rem;    /* 22px */
+    --text-xl: 1.75rem;     /* 28px */
+    --text-2xl: 2.25rem;    /* 36px */
+    --text-3xl: 3rem;       /* 48px */
+    --text-4xl: 3.75rem;    /* 60px */
+  }
+
+  /* Game Grid - 5 columns on ultra-wide */
+  .game-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  /* Badge Grid */
+  .badge-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  /* Hero */
+  .hero-content {
+    max-width: 1000px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   For printing leaderboard/profile
+   ============================================ */
+@media print {
+  /* Hide interactive elements */
+  .page-header,
+  .page-footer,
+  .sticky-cta,
+  .btn,
+  .auth-buttons,
+  .language-selector {
+    display: none !important;
+  }
+
+  /* Optimize for print */
+  body {
+    background: white;
+    color: black;
+  }
+
+  .card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  /* Leaderboard */
+  .leaderboard-table {
+    font-size: 10pt;
+  }
+
+  .leaderboard-table th {
+    background: #f0f0f0 !important;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   Improve touch interactions
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .btn {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.875rem 1.75rem;
+  }
+
+  /* Remove hover effects on touch devices */
+  .btn:hover,
+  .card:hover,
+  .game-card:hover {
+    transform: none;
+  }
+
+  /* Use active state instead */
+  .btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .game-card:active {
+    transform: scale(0.98);
+    border-color: var(--color-blue);
+  }
+
+  /* Larger tap areas for links */
+  a {
+    padding: var(--space-xs);
+    margin: calc(var(--space-xs) * -1);
+  }
+
+  /* Disable animations on touch devices for better performance */
+  .game-card::before,
+  .hero-section::before,
+  .hero-section::after {
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   Accessibility for visually impaired
+   ============================================ */
+@media (prefers-contrast: high) {
+  /* Increase contrast */
+  :root {
+    --border-color: #000;
+    --text-secondary: #333;
+  }
+
+  .card {
+    border: 2px solid #000;
+  }
+
+  .btn {
+    border: 2px solid currentColor;
+  }
+
+  /* Remove subtle shadows */
+  .card,
+  .game-card,
+  .btn {
+    box-shadow: none !important;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   For users with motion sensitivity
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Remove floating animations */
+  .hero-section::before,
+  .hero-section::after {
+    animation: none !important;
+  }
+
+  /* Keep essential transitions */
+  .btn,
+  .card {
+    transition: opacity 0.1s ease;
+  }
+}
+
+/* ============================================
+   DARK MODE PREPARATION
+   Variables ready for future dark mode
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  /* Future dark mode support - commented for now */
+  /*
+  :root {
+    --bg-primary: #1A1A1A;
+    --bg-secondary: #2D2D2D;
+    --bg-card: #242424;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --border-color: #404040;
+  }
+  */
+}
+
+/* ============================================
+   ORIENTATION CHANGES
+   Handle orientation switching
+   ============================================ */
+@media (orientation: portrait) {
+  /* Stack items vertically in portrait */
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Reduce vertical spacing in short landscape */
+  .hero-section {
+    padding: var(--space-lg) 0;
+  }
+
+  .game-card {
+    padding: var(--space-md);
+  }
+
+  .game-card-icon {
+    font-size: 2rem;
+  }
+}
