@@ -58,8 +58,16 @@ async function initGame() {
   const setId = urlParams.get('setId');
 
   if (setId) {
-    // Load specific set
-    await loadSetById(setId);
+    // Load specific set - parse to integer
+    const setIdInt = parseInt(setId, 10);
+    if (isNaN(setIdInt)) {
+      console.error('Invalid setId:', setId);
+      // Fallback to demo set
+      gameState.isDemo = true;
+      await loadDemoSet();
+    } else {
+      await loadSetById(setIdInt);
+    }
   } else {
     // Check if user is authenticated
     const user = await isAuthenticated();
@@ -107,6 +115,7 @@ async function loadDemoSet() {
   }
 
   try {
+    // Load first available set for Level 1 (since demo is removed)
     const { data, error } = await supabase
       .from('word_sets')
       .select(`
@@ -114,11 +123,13 @@ async function loadDemoSet() {
         questions (*)
       `)
       .eq('game_type_id', 1) // der_die_dash
-      .eq('is_demo', true)
+      .eq('difficulty_level', 1) // Level 1
+      .order('set_number', { ascending: true })
+      .limit(1)
       .single();
 
     if (error || !data) {
-      console.warn('Demo set not found, using placeholder');
+      console.warn('Level 1 set not found, using placeholder');
       loadPlaceholderSet(true);
       return;
     }
@@ -161,9 +172,16 @@ async function loadSetById(setId) {
 
     if (error || !data) {
       console.error('Error loading set:', error);
-      // Fallback to demo set
-      gameState.isDemo = true;
-      await loadDemoSet();
+      console.error('SetId was:', setId);
+      // Fallback to placeholder
+      loadPlaceholderSet(false);
+      return;
+    }
+
+    // Check if set has questions
+    if (!data.questions || data.questions.length === 0) {
+      console.error('Set has no questions:', data.id);
+      loadPlaceholderSet(false);
       return;
     }
 
@@ -178,11 +196,18 @@ async function loadSetById(setId) {
     if (elements.setInfo) {
       elements.setInfo.textContent = `Level ${gameState.level} - Set ${data.set_number}`;
     }
+    
+    console.log('Set loaded successfully:', {
+      setId: data.id,
+      setNumber: data.set_number,
+      level: data.difficulty_level,
+      questionCount: gameState.questions.length
+    });
   } catch (error) {
     console.error('Error loading set by ID:', error);
-    // Fallback to demo set
-    gameState.isDemo = true;
-    await loadDemoSet();
+    console.error('SetId was:', setId);
+    // Fallback to placeholder
+    loadPlaceholderSet(false);
   }
 }
 

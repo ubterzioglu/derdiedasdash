@@ -217,7 +217,10 @@ function renderSets() {
  * Start game with selected set
  */
 function startGame(setId) {
-  window.location.href = `${currentGame.route}?setId=${setId}`;
+  // currentGame.route is 'games/der-die-dash.html', but we're in games/ folder
+  // So we need to use relative path: 'der-die-dash.html'
+  const gameSlug = currentGame.route.replace('games/', '');
+  window.location.href = `${gameSlug}?setId=${setId}`;
 }
 
 /**
