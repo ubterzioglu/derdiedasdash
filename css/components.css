@@ -252,7 +252,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+  gap: var(--space-sm);
   transition: all 0.3s ease;
   min-height: 50px;
 }
@@ -266,6 +266,11 @@
   align-items: center;
   gap: var(--space-sm);
   flex: 1;
+  cursor: pointer;
+}
+
+.game-card-header-content:hover {
+  opacity: 0.8;
 }
 
 .game-card-accordion .game-card-icon {
