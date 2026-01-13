@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t, getCurrentLanguage } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createWrongConfetti, createTimeoutAnimation } from '../core/animations.js';
+import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -477,7 +477,7 @@ function showFeedback(isCorrect, selectedTranslation, correctTranslation, isTime
       }
     });
     // Timeout animation
-    createTimeoutAnimation(document.body);
+    createClockExplosion();
   } else {
     let correctButton = null;
     
@@ -488,21 +488,25 @@ function showFeedback(isCorrect, selectedTranslation, correctTranslation, isTime
       
       if (translation === selectedTranslation) {
         if (isCorrect) {
-          // Correct answer - confetti!
+          // Correct answer - explosion effect (green for translation options)
           animateCorrect(btn);
-          createConfetti(btn);
+          createArtikelExplosion(btn, 'das'); // Genel yeşil renk için 'das' kullan
           correctButton = btn;
         } else {
-          // Wrong answer - red flash animation + negative confetti
+          // Wrong answer - shatter effect
           animateWrong(btn);
-          createWrongAnimation(btn);
-          createWrongConfetti(btn);
+          createShatterEffect(btn, null);
         }
       }
       
       if (isCorrectOption && !isCorrect) {
         animateCorrect(btn);
         correctButton = btn;
+        // Hint glow için doğru butonu vurgula
+        btn.classList.add('artikel-btn--hint');
+        setTimeout(() => {
+          btn.classList.remove('artikel-btn--hint');
+        }, 2000);
       }
     });
   }

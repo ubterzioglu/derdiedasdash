@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createWrongConfetti, createTimeoutAnimation } from '../core/animations.js';
+import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -404,26 +404,26 @@ function showFeedback(isCorrect, selectedArticle, correctArticle, isTimeout = fa
   };
 
   if (isTimeout) {
-    // Timeout - highlight correct answer (no confetti)
+    // Timeout - highlight correct answer
     if (buttons[correctArticle]) {
       animateCorrect(buttons[correctArticle]);
     }
     if (elements.wordFrame) {
       animateWrong(elements.wordFrame);
     }
-    // Timeout animation
-    createTimeoutAnimation(elements.wordFrame || document.body);
+    // Clock explosion animation
+    createClockExplosion();
   } else if (selectedArticle && buttons[selectedArticle]) {
     if (isCorrect) {
-      // Correct answer - confetti!
+      // Correct answer - artikel explosion!
+      const artikel = selectedArticle; // 'der', 'die', veya 'das'
       animateCorrect(buttons[selectedArticle]);
-      createConfetti(buttons[selectedArticle]);
+      createArtikelExplosion(buttons[selectedArticle], artikel);
     } else {
-      // Wrong answer - red flash animation + negative confetti
+      // Wrong answer - shatter effect
       animateWrong(buttons[selectedArticle]);
-      createWrongAnimation(buttons[selectedArticle]);
-      createWrongConfetti(buttons[selectedArticle]);
-      // Highlight correct answer (no confetti)
+      createShatterEffect(buttons[selectedArticle], buttons[correctArticle]);
+      // Highlight correct answer
       if (buttons[correctArticle]) {
         animateCorrect(buttons[correctArticle]);
       }

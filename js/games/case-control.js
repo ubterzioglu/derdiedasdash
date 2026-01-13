@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createWrongConfetti, createTimeoutAnimation } from '../core/animations.js';
+import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -367,25 +367,24 @@ function showFeedback(isCorrect, selectedForm, correctForm, isTimeout = false) {
   };
 
   if (isTimeout) {
-    // Timeout - highlight correct answer (no confetti)
+    // Timeout - highlight correct answer
     if (buttons[correctForm]) {
       animateCorrect(buttons[correctForm]);
     }
     if (elements.prepositionFrame) {
       animateWrong(elements.prepositionFrame);
     }
-    // Timeout animation
-    createTimeoutAnimation(elements.prepositionFrame || document.body);
+    // Clock explosion animation
+    createClockExplosion();
   } else if (selectedForm && buttons[selectedForm]) {
     if (isCorrect) {
-      // Correct answer - confetti!
+      // Correct answer - explosion effect (green for form buttons)
       animateCorrect(buttons[selectedForm]);
-      createConfetti(buttons[selectedForm]);
+      createArtikelExplosion(buttons[selectedForm], 'das'); // Genel yeşil renk için 'das' kullan
     } else {
-      // Wrong answer - red flash animation + negative confetti
+      // Wrong answer - shatter effect
       animateWrong(buttons[selectedForm]);
-      createWrongAnimation(buttons[selectedForm]);
-      createWrongConfetti(buttons[selectedForm]);
+      createShatterEffect(buttons[selectedForm], buttons[correctForm]);
       if (buttons[correctForm]) {
         animateCorrect(buttons[correctForm]);
       }
