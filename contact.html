@@ -26,15 +26,30 @@
         </a>
 
         <div class="navbar-actions">
-          <div class="language-selector">
+          <button id="hamburgerBtn" class="hamburger-btn">Menü</button>
+        </div>
+      </nav>
+
+      <div id="slideMenu" class="slide-menu">
+        <button id="closeMenuBtn" class="close-menu-btn">MENÜYÜ KAPAT</button>
+        <nav class="slide-menu-nav">
+          <a href="index.html" class="slide-menu-item" data-i18n="backToHome">Ana Sayfa</a>
+          <a href="index.html#faq-section" class="slide-menu-item">Sık Sorulan Sorular</a>
+          <a href="leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="badges.html" class="slide-menu-item" data-i18n="badges">Rozetler</a>
+          <a href="games/der-die-dash-difficulty.html" class="slide-menu-item">🎯 Der Die Dash</a>
+          <a href="games/case-control-difficulty.html" class="slide-menu-item">📍 Case Control</a>
+          <a href="games/word-salad-difficulty.html" class="slide-menu-item">🥗 Word Salad</a>
+          <a href="games/translation-quest-difficulty.html" class="slide-menu-item">🌍 Translation Quest</a>
+          <a href="games/five-letter-blitz-difficulty.html" class="slide-menu-item">⚡ 5-Letter Blitz</a>
+          <div class="slide-menu-language-selector">
             <button id="langTr" class="btn btn-sm" data-lang="tr">TR</button>
             <button id="langEn" class="btn btn-sm" data-lang="en">EN</button>
           </div>
-
-          <a href="index.html" class="btn btn-sm btn-secondary" data-i18n="home">Ana Sayfa</a>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </div>
+    <div id="menuOverlay" class="menu-overlay"></div>
   </header>
 
   <!-- Main Content -->
@@ -42,9 +57,9 @@
     <div class="container">
       <!-- Contact Section -->
       <section style="padding: var(--space-3xl) 0;">
-        <div class="card" style="max-width: 800px; margin: 0 auto;">
+        <div class="card" style="max-width: 800px; margin: 0 auto; border: 3px solid #88CC00; box-shadow: 0 4px 16px rgba(136, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);">
           <div class="card-body" style="padding: var(--space-3xl);">
-            <h1 class="text-center" style="margin-bottom: var(--space-xl); background: linear-gradient(135deg, #FF5C6E, #0099FF, #FFCC00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <h1 class="text-center" style="margin-bottom: var(--space-xl); color: #000000; font-weight: 700;">
               İletişim
             </h1>
 
@@ -193,10 +208,6 @@
               </a>
 
             </div>
-
-            <div style="text-align: center; margin-top: var(--space-2xl);">
-              <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
-            </div>
           </div>
         </div>
       </section>
@@ -214,8 +225,8 @@
 
   <!-- Scripts -->
   <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/components/hamburger-menu.js"></script>
   <script type="module" src="js/components/language-selector.js"></script>
-  <script type="module" src="js/app.js"></script>
 </body>
 </html>
 

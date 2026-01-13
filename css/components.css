@@ -1153,6 +1153,21 @@
   color: var(--color-primary);
 }
 
+/* Language Selector in Menu */
+.slide-menu-language-selector {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  margin-top: auto;
+  border-top: 2px solid var(--border-color);
+  justify-content: center;
+}
+
+.slide-menu-language-selector .btn {
+  flex: 1;
+  min-width: 60px;
+}
+
 /* Menu Overlay */
 .menu-overlay {
   position: fixed;

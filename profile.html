@@ -27,16 +27,30 @@
         </a>
         
         <div class="navbar-actions">
-          <div class="language-selector">
+          <button id="hamburgerBtn" class="hamburger-btn">Menü</button>
+        </div>
+      </nav>
+
+      <div id="slideMenu" class="slide-menu">
+        <button id="closeMenuBtn" class="close-menu-btn">MENÜYÜ KAPAT</button>
+        <nav class="slide-menu-nav">
+          <a href="index.html" class="slide-menu-item" data-i18n="backToHome">Ana Sayfa</a>
+          <a href="index.html#faq-section" class="slide-menu-item">Sık Sorulan Sorular</a>
+          <a href="leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="badges.html" class="slide-menu-item" data-i18n="badges">Rozetler</a>
+          <a href="games/der-die-dash-difficulty.html" class="slide-menu-item">🎯 Der Die Dash</a>
+          <a href="games/case-control-difficulty.html" class="slide-menu-item">📍 Case Control</a>
+          <a href="games/word-salad-difficulty.html" class="slide-menu-item">🥗 Word Salad</a>
+          <a href="games/translation-quest-difficulty.html" class="slide-menu-item">🌍 Translation Quest</a>
+          <a href="games/five-letter-blitz-difficulty.html" class="slide-menu-item">⚡ 5-Letter Blitz</a>
+          <div class="slide-menu-language-selector">
             <button id="langTr" class="btn btn-sm" data-lang="tr">TR</button>
             <button id="langEn" class="btn btn-sm" data-lang="en">EN</button>
           </div>
-          
-          <a href="index.html" class="btn btn-sm" data-i18n="home">Ana Sayfa</a>
-          <button id="logoutBtn" class="btn btn-sm btn-secondary" data-i18n="logout">Çıkış</button>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </div>
+    <div id="menuOverlay" class="menu-overlay"></div>
   </header>
 
   <!-- Main Content -->
@@ -144,6 +158,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script type="module" src="js/core/i18n.js"></script>
+  <script type="module" src="js/components/hamburger-menu.js"></script>
   <script type="module" src="js/components/language-selector.js"></script>
   <script type="module" src="js/core/supabase.js"></script>
   <script type="module" src="js/core/auth.js"></script>

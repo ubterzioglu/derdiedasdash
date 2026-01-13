@@ -19,9 +19,6 @@ async function initApp() {
   
   // Setup accordion
   setupAccordion();
-  
-  // Setup game card accordions
-  setupGameAccordions();
 
   // Setup hamburger menu
   setupHamburgerMenu();
@@ -108,73 +105,6 @@ function setupAccordion() {
     }
   }
 }
-
-/**
- * Setup game card accordions
- */
-function setupGameAccordions() {
-  const gameCards = document.querySelectorAll('.game-card-accordion');
-  
-  gameCards.forEach(card => {
-    const header = card.querySelector('.game-card-header');
-    const body = card.querySelector('.game-card-body');
-    const icon = header.querySelector('.accordion-icon');
-    
-    if (header && body) {
-      header.addEventListener('click', () => {
-        const isActive = card.classList.contains('active');
-        
-        if (isActive) {
-          card.classList.remove('active');
-          body.style.display = 'none';
-          icon.textContent = '▼';
-        } else {
-          // Close other cards
-          gameCards.forEach(otherCard => {
-            if (otherCard !== card) {
-              otherCard.classList.remove('active');
-              otherCard.querySelector('.game-card-body').style.display = 'none';
-              otherCard.querySelector('.accordion-icon').textContent = '▼';
-            }
-          });
-          
-          card.classList.add('active');
-          body.style.display = 'block';
-          icon.textContent = '▲';
-        }
-      });
-    }
-  });
-}
-
-/**
- * Toggle game accordion (for inline onclick)
- */
-window.toggleGameAccordion = function(header) {
-  const card = header.closest('.game-card-accordion');
-  const body = card.querySelector('.game-card-body');
-  const icon = header.querySelector('.accordion-icon');
-  const isActive = card.classList.contains('active');
-  
-  if (isActive) {
-    card.classList.remove('active');
-    body.style.display = 'none';
-    icon.textContent = '▼';
-  } else {
-    // Close other cards
-    document.querySelectorAll('.game-card-accordion').forEach(otherCard => {
-      if (otherCard !== card) {
-        otherCard.classList.remove('active');
-        otherCard.querySelector('.game-card-body').style.display = 'none';
-        otherCard.querySelector('.accordion-icon').textContent = '▼';
-      }
-    });
-    
-    card.classList.add('active');
-    body.style.display = 'block';
-    icon.textContent = '▲';
-  }
-};
 
 /**
  * Setup login/register modals
