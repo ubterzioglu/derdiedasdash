@@ -245,6 +245,7 @@
 .tab-btn:hover {
   color: var(--color-blue);
   background: var(--color-blue-10);
+  text-decoration: none;
 }
 
 .tab-btn.active {
@@ -595,6 +596,7 @@
 .filter-btn:hover {
   border-color: var(--color-blue);
   background: var(--color-blue-10);
+  text-decoration: none;
 }
 
 .filter-btn.active {
@@ -1045,6 +1047,7 @@
 .difficulty-back-button:hover {
   opacity: 0.8;
   transform: translateY(-2px);
+  text-decoration: none;
 }
 
 .set-completed-badge {

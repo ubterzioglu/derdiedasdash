@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t, getCurrentLanguage } from '../core/i18n.js';
-import { animateCorrect, animateWrong } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -431,7 +431,7 @@ async function handleAnswer(selectedTranslation, isTimeout = false) {
   });
 
   // Show feedback
-  showFeedback(isCorrect, selectedTranslation, correctTranslation);
+  showFeedback(isCorrect, selectedTranslation, correctTranslation, isTimeout);
 
   // Calculate and update score
   const questionScore = calculateQuestionScore({
@@ -462,28 +462,49 @@ async function handleAnswer(selectedTranslation, isTimeout = false) {
 /**
  * Show feedback
  */
-function showFeedback(isCorrect, selectedTranslation, correctTranslation) {
+function showFeedback(isCorrect, selectedTranslation, correctTranslation, isTimeout = false) {
   disableButtons();
 
   const options = [elements.optionA, elements.optionB, elements.optionC, elements.optionD];
   
-  options.forEach(btn => {
-    if (!btn) return;
-    const translation = btn.dataset.translation;
-    const isCorrectOption = btn.dataset.isCorrect === 'true';
-    
-    if (translation === selectedTranslation) {
-      if (isCorrect) {
+  if (isTimeout) {
+    // Timeout - highlight correct answer (no confetti)
+    options.forEach(btn => {
+      if (!btn) return;
+      const isCorrectOption = btn.dataset.isCorrect === 'true';
+      if (isCorrectOption) {
         animateCorrect(btn);
-      } else {
-        animateWrong(btn);
       }
-    }
+    });
+    // Timeout animation
+    createTimeoutAnimation(document.body);
+  } else {
+    let correctButton = null;
     
-    if (isCorrectOption && !isCorrect) {
-      animateCorrect(btn);
-    }
-  });
+    options.forEach(btn => {
+      if (!btn) return;
+      const translation = btn.dataset.translation;
+      const isCorrectOption = btn.dataset.isCorrect === 'true';
+      
+      if (translation === selectedTranslation) {
+        if (isCorrect) {
+          // Correct answer - confetti!
+          animateCorrect(btn);
+          createConfetti(btn);
+          correctButton = btn;
+        } else {
+          // Wrong answer - red flash animation
+          animateWrong(btn);
+          createWrongAnimation(btn);
+        }
+      }
+      
+      if (isCorrectOption && !isCorrect) {
+        animateCorrect(btn);
+        correctButton = btn;
+      }
+    });
+  }
 }
 
 /**

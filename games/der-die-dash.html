@@ -101,21 +101,21 @@
         <span data-i18n="question">Soru</span> 0/10
       </p>
 
-      <!-- Timer + Combo -->
-      <div class="game-meta">
-        <div class="timer" id="timerDisplay">
+      <!-- Word Frame -->
+      <div class="word-frame" id="wordFrame">
+        <!-- Timer - Sola yaslı -->
+        <div class="timer timer-in-card" id="timerDisplay">
           <span>⏱</span>
           <span class="timer-value">5s</span>
         </div>
         
-        <div class="combo-indicator" id="comboIndicator" style="display: none;">
-          🔥 <span class="combo-count">0x</span> COMBO!
+        <!-- Kelime - Ortada -->
+        <span id="currentWord" class="word-frame-word">Yükleniyor...</span>
+        
+        <!-- Combo - Sağa yaslı -->
+        <div class="combo-indicator combo-in-card" id="comboIndicator" style="display: none;">
+          <span class="combo-count">0x</span> COMBO!
         </div>
-      </div>
-
-      <!-- Word Frame -->
-      <div class="word-frame" id="wordFrame">
-        <span id="currentWord">Yükleniyor...</span>
       </div>
 
       <!-- Artikel Buttons -->

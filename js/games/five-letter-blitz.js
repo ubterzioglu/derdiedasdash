@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -427,7 +427,7 @@ async function checkAnswer(isTimeout = false) {
   });
 
   // Show feedback
-  showFeedback(isCorrect, userWord, correctWord);
+  showFeedback(isCorrect, userWord, correctWord, isTimeout);
 
   // Calculate and update score
   const questionScore = calculateQuestionScore({
@@ -461,16 +461,37 @@ async function checkAnswer(isTimeout = false) {
 /**
  * Show feedback
  */
-function showFeedback(isCorrect, userWord, correctWord) {
+function showFeedback(isCorrect, userWord, correctWord, isTimeout = false) {
   disableButtons();
 
-  if (isCorrect) {
-    if (elements.letterBuilder) {
-      animateCorrect(elements.letterBuilder);
-    }
-  } else {
+  if (isTimeout) {
+    // Timeout - show wrong animation
     if (elements.letterBuilder) {
       animateWrong(elements.letterBuilder);
+    }
+    // Timeout animation
+    createTimeoutAnimation(elements.letterBuilder || document.body);
+    
+    // Show correct answer
+    if (elements.letterSlot) {
+      const correctEl = document.createElement('div');
+      correctEl.className = 'correct-answer';
+      correctEl.innerHTML = `
+        <strong>${t('correctAnswer')}:</strong> ${correctWord}
+      `;
+      elements.letterSlot.parentNode.insertBefore(correctEl, elements.letterSlot.nextSibling);
+    }
+  } else if (isCorrect) {
+    // Correct answer - confetti!
+    if (elements.letterBuilder) {
+      animateCorrect(elements.letterBuilder);
+      createConfetti(elements.letterBuilder);
+    }
+  } else {
+    // Wrong answer - red flash animation
+    if (elements.letterBuilder) {
+      animateWrong(elements.letterBuilder);
+      createWrongAnimation(elements.letterBuilder);
     }
     
     // Show correct answer

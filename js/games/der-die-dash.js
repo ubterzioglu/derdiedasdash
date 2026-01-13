@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -137,12 +137,23 @@ async function loadDemoSet() {
     gameState.currentSet = data;
     gameState.set_id = data.id;
     gameState.level = data.difficulty_level;
-    gameState.questions = data.questions
+    
+    // Her sette maksimum 10 soru olmalı (order_in_set 1-10)
+    const sortedQuestions = data.questions
       .sort((a, b) => a.order_in_set - b.order_in_set)
-      .map(q => q.question_data);
+      .filter(q => q.order_in_set >= 1 && q.order_in_set <= 10) // Sadece 1-10 arası sorular
+      .slice(0, 10); // Maksimum 10 soru
+    
+    gameState.questions = sortedQuestions.map(q => q.question_data);
     
     if (elements.setInfo) {
       elements.setInfo.textContent = `Level ${gameState.level} - Set 1`;
+    }
+    
+    // Eğer database'de 10'dan fazla soru varsa uyarı ver
+    if (data.questions.length > 10) {
+      console.warn(`⚠️ Set 1 (ID: ${data.id}) has ${data.questions.length} questions, but only 10 should exist!`);
+      console.warn('Please check the database and remove extra questions.');
     }
   } catch (error) {
     console.error('Error loading demo set:', error);
@@ -189,9 +200,14 @@ async function loadSetById(setId) {
     gameState.set_id = data.id;
     gameState.level = data.difficulty_level;
     gameState.isDemo = false;
-    gameState.questions = data.questions
+    
+    // Her sette maksimum 10 soru olmalı (order_in_set 1-10)
+    const sortedQuestions = data.questions
       .sort((a, b) => a.order_in_set - b.order_in_set)
-      .map(q => q.question_data);
+      .filter(q => q.order_in_set >= 1 && q.order_in_set <= 10) // Sadece 1-10 arası sorular
+      .slice(0, 10); // Maksimum 10 soru
+    
+    gameState.questions = sortedQuestions.map(q => q.question_data);
     
     if (elements.setInfo) {
       elements.setInfo.textContent = `Level ${gameState.level} - Set ${data.set_number}`;
@@ -201,8 +217,15 @@ async function loadSetById(setId) {
       setId: data.id,
       setNumber: data.set_number,
       level: data.difficulty_level,
-      questionCount: gameState.questions.length
+      questionCount: gameState.questions.length,
+      totalQuestionsInDB: data.questions.length
     });
+    
+    // Eğer database'de 10'dan fazla soru varsa uyarı ver
+    if (data.questions.length > 10) {
+      console.warn(`⚠️ Set ${data.set_number} (ID: ${data.id}) has ${data.questions.length} questions, but only 10 should exist!`);
+      console.warn('Please check the database and remove extra questions.');
+    }
   } catch (error) {
     console.error('Error loading set by ID:', error);
     console.error('SetId was:', setId);
@@ -334,7 +357,7 @@ function handleAnswer(selectedArticle, isTimeout = false) {
   });
 
   // Show feedback
-  showFeedback(isCorrect, selectedArticle, correctArticle);
+  showFeedback(isCorrect, selectedArticle, correctArticle, isTimeout);
 
   // Calculate and update score
   const questionScore = calculateQuestionScore({
@@ -369,7 +392,7 @@ function handleAnswer(selectedArticle, isTimeout = false) {
 /**
  * Show feedback (correct/wrong)
  */
-function showFeedback(isCorrect, selectedArticle, correctArticle) {
+function showFeedback(isCorrect, selectedArticle, correctArticle, isTimeout = false) {
   // Disable buttons
   disableButtons();
 
@@ -380,23 +403,29 @@ function showFeedback(isCorrect, selectedArticle, correctArticle) {
     'das': elements.btnDas
   };
 
-  if (selectedArticle && buttons[selectedArticle]) {
-    if (isCorrect) {
-      animateCorrect(buttons[selectedArticle]);
-    } else {
-      animateWrong(buttons[selectedArticle]);
-      // Highlight correct answer
-      if (buttons[correctArticle]) {
-        animateCorrect(buttons[correctArticle]);
-      }
-    }
-  } else {
-    // Timeout - highlight correct answer
+  if (isTimeout) {
+    // Timeout - highlight correct answer (no confetti)
     if (buttons[correctArticle]) {
       animateCorrect(buttons[correctArticle]);
     }
     if (elements.wordFrame) {
       animateWrong(elements.wordFrame);
+    }
+    // Timeout animation
+    createTimeoutAnimation(elements.wordFrame || document.body);
+  } else if (selectedArticle && buttons[selectedArticle]) {
+    if (isCorrect) {
+      // Correct answer - confetti!
+      animateCorrect(buttons[selectedArticle]);
+      createConfetti(buttons[selectedArticle]);
+    } else {
+      // Wrong answer - red flash animation
+      animateWrong(buttons[selectedArticle]);
+      createWrongAnimation(buttons[selectedArticle]);
+      // Highlight correct answer (no confetti)
+      if (buttons[correctArticle]) {
+        animateCorrect(buttons[correctArticle]);
+      }
     }
   }
 }

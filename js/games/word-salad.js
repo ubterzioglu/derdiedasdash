@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -465,7 +465,7 @@ async function checkAnswer(isTimeout = false) {
   });
 
   // Show feedback
-  showFeedback(isCorrect, userSentence, correctSentence);
+  showFeedback(isCorrect, userSentence, correctSentence, isTimeout);
 
   // Calculate and update score
   const questionScore = calculateQuestionScore({
@@ -499,16 +499,37 @@ async function checkAnswer(isTimeout = false) {
 /**
  * Show feedback
  */
-function showFeedback(isCorrect, userSentence, correctSentence) {
+function showFeedback(isCorrect, userSentence, correctSentence, isTimeout = false) {
   disableButtons();
 
-  if (isCorrect) {
-    if (elements.sentenceBuilder) {
-      animateCorrect(elements.sentenceBuilder);
-    }
-  } else {
+  if (isTimeout) {
+    // Timeout - show wrong animation
     if (elements.sentenceBuilder) {
       animateWrong(elements.sentenceBuilder);
+    }
+    // Timeout animation
+    createTimeoutAnimation(elements.sentenceBuilder || document.body);
+    
+    // Show correct answer
+    if (elements.sentenceSlot) {
+      const correctEl = document.createElement('div');
+      correctEl.className = 'correct-answer';
+      correctEl.innerHTML = `
+        <strong>${t('correctAnswer')}:</strong> ${correctSentence}
+      `;
+      elements.sentenceSlot.parentNode.insertBefore(correctEl, elements.sentenceSlot.nextSibling);
+    }
+  } else if (isCorrect) {
+    // Correct answer - confetti!
+    if (elements.sentenceBuilder) {
+      animateCorrect(elements.sentenceBuilder);
+      createConfetti(elements.sentenceBuilder);
+    }
+  } else {
+    // Wrong answer - red flash animation
+    if (elements.sentenceBuilder) {
+      animateWrong(elements.sentenceBuilder);
+      createWrongAnimation(elements.sentenceBuilder);
     }
     
     // Show correct answer

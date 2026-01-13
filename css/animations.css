@@ -51,12 +51,95 @@
   }
 }
 
+@keyframes redFlash {
+  0% {
+    opacity: 0;
+    background: rgba(255, 68, 68, 0);
+  }
+  20% {
+    opacity: 0.3;
+    background: rgba(255, 68, 68, 0.3);
+  }
+  40% {
+    opacity: 0;
+    background: rgba(255, 68, 68, 0);
+  }
+  60% {
+    opacity: 0.2;
+    background: rgba(255, 68, 68, 0.2);
+  }
+  100% {
+    opacity: 0;
+    background: rgba(255, 68, 68, 0);
+  }
+}
+
 .artikel-btn--wrong {
   animation: shake 0.5s ease, dimPulse 0.6s ease;
 }
 
 .word-frame--wrong {
   animation: shake 0.5s ease, dimPulse 0.6s ease;
+}
+
+/* Wrong Answer Animation Container */
+.wrong-animation-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  overflow: hidden;
+}
+
+.wrong-flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: redFlash 0.6s ease;
+}
+
+/* === TIMEOUT ANIMATIONS === */
+@keyframes timeoutPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.timeout-animation-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9998;
+  width: 200px;
+  height: 200px;
+}
+
+.timeout-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border: 3px solid rgba(255, 204, 0, 0.6);
+  border-radius: 50%;
+  animation: timeoutPulse 1.5s ease-out infinite;
 }
 
 /* === COMBO ANIMATIONS === */

@@ -24,10 +24,12 @@
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  text-decoration: none;
 }
 
 .btn:active {
   transform: translateY(0);
+  text-decoration: none;
 }
 
 .btn:disabled {
@@ -46,6 +48,7 @@
 .btn-primary:hover {
   background: linear-gradient(135deg, #00AAFF 0%, #0099FF 100%);
   box-shadow: var(--shadow-blue-lg);
+  text-decoration: none;
 }
 
 .btn-secondary {
@@ -55,6 +58,7 @@
 
 .btn-secondary:hover {
   background: var(--color-gray-dark);
+  text-decoration: none;
 }
 
 .btn-success {
@@ -66,6 +70,7 @@
 .btn-success:hover {
   background: linear-gradient(135deg, #99DD00 0%, #88CC00 100%);
   box-shadow: var(--shadow-green-lg);
+  text-decoration: none;
 }
 
 .btn-danger {
@@ -77,6 +82,7 @@
 .btn-danger:hover {
   background: linear-gradient(135deg, #FF7744 0%, #FF6633 100%);
   box-shadow: var(--shadow-orange-lg);
+  text-decoration: none;
 }
 
 /* Artikel Buttons - Logo Colors & Modern Design */
@@ -123,10 +129,12 @@
 .artikel-btn:hover {
   transform: translateY(-4px) scale(1.05);
   box-shadow: var(--shadow-lg);
+  text-decoration: none;
 }
 
 .artikel-btn:active {
   transform: translateY(-2px) scale(1.02);
+  text-decoration: none;
 }
 
 .btn-der,
@@ -145,6 +153,7 @@
 .artikel-btn-der:hover {
   background: linear-gradient(135deg, #FF6C7E 0%, #FF8090 100%);
   box-shadow: 0 8px 20px rgba(255, 92, 110, 0.4);
+  text-decoration: none;
 }
 
 .btn-die,
@@ -163,6 +172,7 @@
 .artikel-btn-die:hover {
   background: linear-gradient(135deg, #00AAFF 0%, #44BBFF 100%);
   box-shadow: var(--shadow-blue-lg);
+  text-decoration: none;
 }
 
 .btn-das,
@@ -181,6 +191,7 @@
 .artikel-btn-das:hover {
   background: linear-gradient(135deg, #FFDD11 0%, #FFEE44 100%);
   box-shadow: 0 8px 20px rgba(255, 204, 0, 0.35);
+  text-decoration: none;
 }
 
 
@@ -611,17 +622,70 @@
 .word-frame {
   background: var(--color-green);
   color: white;
-  padding: 3rem 2rem;
+  padding: 1.5rem 2rem; /* Yükseklik yarıya düşürüldü: 3rem -> 1.5rem */
   border-radius: var(--border-radius-lg);
   text-align: center;
   font-size: var(--text-4xl);
   font-weight: 700;
   box-shadow: 0 8px 24px rgba(136, 204, 0, 0.3);
   margin: var(--space-xl) 0;
-  min-height: 200px;
+  min-height: 100px; /* Yükseklik yarıya düşürüldü: 200px -> 100px */
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* Timer ve combo için relative positioning */
+}
+
+/* Kelime - Ortada */
+.word-frame-word {
+  z-index: 1; /* Timer ve combo'nun üstünde */
+}
+
+/* Timer - Kart içinde, sola yaslı */
+.timer-in-card {
+  position: absolute;
+  left: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-primary); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-size: var(--text-base); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-weight: 600;
+  color: white;
+  z-index: 2;
+}
+
+.timer-in-card .timer-value {
+  font-family: var(--font-primary); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-size: var(--text-base); /* Ekrandaki diğer yazı tipleriyle aynı */
+  color: white;
+}
+
+.timer-in-card.timer--warning .timer-value {
+  color: #FF4444; /* Warning durumunda kırmızı */
+}
+
+/* Combo - Kart içinde, sağa yaslı */
+.combo-in-card {
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-primary); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-size: var(--text-sm); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-weight: 600;
+  color: white;
+  background: rgba(255, 255, 255, 0.2); /* Yarı saydam beyaz arka plan */
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.combo-in-card::before {
+  content: '🔥';
+  font-size: var(--text-base);
 }
 
 
@@ -1223,6 +1287,7 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   background: #28a745;
+  text-decoration: none;
 }
 
 .hamburger-btn::before {
@@ -1258,6 +1323,7 @@
   background: linear-gradient(135deg, #00AAFF 0%, #0099FF 100%);
   box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 153, 255, 0.3);
   transform: translateY(-2px);
+  text-decoration: none;
 }
 
 /* ============================================
@@ -1338,10 +1404,12 @@
   background: linear-gradient(135deg, #99DD00 0%, var(--color-green) 100%);
   box-shadow: var(--shadow-green-lg), 0 12px 32px rgba(136, 204, 0, 0.3);
   transform: translateY(-2px);
+  text-decoration: none;
 }
 
 .result-btn:active {
   transform: translateY(0);
+  text-decoration: none;
 }
 
 
@@ -1395,6 +1463,7 @@
   background: linear-gradient(135deg, #d32f2f, #f44336);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  text-decoration: none;
 }
 
 .slide-menu-nav {
@@ -1863,10 +1932,12 @@
   color: white;
   transform: translateY(-4px) scale(1.1);
   box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4);
+  text-decoration: none;
 }
 
 .letter-btn:active {
   transform: translateY(-2px) scale(1.05);
+  text-decoration: none;
 }
 
 .letter-btn:disabled {
@@ -1998,10 +2069,12 @@
 .form-btn:hover {
   transform: translateY(-4px) scale(1.05);
   box-shadow: var(--shadow-lg);
+  text-decoration: none;
 }
 
 .form-btn:active {
   transform: translateY(-2px) scale(1.02);
+  text-decoration: none;
 }
 
 .form-btn:disabled {
@@ -2171,6 +2244,7 @@
   color: var(--color-black);
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+  text-decoration: none;
 }
 
 .word-btn:disabled {

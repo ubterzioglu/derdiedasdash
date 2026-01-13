@@ -222,6 +222,26 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Butonlarda underline olmasın */
+a.btn:hover,
+a.artikel-btn:hover,
+a.result-btn:hover,
+a.form-btn:hover,
+a.letter-btn:hover,
+a.word-btn:hover,
+a.difficulty-back-button:hover,
+a.hamburger-btn:hover,
+a.hamburger-btn-top:hover,
+a.close-menu-btn:hover,
+a.footer-contact-btn:hover,
+a.tab-btn:hover,
+a.filter-btn:hover,
+button:hover,
+button:active,
+button:focus {
+  text-decoration: none !important;
+}
+
 /* === LAYOUT === */
 /* Fixed width for all devices - matches mobile screenshot */
 .container {

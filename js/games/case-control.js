@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -326,7 +326,7 @@ async function handleAnswer(selectedForm, isTimeout = false) {
   });
 
   // Show feedback
-  showFeedback(isCorrect, selectedForm, correctForm);
+  showFeedback(isCorrect, selectedForm, correctForm, isTimeout);
 
   // Calculate and update score
   const questionScore = calculateQuestionScore({
@@ -357,7 +357,7 @@ async function handleAnswer(selectedForm, isTimeout = false) {
 /**
  * Show feedback
  */
-function showFeedback(isCorrect, selectedForm, correctForm) {
+function showFeedback(isCorrect, selectedForm, correctForm, isTimeout = false) {
   disableButtons();
 
   const buttons = {
@@ -366,22 +366,28 @@ function showFeedback(isCorrect, selectedForm, correctForm) {
     [elements.option3.dataset.form]: elements.option3
   };
 
-  if (selectedForm && buttons[selectedForm]) {
-    if (isCorrect) {
-      animateCorrect(buttons[selectedForm]);
-    } else {
-      animateWrong(buttons[selectedForm]);
-      if (buttons[correctForm]) {
-        animateCorrect(buttons[correctForm]);
-      }
-    }
-  } else {
-    // Timeout
+  if (isTimeout) {
+    // Timeout - highlight correct answer (no confetti)
     if (buttons[correctForm]) {
       animateCorrect(buttons[correctForm]);
     }
     if (elements.prepositionFrame) {
       animateWrong(elements.prepositionFrame);
+    }
+    // Timeout animation
+    createTimeoutAnimation(elements.prepositionFrame || document.body);
+  } else if (selectedForm && buttons[selectedForm]) {
+    if (isCorrect) {
+      // Correct answer - confetti!
+      animateCorrect(buttons[selectedForm]);
+      createConfetti(buttons[selectedForm]);
+    } else {
+      // Wrong answer - red flash animation
+      animateWrong(buttons[selectedForm]);
+      createWrongAnimation(buttons[selectedForm]);
+      if (buttons[correctForm]) {
+        animateCorrect(buttons[correctForm]);
+      }
     }
   }
 }
