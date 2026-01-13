@@ -21,30 +21,43 @@
   <header class="page-header">
     <div class="container">
       <nav class="navbar">
-        <a href="../index.html" class="navbar-brand">
-          <span>←</span>
-          <span data-i18n="back">Geri</span>
-        </a>
-        
+        <div class="navbar-brand">
+          <span class="brand-name"><span style="color: #0099FF;">der</span><span style="color: #FF5C6E;">die</span><span style="color: #FFCC00;">das</span></span>
+        </div>
+
         <div class="navbar-actions">
-          <div class="game-meta">
-            <div class="score-display">
-              <span data-i18n="score">Skor:</span>
-              <span id="currentScore">0</span>
-            </div>
-          </div>
+          <!-- Hamburger Menu Button -->
+          <button id="hamburgerBtn" class="hamburger-btn">Menü</button>
         </div>
       </nav>
+
+      <!-- Slide-in Menu -->
+      <div id="slideMenu" class="slide-menu">
+        <button id="closeMenuBtn" class="close-menu-btn">MENÜYÜ KAPAT</button>
+        <nav class="slide-menu-nav">
+          <a href="../index.html" class="slide-menu-item" data-i18n="backToHome">Ana Sayfa</a>
+          <a href="../contact.html" class="slide-menu-item" data-i18n="contact">İletişim</a>
+          <a href="../leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Leaderboard</a>
+          <a href="../badges.html" class="slide-menu-item" data-i18n="badges">Badges</a>
+        </nav>
+      </div>
     </div>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay"></div>
   </header>
 
   <!-- Main Content -->
   <main class="main-content">
     <div class="container">
       <!-- Game Title -->
-      <div class="text-center" style="margin: var(--space-xl) 0;">
-        <h1>📍 Case Control</h1>
-        <p id="setInfo" class="text-secondary">Demo Set - Level 1</p>
+      <div class="text-center" style="margin: var(--space-sm) 0 var(--space-md) 0;">
+        <h2 style="font-size: var(--text-lg); margin-bottom: var(--space-xs);">📍 Case Control</h2>
+        <p id="setInfo" class="text-secondary" style="margin-bottom: var(--space-xs); font-size: var(--text-sm);">Demo Set - Level 1</p>
+        <div class="score-display" style="font-size: var(--text-base); color: var(--color-blue); font-weight: 700;">
+          <span data-i18n="score">Skor:</span>
+          <span id="currentScore">0</span>
+        </div>
       </div>
 
       <!-- Progress Indicator -->
@@ -109,6 +122,40 @@
   <script type="module" src="../js/core/timer.js"></script>
   <script type="module" src="../js/core/combo.js"></script>
   <script type="module" src="../js/games/case-control.js"></script>
+
+  <!-- Hamburger Menu Script -->
+  <script>
+    // Hamburger menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const slideMenu = document.getElementById('slideMenu');
+      const closeMenuBtn = document.getElementById('closeMenuBtn');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      function openMenu() {
+        slideMenu.classList.add('active');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        slideMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      hamburgerBtn.addEventListener('click', openMenu);
+      closeMenuBtn.addEventListener('click', closeMenu);
+      menuOverlay.addEventListener('click', closeMenu);
+
+      // ESC key to close
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
+          closeMenu();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
 
