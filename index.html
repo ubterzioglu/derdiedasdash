@@ -120,7 +120,7 @@
     <section id="heroSection" class="hero-section">
       <div class="container">
         <div class="hero-content">
-          <h1 class="hero-title" data-i18n="heroTitle">Almancayı oyunlarla öğren!</h1>
+          <h1 class="hero-title" data-i18n="heroTitle">Almancayı<br>oyunlarla<br>öğren!</h1>
         </div>
       </div>
     </section>
@@ -162,58 +162,6 @@
         </div>
       </section>
 
-      <!-- How to Play Accordion -->
-      <section class="info-section">
-        <div class="game-card how-to-play-card" id="howToPlayCard">
-          <div class="how-to-play-header" id="howToPlayHeader">
-            <span class="game-card-icon">❓</span>
-            <h3 class="game-card-title">Nasıl Oynanır?</h3>
-            <span class="accordion-icon">▼</span>
-          </div>
-          <div class="accordion-body" id="howToPlayBody" style="display: none;">
-            <p>👋 Hoş geldin!</p>
-            
-            <p>📝 Üye olmak, skor takibi yapmak ve oynadığın oyunları kaydetmek için gereklidir.</p>
-            
-            <p>🏆 Skor takibi, badge kazanmak ve skorunu kaydetmek için kayıt olmalısın.</p>
-            
-            <p>🎮 Tüm oyunlar tamamen ücretsizdir!</p>
-            
-            <p>⚡ Hız bonusu: Hızlı cevap vererek ekstra puan kazan.</p>
-            
-            <p>🔥 Combo bonusu: Üst üste doğru cevaplarla combo yakala.</p>
-
-            <p style="margin-top: var(--space-lg); margin-bottom: var(--space-md);">Oyunlar:</p>
-
-            <div style="margin: 1rem 0;">
-              <p>🚀 Der Die Dash</p>
-              <p>Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
-            </div>
-
-            <div style="margin: 1rem 0;">
-              <p>✏️ Case Control</p>
-              <p>Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
-            </div>
-
-            <div style="margin: 1rem 0;">
-              <p>🥗 Word Salad</p>
-              <p>Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
-            </div>
-
-            <div style="margin: 1rem 0;">
-              <p>🌍 Translation Quest</p>
-              <p>Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
-            </div>
-
-            <div style="margin: 1rem 0;">
-              <p>⚡ 5-Letter Blitz</p>
-              <p>5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
-            </div>
-          </div>
-        </div>
-        <div class="section-separator"></div>
-      </section>
-
       <!-- Game Selection Grid -->
       <section id="games-section" class="games-section">
         <div class="game-grid">
@@ -251,9 +199,48 @@
 
       <!-- FAQ Section (AI-Friendly) -->
       <section id="faq-section" class="faq-section" style="margin: var(--space-xl) 0;">
-        <h2 style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-lg); text-align: center;">
-          💬 Sık Sorulan Sorular
+        <h2 class="section-title-gradient" style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-lg); text-align: center;">
+           Sık Sorulan Sorular
         </h2>
+
+      <!-- How to Play -->
+      <section class="info-section" style="margin: 0 0 var(--space-xl) 0;">
+        <div class="faq-card" id="howToPlayCard" data-faq="green">
+          <div class="faq-card-body">
+            <h3 class="faq-card-title" id="howToPlayHeader" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+              <span>Nasıl Oynanır?</span>
+              <span class="accordion-icon" style="margin-left: auto; transition: transform 0.3s ease;">▼</span>
+            </h3>
+            <div class="accordion-body" id="howToPlayBody" style="display: none;">
+              <p class="faq-card-text">👋 Hoş geldin!</p>
+              
+              <p class="faq-card-text">Üye olmak, skor takibi yapmak ve oynadığın oyunları kaydetmek için gereklidir. Skor takibi, badge kazanmak ve skorunu kaydetmek için kayıt olmalısın. Tüm oyunlar tamamen ücretsizdir! Hız bonusu: Hızlı cevap vererek ekstra puan kazan. Combo bonusu: Üst üste doğru cevaplarla combo yakala.</p>
+
+              <p class="faq-card-text" style="margin-top: var(--space-lg); margin-bottom: var(--space-md); font-weight: 600;">Oyunlar</p>
+
+              <div style="margin: 1rem 0;">
+                <p class="faq-card-text"><strong>🚀 Der Die Dash</strong> Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
+              </div>
+
+              <div style="margin: 1rem 0;">
+                <p class="faq-card-text"><strong>✏️ Case Control</strong> Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
+              </div>
+
+              <div style="margin: 1rem 0;">
+                <p class="faq-card-text"><strong>🥗 Word Salad</strong> Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
+              </div>
+
+              <div style="margin: 1rem 0;">
+                <p class="faq-card-text"><strong>🌍 Translation Quest</strong> Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
+              </div>
+
+              <div style="margin: 1rem 0;">
+                <p class="faq-card-text"><strong>⚡ 5-Letter Blitz</strong> 5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
         <div class="faq-card" data-faq="1">
           <div class="faq-card-body">
@@ -294,8 +281,8 @@
 
       <!-- About Section -->
       <section class="about-section" style="margin: var(--space-2xl) 0;">
-        <h2 style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-lg); text-align: center;">
-          📚 Der Die Das Space Nedir?
+        <h2 class="section-title-gradient" style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-lg); text-align: center;">
+          Der Die Das Space Nedir?
         </h2>
 
         <div class="faq-card" data-faq="1">
@@ -354,12 +341,12 @@
   <footer class="page-footer">
     <div class="container">
       <div class="footer-content">
-        <p>&copy; 2026 Der Die Das Space. Tüm hakları saklıdır.</p>
         <nav class="footer-nav">
-          <a href="leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
-          <a href="badges.html" data-i18n="badges">Badge'ler</a>
-          <a href="contact.html" data-i18n="contact">İletişim</a>
+          <a href="contact.html" class="footer-contact-btn" data-i18n="contact">İletişim</a>
         </nav>
+        <p>Developed by UBT 👨‍💻 with German Love! 🍺💛</p>
+        <p>&copy; 2026 Der Die Das Space.</p>
+        <p>Tüm hakları saklıdır.</p>
       </div>
     </div>
   </footer>

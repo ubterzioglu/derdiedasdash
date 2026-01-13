@@ -79,7 +79,7 @@ Added 3 JSON-LD schemas to index.html:
 
 ### 4. Content Additions (GEO-Optimized)
 
-#### FAQ Section (💬 Sık Sorulan Sorular)
+#### FAQ Section ( Sık Sorulan Sorular)
 Added 4 AI-friendly question blocks:
 1. "Der Die Das nedir ve neden önemlidir?"
 2. "Almanca artikel öğrenmek için en iyi yöntem nedir?"
@@ -88,7 +88,7 @@ Added 4 AI-friendly question blocks:
 
 **Format:** Card-based, H3 headings, direct answers
 
-#### About Section (📚 Der Die Das Space Nedir?)
+#### About Section (Der Die Das Space Nedir?)
 - **What it is:** Platform description
 - **Why choose:** 5 key benefits (gamification, 5 games, leaderboard, free, mobile)
 - **Who it's for:** Target audience (Germany residents, exam prep, grammar improvement)

@@ -31,9 +31,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+/* Section Title Gradient */
+.section-title-gradient {
+  background: linear-gradient(135deg, #0099FF 0%, #FF5C6E 50%, #FFCC00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle {
@@ -341,7 +346,7 @@
 .page-footer {
   background: linear-gradient(135deg,
     var(--bg-secondary) 0%,
-    var(--color-blue-10) 100%);
+    var(--color-green-10) 100%);
 }
 
 .social-icons {

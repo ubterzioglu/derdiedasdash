@@ -328,21 +328,36 @@
 
 .faq-card-body {
   padding: var(--space-lg);
+  text-align: justify;
+}
+
+.faq-card-body p {
+  text-align: justify;
 }
 
 .faq-card-title {
-  font-size: var(--text-lg);
+  font-size: var(--text-sm);
   font-weight: 600;
   margin-bottom: var(--space-sm);
   color: var(--color-blue);
   transition: color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.faq-card-title.accordion-header {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .faq-card-text {
   color: var(--text-secondary);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: 1.6;
   margin: 0;
+  text-align: justify;
 }
 
 /* FAQ Card Colors - Same as game cards */
@@ -396,6 +411,20 @@
 
 .faq-card[data-faq="4"] .faq-card-title {
   color: #88CC00;
+}
+
+/* How to Play Card - Green */
+.faq-card[data-faq="green"] {
+  border-color: var(--color-green);
+  box-shadow: 0 4px 16px rgba(136, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-card[data-faq="green"]:hover {
+  box-shadow: 0 8px 24px rgba(136, 204, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card[data-faq="green"] .faq-card-title {
+  color: var(--color-green);
 }
 
 /* Legacy game-card (keeping for compatibility) */
@@ -1394,13 +1423,19 @@
 .footer-content {
   text-align: center;
   color: var(--text-secondary);
+  font-size: var(--text-xs);
+}
+
+.footer-content p {
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-xs);
 }
 
 .footer-nav {
   display: flex;
   justify-content: center;
   gap: var(--space-lg);
-  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 .footer-nav a {
@@ -1409,8 +1444,30 @@
 }
 
 .footer-nav a:hover {
-  color: var(--color-blue);
+  color: var(--color-green);
   text-decoration: underline;
+}
+
+.footer-contact-btn {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  background: linear-gradient(135deg, var(--color-green) 0%, #99DD00 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-green);
+  transition: all var(--transition-normal);
+  border: 2px solid var(--color-green);
+}
+
+.footer-contact-btn:hover {
+  background: linear-gradient(135deg, #99DD00 0%, var(--color-green) 100%);
+  box-shadow: var(--shadow-green-lg);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: white;
 }
 
 /* === BADGE GRID === */

@@ -83,27 +83,26 @@ function setupAccordion() {
   const card = document.getElementById('howToPlayCard');
   const header = document.getElementById('howToPlayHeader');
   const body = document.getElementById('howToPlayBody');
+  const icon = header?.querySelector('.accordion-icon');
   
   if (card && header && body) {
     header.addEventListener('click', () => {
-      const isActive = card.classList.contains('active');
+      const isActive = body.style.display === 'block' || body.style.display === '';
       
       if (isActive) {
-        card.classList.remove('active');
         body.style.display = 'none';
+        card.classList.remove('active');
+        if (icon) {
+          icon.style.transform = 'rotate(0deg)';
+        }
       } else {
-        card.classList.add('active');
         body.style.display = 'block';
+        card.classList.add('active');
+        if (icon) {
+          icon.style.transform = 'rotate(180deg)';
+        }
       }
     });
-    
-    // Open by default on first visit
-    const hasVisited = localStorage.getItem('hasVisited');
-    if (!hasVisited) {
-      card.classList.add('active');
-      body.style.display = 'block';
-      localStorage.setItem('hasVisited', 'true');
-    }
   }
 }
 
