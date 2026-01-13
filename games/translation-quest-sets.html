@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Translation Quest - Set Seçimi">
+  <title>Translation Quest - Set Seçimi | Der Die Das Space</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/difficulty-badges.css">
+  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="../index.html" style="text-decoration: none;">
+            <span class="brand-name"><span style="color: #0099FF;">der</span><span style="color: #FF5C6E;">die</span><span style="color: #FFCC00;">das</span></span>
+          </a>
+        </div>
+
+        <div class="navbar-actions">
+          <a href="../index.html" class="btn btn-secondary btn-sm" data-i18n="backToHome">Ana Sayfa</a>
+          <button id="hamburgerBtn" class="hamburger-btn">Menü</button>
+        </div>
+      </nav>
+
+      <div id="slideMenu" class="slide-menu">
+        <button id="closeMenuBtn" class="close-menu-btn">MENÜYÜ KAPAT</button>
+        <nav class="slide-menu-nav">
+          <a href="../index.html" class="slide-menu-item" data-i18n="backToHome">Ana Sayfa</a>
+          <a href="../contact.html" class="slide-menu-item" data-i18n="contact">İletişim</a>
+          <a href="../leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Leaderboard</a>
+          <a href="../badges.html" class="slide-menu-item" data-i18n="badges">Badges</a>
+        </nav>
+      </div>
+    </div>
+    <div id="menuOverlay" class="menu-overlay"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="text-center" style="margin: var(--space-xl) 0;">
+        <h1 style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-sm);">🌍 Translation Quest</h1>
+        <p class="text-secondary" style="font-size: var(--text-base);">Almanca → TR/EN çeviri</p>
+      </div>
+
+      <div id="loadingState" class="text-center" style="padding: var(--space-2xl);">
+        <p data-i18n="loading">Yükleniyor...</p>
+      </div>
+
+      <section id="setSection" style="display: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-lg);">
+          <a id="backToDifficultyBtn" href="translation-quest-difficulty.html" class="btn btn-secondary btn-sm">
+            ← Geri
+          </a>
+          <h2 id="selectedDifficultyTitle" class="text-center" style="font-size: var(--text-xl); font-weight: 600; flex: 1;">
+            Level 1 - Setler
+          </h2>
+          <div style="width: 80px;"></div>
+        </div>
+        <div id="setGrid" class="set-grid">
+          <!-- Set cards will be inserted here -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Der Die Das Space. Tüm hakları saklıdır.</p>
+        <nav class="footer-nav">
+          <a href="../leaderboard.html" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="../badges.html" data-i18n="badges">Badge'ler</a>
+          <a href="../contact.html" data-i18n="contact">İletişim</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="../js/core/i18n.js"></script>
+  <script type="module" src="../js/core/supabase.js"></script>
+  <script type="module" src="../js/components/hamburger-menu.js"></script>
+  <script type="module" src="../js/games/sets-selection.js"></script>
+</body>
+</html>

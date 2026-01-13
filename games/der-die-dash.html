@@ -135,38 +135,7 @@
   <script type="module" src="../js/games/der-die-dash.js"></script>
 
   <!-- Hamburger Menu Script -->
-  <script>
-    // Hamburger menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const slideMenu = document.getElementById('slideMenu');
-      const closeMenuBtn = document.getElementById('closeMenuBtn');
-      const menuOverlay = document.getElementById('menuOverlay');
-
-      function openMenu() {
-        slideMenu.classList.add('active');
-        menuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeMenu() {
-        slideMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      hamburgerBtn.addEventListener('click', openMenu);
-      closeMenuBtn.addEventListener('click', closeMenu);
-      menuOverlay.addEventListener('click', closeMenu);
-
-      // ESC key to close
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
-          closeMenu();
-        }
-      });
-    });
-  </script>
+  <script type="module" src="../js/components/hamburger-menu.js"></script>
 </body>
 </html>
 
