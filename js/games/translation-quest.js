@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t, getCurrentLanguage } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -488,14 +488,14 @@ function showFeedback(isCorrect, selectedTranslation, correctTranslation, isTime
       
       if (translation === selectedTranslation) {
         if (isCorrect) {
-          // Correct answer - explosion effect (green for translation options)
+          // Correct answer - neon glow!
           animateCorrect(btn);
-          createArtikelExplosion(btn, 'das'); // Genel yeşil renk için 'das' kullan
+          createNeonGlow(btn, elements.wordFrame);
           correctButton = btn;
         } else {
-          // Wrong answer - shatter effect
+          // Wrong answer - glitch error
           animateWrong(btn);
-          createShatterEffect(btn, null);
+          createGlitchError(btn, elements.wordFrame);
         }
       }
       

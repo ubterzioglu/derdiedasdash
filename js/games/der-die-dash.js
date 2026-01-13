@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -415,14 +415,13 @@ function showFeedback(isCorrect, selectedArticle, correctArticle, isTimeout = fa
     createClockExplosion();
   } else if (selectedArticle && buttons[selectedArticle]) {
     if (isCorrect) {
-      // Correct answer - artikel explosion!
-      const artikel = selectedArticle; // 'der', 'die', veya 'das'
+      // Correct answer - neon glow!
       animateCorrect(buttons[selectedArticle]);
-      createArtikelExplosion(buttons[selectedArticle], artikel);
+      createNeonGlow(buttons[selectedArticle], elements.wordFrame);
     } else {
-      // Wrong answer - shatter effect
+      // Wrong answer - glitch error
       animateWrong(buttons[selectedArticle]);
-      createShatterEffect(buttons[selectedArticle], buttons[correctArticle]);
+      createGlitchError(buttons[selectedArticle], elements.wordFrame);
       // Highlight correct answer
       if (buttons[correctArticle]) {
         animateCorrect(buttons[correctArticle]);

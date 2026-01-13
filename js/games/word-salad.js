@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -520,16 +520,16 @@ function showFeedback(isCorrect, userSentence, correctSentence, isTimeout = fals
       elements.sentenceSlot.parentNode.insertBefore(correctEl, elements.sentenceSlot.nextSibling);
     }
   } else if (isCorrect) {
-    // Correct answer - explosion effect (green for sentence builder)
+    // Correct answer - neon glow!
     if (elements.sentenceBuilder) {
       animateCorrect(elements.sentenceBuilder);
-      createArtikelExplosion(elements.sentenceBuilder, 'das'); // Genel yeşil renk için 'das' kullan
+      createNeonGlow(elements.sentenceBuilder, elements.sentenceBuilder);
     }
   } else {
-    // Wrong answer - shatter effect
+    // Wrong answer - glitch error
     if (elements.sentenceBuilder) {
       animateWrong(elements.sentenceBuilder);
-      createShatterEffect(elements.sentenceBuilder, null);
+      createGlitchError(elements.sentenceBuilder, elements.sentenceBuilder);
     }
     
     // Show correct answer

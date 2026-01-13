@@ -37,7 +37,79 @@ export function createConfetti(container) {
 }
 
 /**
- * Create artikel explosion effect for correct answers
+ * Create neon glow effect for correct answers (V2 - Dramatic Edition)
+ * @param {HTMLElement} button - The correct button
+ * @param {HTMLElement} wordFrame - The word frame element
+ */
+export function createNeonGlow(button, wordFrame) {
+  if (!button) return;
+
+  const neonContainer = document.createElement('div');
+  neonContainer.className = 'neon-container';
+  neonContainer.style.position = 'fixed';
+  neonContainer.style.top = '0';
+  neonContainer.style.left = '0';
+  neonContainer.style.width = '100%';
+  neonContainer.style.height = '100%';
+  neonContainer.style.pointerEvents = 'none';
+  neonContainer.style.zIndex = '9999';
+  document.body.appendChild(neonContainer);
+
+  // Retro grid background
+  const grid = document.createElement('div');
+  grid.className = 'retro-grid';
+  grid.style.position = 'absolute';
+  grid.style.top = '50%';
+  grid.style.left = '50%';
+  grid.style.transform = 'translate(-50%, -50%)';
+  neonContainer.appendChild(grid);
+
+  // Neon frame around word
+  if (wordFrame) {
+    const rect = wordFrame.getBoundingClientRect();
+    const frame = document.createElement('div');
+    frame.className = 'neon-frame';
+    frame.style.position = 'absolute';
+    frame.style.left = `${rect.left - 10}px`;
+    frame.style.top = `${rect.top - 10}px`;
+    frame.style.width = `${rect.width + 20}px`;
+    frame.style.height = `${rect.height + 20}px`;
+    frame.style.borderRadius = '10px';
+    neonContainer.appendChild(frame);
+  }
+
+  // Lightning bolts (8 directions)
+  const buttonRect = button.getBoundingClientRect();
+  const centerX = buttonRect.left + buttonRect.width / 2;
+  const centerY = buttonRect.top + buttonRect.height / 2;
+
+  for (let i = 0; i < 8; i++) {
+    const bolt = document.createElement('div');
+    bolt.className = 'lightning-bolt';
+    
+    const angle = (Math.PI * 2 * i) / 8;
+    const distance = 80;
+    const x = centerX + Math.cos(angle) * distance;
+    const y = centerY + Math.sin(angle) * distance;
+    
+    bolt.style.left = `${x}px`;
+    bolt.style.top = `${y}px`;
+    bolt.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+    bolt.style.animationDelay = `${i * 0.05}s`;
+    
+    neonContainer.appendChild(bolt);
+  }
+
+  // Cleanup
+  setTimeout(() => {
+    if (document.body.contains(neonContainer)) {
+      document.body.removeChild(neonContainer);
+    }
+  }, 1000);
+}
+
+/**
+ * Create artikel explosion effect for correct answers (ESKİ - Geriye dönük uyumluluk için)
  * @param {HTMLElement} container - The button element
  * @param {string} artikelColor - 'der' | 'die' | 'das'
  */
@@ -108,13 +180,22 @@ export function createArtikelExplosion(container, artikelColor) {
 
 /**
  * Add correct answer animation classes
- * NOTE: Artikel explosion is NOT triggered here - call createArtikelExplosion separately only for correct user answers
+ * NOTE: Neon glow is NOT triggered here - call createNeonGlow separately only for correct user answers
  */
 export function animateCorrect(element) {
   if (!element) return;
   
-  // Eski animasyonları da destekle (geriye dönük uyumluluk)
-  element.classList.add('artikel-btn--correct', 'word-frame--correct', 'form-btn--correct', 'translation-option--correct', 'sentence-builder--correct', 'letter-builder--correct');
+  // V2 - Dramatic Edition: Neon glow class
+  if (element.classList.contains('artikel-btn')) {
+    element.classList.add('artikel-btn--neon');
+    // Remove class after animation
+    setTimeout(() => {
+      element.classList.remove('artikel-btn--neon');
+    }, 800);
+  } else {
+    // Eski animasyonları da destekle (geriye dönük uyumluluk)
+    element.classList.add('artikel-btn--correct', 'word-frame--correct', 'form-btn--correct', 'translation-option--correct', 'sentence-builder--correct', 'letter-builder--correct');
+  }
 }
 
 /**
@@ -123,10 +204,15 @@ export function animateCorrect(element) {
 export function animateWrong(element) {
   if (!element) return;
   
-  // Shake animasyonunu ekle (daha hafif)
+  // V2 - Dramatic Edition: Glitch class
   if (element.classList.contains('artikel-btn')) {
-    element.classList.add('artikel-btn--wrong-shake');
+    element.classList.add('artikel-btn--glitch');
+    // Remove class after animation
+    setTimeout(() => {
+      element.classList.remove('artikel-btn--glitch');
+    }, 600);
   } else {
+    // Eski animasyonları da destekle (geriye dönük uyumluluk)
     element.classList.add('artikel-btn--wrong', 'word-frame--wrong', 'form-btn--wrong', 'translation-option--wrong', 'sentence-builder--wrong', 'letter-builder--wrong', 'preposition-frame--wrong');
   }
 }
@@ -155,7 +241,63 @@ export function createWrongAnimation(container) {
 }
 
 /**
- * Create shatter effect for wrong answers
+ * Create glitch error effect for wrong answers (V2 - Dramatic Edition)
+ * @param {HTMLElement} button - The wrong button
+ * @param {HTMLElement} wordFrame - The word frame element
+ */
+export function createGlitchError(button, wordFrame) {
+  if (!button) return;
+
+  const glitchContainer = document.createElement('div');
+  glitchContainer.className = 'glitch-container';
+  glitchContainer.style.position = 'fixed';
+  glitchContainer.style.top = '0';
+  glitchContainer.style.left = '0';
+  glitchContainer.style.width = '100%';
+  glitchContainer.style.height = '100%';
+  glitchContainer.style.pointerEvents = 'none';
+  glitchContainer.style.zIndex = '9998';
+  glitchContainer.style.overflow = 'hidden';
+  document.body.appendChild(glitchContainer);
+
+  // Scan lines
+  const scanLines = document.createElement('div');
+  scanLines.className = 'scan-lines';
+  glitchContainer.appendChild(scanLines);
+
+  // Static noise
+  const noise = document.createElement('div');
+  noise.className = 'static-noise';
+  glitchContainer.appendChild(noise);
+
+  // ERROR text
+  const errorText = document.createElement('div');
+  errorText.className = 'error-text';
+  errorText.textContent = 'ERROR';
+  errorText.style.position = 'absolute';
+  errorText.style.top = '50%';
+  errorText.style.left = '50%';
+  errorText.style.transform = 'translate(-50%, -50%)';
+  glitchContainer.appendChild(errorText);
+
+  // Apply glitch to word frame
+  if (wordFrame) {
+    wordFrame.classList.add('word-frame--glitch');
+    setTimeout(() => {
+      wordFrame.classList.remove('word-frame--glitch');
+    }, 600);
+  }
+
+  // Cleanup
+  setTimeout(() => {
+    if (document.body.contains(glitchContainer)) {
+      document.body.removeChild(glitchContainer);
+    }
+  }, 800);
+}
+
+/**
+ * Create shatter effect for wrong answers (ESKİ - Geriye dönük uyumluluk için)
  * @param {HTMLElement} wrongButton - The wrong button clicked
  * @param {HTMLElement} correctButton - The correct button to hint
  */
@@ -283,14 +425,22 @@ export function createTimeoutAnimation(container) {
 }
 
 /**
- * Create clock explosion effect for timeout
+ * Create clock explosion effect for timeout (V2 - Dramatic Edition)
  */
 export function createClockExplosion() {
   const clockContainer = document.createElement('div');
   clockContainer.className = 'clock-explosion-container';
+  clockContainer.style.position = 'fixed';
+  clockContainer.style.top = '50%';
+  clockContainer.style.left = '50%';
+  clockContainer.style.transform = 'translate(-50%, -50%)';
+  clockContainer.style.pointerEvents = 'none';
+  clockContainer.style.zIndex = '9998';
+  clockContainer.style.width = '300px';
+  clockContainer.style.height = '300px';
   document.body.appendChild(clockContainer);
 
-  // Saat ikonu (emoji)
+  // Clock icon
   const clockIcon = document.createElement('div');
   clockIcon.className = 'clock-icon';
   clockIcon.textContent = '🕐';
@@ -300,22 +450,28 @@ export function createClockExplosion() {
   clockIcon.style.transform = 'translate(-50%, -50%)';
   clockContainer.appendChild(clockIcon);
 
-  // Dalga efektleri (3 adet)
+  // Waves (3 layers)
   for (let i = 0; i < 3; i++) {
     const wave = document.createElement('div');
     wave.className = 'clock-wave';
+    wave.style.position = 'absolute';
+    wave.style.top = '50%';
+    wave.style.left = '50%';
     wave.style.animationDelay = `${i * 0.2}s`;
     clockContainer.appendChild(wave);
   }
 
-  // Saat parçaları (12 adet - saat rakamları)
+  // Clock numbers (12 pieces)
   const pieces = ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
   pieces.forEach((num, i) => {
     const piece = document.createElement('div');
     piece.className = 'clock-piece';
     piece.textContent = num;
+    piece.style.position = 'absolute';
+    piece.style.top = '50%';
+    piece.style.left = '50%';
     
-    // Dairesel dağılım
+    // Circular scatter
     const angle = (Math.PI * 2 * i) / 12;
     const distance = 150 + Math.random() * 50;
     const tx = Math.cos(angle) * distance;
@@ -330,7 +486,7 @@ export function createClockExplosion() {
     clockContainer.appendChild(piece);
   });
 
-  // Temizlik
+  // Cleanup
   setTimeout(() => {
     if (document.body.contains(clockContainer)) {
       document.body.removeChild(clockContainer);

@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -482,16 +482,16 @@ function showFeedback(isCorrect, userWord, correctWord, isTimeout = false) {
       elements.letterSlot.parentNode.insertBefore(correctEl, elements.letterSlot.nextSibling);
     }
   } else if (isCorrect) {
-    // Correct answer - explosion effect (green for letter builder)
+    // Correct answer - neon glow!
     if (elements.letterBuilder) {
       animateCorrect(elements.letterBuilder);
-      createArtikelExplosion(elements.letterBuilder, 'das'); // Genel yeşil renk için 'das' kullan
+      createNeonGlow(elements.letterBuilder, elements.letterBuilder);
     }
   } else {
-    // Wrong answer - shatter effect
+    // Wrong answer - glitch error
     if (elements.letterBuilder) {
       animateWrong(elements.letterBuilder);
-      createShatterEffect(elements.letterBuilder, null);
+      createGlitchError(elements.letterBuilder, elements.letterBuilder);
     }
     
     // Show correct answer

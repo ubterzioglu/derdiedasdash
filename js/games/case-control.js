@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createArtikelExplosion, createShatterEffect, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -378,13 +378,13 @@ function showFeedback(isCorrect, selectedForm, correctForm, isTimeout = false) {
     createClockExplosion();
   } else if (selectedForm && buttons[selectedForm]) {
     if (isCorrect) {
-      // Correct answer - explosion effect (green for form buttons)
+      // Correct answer - neon glow!
       animateCorrect(buttons[selectedForm]);
-      createArtikelExplosion(buttons[selectedForm], 'das'); // Genel yeşil renk için 'das' kullan
+      createNeonGlow(buttons[selectedForm], elements.prepositionFrame);
     } else {
-      // Wrong answer - shatter effect
+      // Wrong answer - glitch error
       animateWrong(buttons[selectedForm]);
-      createShatterEffect(buttons[selectedForm], buttons[correctForm]);
+      createGlitchError(buttons[selectedForm], elements.prepositionFrame);
       if (buttons[correctForm]) {
         animateCorrect(buttons[correctForm]);
       }
