@@ -99,12 +99,9 @@ function renderDifficultyLevels() {
       <div class="difficulty-card-icon" style="font-size: 3rem; margin-bottom: var(--space-sm);">
         ${diff.emoji}
       </div>
-      <h3 class="difficulty-card-title" style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-xs);">
-        Level ${diff.level}
+      <h3 class="difficulty-card-title">
+        Level ${diff.level} - ${label}
       </h3>
-      <p class="difficulty-card-label" style="font-size: var(--text-sm); color: var(--text-secondary);">
-        ${label}
-      </p>
     `;
 
     // Add hover effect

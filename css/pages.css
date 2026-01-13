@@ -675,8 +675,8 @@
 .difficulty-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xl);
+  gap: var(--space-xs); /* Gap azaltıldı - tek ekranda görünsün */
+  margin-bottom: var(--space-lg);
   padding: 0;
   width: 100%;
   max-width: 365px;
@@ -688,7 +688,7 @@
 .difficulty-card {
   background: white;
   border-radius: var(--border-radius-lg);
-  padding: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   text-align: center;
   box-shadow: var(--shadow-md);
   border: 3px solid var(--border-color);
@@ -697,7 +697,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 51px; /* 60px * 0.85 = 51px */
+  min-height: 40px; /* Daha da azaltıldı - tek ekranda görünsün */
+  height: 40px; /* Sabit yükseklik */
   width: 100%;
   max-width: 365px;
   box-sizing: border-box;
@@ -757,13 +758,14 @@
 .difficulty-card-content {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   flex: 1;
 }
 
 .difficulty-card-icon {
-  font-size: 2rem;
+  font-size: 1.5rem; /* Küçültüldü */
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .difficulty-card-info {
@@ -772,21 +774,24 @@
 }
 
 .difficulty-card-title {
-  font-size: var(--text-base);
+  font-size: var(--text-sm); /* Küçültüldü */
   font-weight: 600;
-  margin-bottom: var(--space-xs);
+  margin: 0; /* margin-bottom kaldırıldı */
   color: var(--text-primary);
+  white-space: nowrap; /* Tek satırda kalması için */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .difficulty-card-label {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
+  display: none; /* Artık kullanılmıyor, gizlendi */
 }
 
 .difficulty-card-arrow {
-  font-size: var(--text-lg);
+  font-size: var(--text-base); /* Küçültüldü */
   color: var(--text-secondary);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .difficulty-card:hover .difficulty-card-arrow {

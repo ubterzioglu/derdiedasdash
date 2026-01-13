@@ -94,11 +94,8 @@ function renderDifficultyLevels() {
         </div>
         <div class="difficulty-card-info">
           <h3 class="difficulty-card-title">
-            Level ${diff.level}
+            Level ${diff.level} - ${label}
           </h3>
-          <p class="difficulty-card-label">
-            ${label}
-          </p>
         </div>
       </div>
       <div class="difficulty-card-arrow">→</div>
