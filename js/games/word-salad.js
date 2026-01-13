@@ -627,20 +627,22 @@ function showResults(scoreData) {
             <p style="color: var(--text-secondary);">${t('yourScore')}</p>
           </div>
 
-          <div style="margin: var(--space-xl) 0;">
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md);">
-              <div>
-                <strong>✅ ${t('correctAnswers')}:</strong> ${scoreData.correctAnswers}
-              </div>
-              <div>
-                <strong>❌ ${t('wrongAnswers')}:</strong> ${scoreData.wrongAnswers}
-              </div>
-              <div>
-                <strong>⏱ ${t('avgTime')}:</strong> ${scoreData.avgResponseTime.toFixed(1)}s
-              </div>
-              <div>
-                <strong>🔥 ${t('maxCombo')}:</strong> ${scoreData.maxCombo}
-              </div>
+          <div class="result-stats-grid">
+            <div class="result-stat-card">
+              <div class="result-stat-label">✅ ${t('correctAnswers')}</div>
+              <div class="result-stat-value">${scoreData.correctAnswers}</div>
+            </div>
+            <div class="result-stat-card">
+              <div class="result-stat-label">❌ ${t('wrongAnswers')}</div>
+              <div class="result-stat-value">${scoreData.wrongAnswers}</div>
+            </div>
+            <div class="result-stat-card">
+              <div class="result-stat-label">⏱ ${t('avgTime')}</div>
+              <div class="result-stat-value">${scoreData.avgResponseTime.toFixed(1)}s</div>
+            </div>
+            <div class="result-stat-card">
+              <div class="result-stat-label">🔥 ${t('maxCombo')}</div>
+              <div class="result-stat-value">${scoreData.maxCombo}</div>
             </div>
           </div>
 
@@ -657,9 +659,9 @@ function showResults(scoreData) {
             </div>
           ` : ''}
         </div>
-        <div class="card-footer">
-          <a href="../index.html" class="btn btn-primary">${t('backToHome')}</a>
-          <a href="../leaderboard.html" class="btn btn-secondary">${t('viewLeaderboard')}</a>
+        <div class="result-buttons">
+          <a href="../leaderboard.html" class="result-btn">${t('viewLeaderboard')}</a>
+          <a href="../index.html" class="result-btn">${t('backToHome')}</a>
         </div>
       </div>
     `;

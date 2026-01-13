@@ -23,7 +23,8 @@ const elements = {
   gameTitle: document.getElementById('gameTitle'),
   gameDescription: document.getElementById('gameDescription'),
   selectedDifficultyTitle: document.getElementById('selectedDifficultyTitle'),
-  backToDifficultyBtn: document.getElementById('backToDifficultyBtn')
+  backToDifficultyBtn: document.getElementById('backToDifficultyBtn'),
+  difficultyHeaderCard: document.getElementById('difficultyHeaderCard')
 };
 
 // Difficulty levels
@@ -139,6 +140,11 @@ async function selectDifficulty(level) {
   const diffInfo = DIFFICULTY_LEVELS.find(d => d.level === level);
   const label = currentLang === 'tr' ? diffInfo.label : diffInfo.labelEn;
   elements.selectedDifficultyTitle.textContent = `Level ${level} - ${label}`;
+
+  // Update difficulty header card color based on level
+  if (elements.difficultyHeaderCard) {
+    elements.difficultyHeaderCard.setAttribute('data-difficulty-level', level);
+  }
 
   // Load sets for this difficulty
   await loadSets(level);
