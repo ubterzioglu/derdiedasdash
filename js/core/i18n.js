@@ -28,7 +28,7 @@ const translations = {
     howToPlay: '❓ Nasıl Oynanır?',
     selectGame: 'Oyununu Seç!',
     allGamesFree: '🎮 Tüm Oyunlar Ücretsiz!',
-    registerPrompt: 'Skorunuzu kaydetmek için kayıt olun',
+    registerPrompt: 'Oyun tamamen ücretsizdir. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir.',
 
     // Hero Section
     heroTitle: 'Almanca Artikellerini Oyunla Öğren!',
@@ -122,8 +122,8 @@ const translations = {
     dontHaveAccount: 'Hesabınız yok mu?',
     alreadyHaveAccount: 'Zaten hesabınız var mı?',
     
-    // Demo
-    demoMode: 'Demo Modu',
+    // Guest Mode
+    demoMode: 'Misafir Modu',
     demoMessage: 'Kayıt olmadan oynuyorsunuz. Skorunuz kaydedilmeyecek.',
     registerToSave: 'Skorunuzu kaydetmek için kayıt olun',
     
@@ -145,7 +145,7 @@ const translations = {
     clickLettersToBuild: 'Harflere tıklayarak kelimeyi oluştur',
     
     // How to Play
-    howToPlayDesc1: 'Her oyundan 1 set ücretsiz oynayabilirsiniz!',
+    howToPlayDesc1: 'Tüm oyunlar tamamen ücretsizdir!',
     howToPlayDesc2: 'Kayıt olun, skorunuzu kaydedin, badge kazanın!',
     scoringSystem: 'Puanlama Sistemi:',
     scoringBase: 'Base puan: Zorluk seviyesine göre (20-30 puan)',
@@ -153,6 +153,7 @@ const translations = {
     scoringCombo: 'Combo bonusu: Üst üste doğru cevaplarla combo yakala!',
     difficultyLevels: 'Zorluk Seviyeleri:',
     play: 'OYNA >',
+    backToHome: 'Ana Sayfa',
   },
   
   en: {
@@ -179,7 +180,7 @@ const translations = {
     howToPlay: '❓ How to Play?',
     selectGame: 'Choose Your Game!',
     allGamesFree: '🎮 All Games Free!',
-    registerPrompt: 'Register to save your score',
+    registerPrompt: 'Games are completely free. Membership is required for score tracking and tracking the games you play.',
 
     // Hero Section
     heroTitle: 'Learn German Articles with Games!',
@@ -273,8 +274,8 @@ const translations = {
     dontHaveAccount: 'Don\'t have an account?',
     alreadyHaveAccount: 'Already have an account?',
     
-    // Demo
-    demoMode: 'Demo Mode',
+    // Guest Mode
+    demoMode: 'Guest Mode',
     demoMessage: 'Playing without registration. Your score won\'t be saved.',
     registerToSave: 'Register to save your score',
     
@@ -296,7 +297,7 @@ const translations = {
     clickLettersToBuild: 'Click letters to build word',
     
     // How to Play
-    howToPlayDesc1: 'You can play 1 free set from each game!',
+    howToPlayDesc1: 'All games are completely free!',
     howToPlayDesc2: 'Register to save your score and earn badges!',
     scoringSystem: 'Scoring System:',
     scoringBase: 'Base score: Based on difficulty level (20-30 points)',
@@ -304,6 +305,7 @@ const translations = {
     scoringCombo: 'Combo bonus: Catch combos with consecutive correct answers!',
     difficultyLevels: 'Difficulty Levels:',
     play: 'PLAY >',
+    backToHome: 'Home',
   }
 };
 

@@ -169,7 +169,7 @@
           <div class="accordion-body" id="howToPlayBody">
             <h4 data-i18n="commonFeatures">🎮 Tüm Oyunlarda Ortak Özellikler:</h4>
             <ul>
-              <li>Her oyundan 1 set ücretsiz oynayabilirsiniz. <a href="badges.html">Badge kazanmak</a> için kayıt olun!</li>
+              <li>Tüm oyunlar tamamen ücretsizdir! Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir. <a href="badges.html">Badge kazanmak</a> ve skorunuzu kaydetmek için kayıt olun.</li>
               <li>Kayıt olun, skorunuzu kaydedin ve <a href="leaderboard.html">global sıralamada</a> yerinizi alın</li>
               <li>Hız bonusu: Hızlı cevap vererek ekstra puan kazanın</li>
               <li>Combo bonusu: Üst üste doğru cevaplarla combo yakalayın</li>
@@ -211,39 +211,79 @@
 
         <div class="game-grid">
           <!-- Der Die Dash -->
-          <a href="games/der-die-dash.html" class="game-card" data-game="der-die-dash">
-            <div class="game-card-icon">🎯</div>
-            <h3 class="game-card-title">Der Die Dash</h3>
-            <p class="game-card-description" data-i18n="derDieDashDesc">Artikel tahmin oyunu</p>
-          </a>
+          <div class="game-card-accordion" data-game="der-die-dash">
+            <div class="game-card-header" onclick="toggleGameAccordion(this)">
+              <div class="game-card-header-content">
+                <span class="game-card-icon">🎯</span>
+                <h3 class="game-card-title">Der Die Dash</h3>
+              </div>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="game-card-body">
+              <p class="game-card-description" data-i18n="derDieDashDesc">Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
+              <a href="games/set-selection.html?game=der_die_dash" class="btn btn-primary" style="width: 100%; margin-top: var(--space-sm);">Oyna</a>
+            </div>
+          </div>
 
           <!-- Case Control -->
-          <a href="games/case-control.html" class="game-card" data-game="case-control">
-            <div class="game-card-icon">📍</div>
-            <h3 class="game-card-title">Case Control</h3>
-            <p class="game-card-description" data-i18n="caseControlDesc">Preposition challenge</p>
-          </a>
+          <div class="game-card-accordion" data-game="case-control">
+            <div class="game-card-header" onclick="toggleGameAccordion(this)">
+              <div class="game-card-header-content">
+                <span class="game-card-icon">📍</span>
+                <h3 class="game-card-title">Case Control</h3>
+              </div>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="game-card-body">
+              <p class="game-card-description" data-i18n="caseControlDesc">Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
+              <a href="games/set-selection.html?game=case_control" class="btn btn-primary" style="width: 100%; margin-top: var(--space-sm);">Oyna</a>
+            </div>
+          </div>
 
           <!-- Word Salad -->
-          <a href="games/word-salad.html" class="game-card" data-game="word-salad">
-            <div class="game-card-icon">🥗</div>
-            <h3 class="game-card-title">Word Salad</h3>
-            <p class="game-card-description" data-i18n="wordSaladDesc">Kelimelerden cümle kur</p>
-          </a>
+          <div class="game-card-accordion" data-game="word-salad">
+            <div class="game-card-header" onclick="toggleGameAccordion(this)">
+              <div class="game-card-header-content">
+                <span class="game-card-icon">🥗</span>
+                <h3 class="game-card-title">Word Salad</h3>
+              </div>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="game-card-body">
+              <p class="game-card-description" data-i18n="wordSaladDesc">Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
+              <a href="games/set-selection.html?game=word_salad" class="btn btn-primary" style="width: 100%; margin-top: var(--space-sm);">Oyna</a>
+            </div>
+          </div>
 
           <!-- Translation Quest -->
-          <a href="games/translation-quest.html" class="game-card" data-game="translation-quest">
-            <div class="game-card-icon">🌍</div>
-            <h3 class="game-card-title">Translation Quest</h3>
-            <p class="game-card-description" data-i18n="translationQuestDesc">Almanca → TR/EN çeviri</p>
-          </a>
+          <div class="game-card-accordion" data-game="translation-quest">
+            <div class="game-card-header" onclick="toggleGameAccordion(this)">
+              <div class="game-card-header-content">
+                <span class="game-card-icon">🌍</span>
+                <h3 class="game-card-title">Translation Quest</h3>
+              </div>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="game-card-body">
+              <p class="game-card-description" data-i18n="translationQuestDesc">Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
+              <a href="games/set-selection.html?game=translation_quest" class="btn btn-primary" style="width: 100%; margin-top: var(--space-sm);">Oyna</a>
+            </div>
+          </div>
 
           <!-- 5-Letter Blitz -->
-          <a href="games/five-letter-blitz.html" class="game-card" data-game="five-letter-blitz">
-            <div class="game-card-icon">⚡</div>
-            <h3 class="game-card-title">5-Letter Blitz</h3>
-            <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfi sırala</p>
-          </a>
+          <div class="game-card-accordion" data-game="five-letter-blitz">
+            <div class="game-card-header" onclick="toggleGameAccordion(this)">
+              <div class="game-card-header-content">
+                <span class="game-card-icon">⚡</span>
+                <h3 class="game-card-title">5-Letter Blitz</h3>
+              </div>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="game-card-body">
+              <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
+              <a href="games/set-selection.html?game=five_letter_blitz" class="btn btn-primary" style="width: 100%; margin-top: var(--space-sm);">Oyna</a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -276,7 +316,7 @@
             <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
               Platform ücretsiz mi?
             </h3>
-            <p>Evet! Her oyundan 1 demo set tamamen ücretsizdir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz.</p>
+            <p>Evet! Platform tamamen ücretsizdir. Tüm oyunları ve tüm setleri ücretsiz oynayabilirsiniz. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz.</p>
           </div>
         </div>
 
@@ -285,7 +325,7 @@
             <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
               Hangi seviyedeki öğrenciler için uygun?
             </h3>
-            <p>A1'den C1 seviyesine kadar tüm German learners için uygundur. Demo setler başlangıç seviyesindedir, premium setler ise advanced grammar içerir.</p>
+            <p>A1'den C1 seviyesine kadar tüm German learners için uygundur. Farklı zorluk seviyelerinde setler bulunmaktadır.</p>
           </div>
         </div>
       </section>
@@ -306,7 +346,7 @@
               <li style="margin-bottom: var(--space-sm);"><strong>Gamification:</strong> Combo sistemi, hız bonusları ve badge sistemi ile motivasyon</li>
               <li style="margin-bottom: var(--space-sm);"><strong>5 Farklı Oyun:</strong> Artikel, case, preposition, çeviri ve spelling practice</li>
               <li style="margin-bottom: var(--space-sm);"><strong>Global Leaderboard:</strong> Dünya genelinde öğrencilerle yarışın</li>
-              <li style="margin-bottom: var(--space-sm);"><strong>Ücretsiz:</strong> Demo setler tamamen free, premium içerik isteğe bağlı</li>
+              <li style="margin-bottom: var(--space-sm);"><strong>Tamamen Ücretsiz:</strong> Tüm oyunlar ve tüm setler ücretsizdir. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir.</li>
               <li style="margin-bottom: var(--space-sm);"><strong>Mobil Uyumlu:</strong> Telefon, tablet ve masaüstünde çalışır</li>
             </ul>
 
@@ -318,55 +358,13 @@
         </div>
       </section>
 
-      <!-- Game Selection Grid -->
-      <section id="games-section" class="games-section">
-        <h2 class="text-center" data-i18n="selectGame">Oyunun Seç!</h2>
-        
-        <div class="game-grid">
-          <!-- Der Die Dash -->
-          <a href="games/der-die-dash.html" class="game-card" data-game="der-die-dash">
-            <div class="game-card-icon">🎯</div>
-            <h3 class="game-card-title">Der Die Dash</h3>
-            <p class="game-card-description" data-i18n="derDieDashDesc">Artikel tahmin oyunu</p>
-          </a>
-
-          <!-- Case Control -->
-          <a href="games/case-control.html" class="game-card" data-game="case-control">
-            <div class="game-card-icon">📍</div>
-            <h3 class="game-card-title">Case Control</h3>
-            <p class="game-card-description" data-i18n="caseControlDesc">Preposition challenge</p>
-          </a>
-
-          <!-- Word Salad -->
-          <a href="games/word-salad.html" class="game-card" data-game="word-salad">
-            <div class="game-card-icon">🥗</div>
-            <h3 class="game-card-title">Word Salad</h3>
-            <p class="game-card-description" data-i18n="wordSaladDesc">Kelimelerden cümle kur</p>
-          </a>
-
-          <!-- Translation Quest -->
-          <a href="games/translation-quest.html" class="game-card" data-game="translation-quest">
-            <div class="game-card-icon">🌍</div>
-            <h3 class="game-card-title">Translation Quest</h3>
-            <p class="game-card-description" data-i18n="translationQuestDesc">Almanca → TR/EN çeviri</p>
-          </a>
-
-          <!-- 5-Letter Blitz -->
-          <a href="games/five-letter-blitz.html" class="game-card" data-game="five-letter-blitz">
-            <div class="game-card-icon">⚡</div>
-            <h3 class="game-card-title">5-Letter Blitz</h3>
-            <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfi sırala</p>
-          </a>
-        </div>
-      </section>
-
       <!-- Sticky CTA (Not Logged In) -->
       <section id="stickyCta" class="sticky-cta" style="display: none;">
         <div class="container">
           <div class="card">
             <div class="card-body text-center">
               <h3 data-i18n="allGamesFree">🎮 Tüm Oyunlar Ücretsiz!</h3>
-              <p data-i18n="registerPrompt">Skorunuzu kaydetmek için kayıt olun</p>
+              <p data-i18n="registerPrompt">Oyun tamamen ücretsizdir. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir.</p>
               <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
                 <button id="registerBtnSticky" class="btn btn-primary" data-i18n="register">Kayıt Ol</button>
                 <button id="loginBtnSticky" class="btn btn-secondary" data-i18n="login">Giriş Yap</button>
@@ -504,7 +502,7 @@
         "name": "Platform ücretsiz mi?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Evet! Her oyundan 1 demo set tamamen ücretsizdir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz."
+          "text": "Evet! Platform tamamen ücretsizdir. Tüm oyunları ve tüm setleri ücretsiz oynayabilirsiniz. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz."
         }
       },
       {
@@ -512,7 +510,7 @@
         "name": "Hangi seviyedeki öğrenciler için uygun?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A1'den C1 seviyesine kadar tüm German learners için uygundur. Demo setler başlangıç seviyesindedir, premium setler ise advanced grammar içerir."
+          "text": "A1'den C1 seviyesine kadar tüm German learners için uygundur. Farklı zorluk seviyelerinde setler bulunmaktadır."
         }
       }
     ]

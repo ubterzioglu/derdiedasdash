@@ -55,13 +55,22 @@ async function initGame() {
     setInfo: document.getElementById('setInfo')
   };
 
-  // Check if user is authenticated
-  const user = await isAuthenticated();
-  if (!user) {
-    gameState.isDemo = true;
-    await loadDemoSet();
+  // Check for setId in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const setId = urlParams.get('setId');
+
+  if (setId) {
+    // Load specific set
+    await loadSetById(setId);
   } else {
-    await loadAvailableSet();
+    // Check if user is authenticated
+    const user = await isAuthenticated();
+    if (!user) {
+      gameState.isDemo = true;
+      await loadDemoSet();
+    } else {
+      await loadAvailableSet();
+    }
   }
 
   // Initialize combo manager
@@ -121,11 +130,60 @@ async function loadDemoSet() {
       .map(q => q.question_data);
     
     if (elements.setInfo) {
-      elements.setInfo.textContent = `Demo Set - Level ${gameState.level}`;
+      elements.setInfo.textContent = `Level ${gameState.level} - Set 1`;
     }
   } catch (error) {
     console.error('Error loading demo set:', error);
     loadPlaceholderSet(true);
+  }
+}
+
+/**
+ * Load set by ID
+ */
+async function loadSetById(setId) {
+  const supabase = getSupabase();
+  if (!supabase) {
+    loadPlaceholderSet(false);
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('word_sets')
+      .select(`
+        *,
+        questions (*),
+        game_types!inner(game_code)
+      `)
+      .eq('game_types.game_code', 'case_control')
+      .eq('id', setId)
+      .single();
+
+    if (error || !data) {
+      console.error('Error loading set:', error);
+      // Fallback to demo set
+      gameState.isDemo = true;
+      await loadDemoSet();
+      return;
+    }
+
+    gameState.currentSet = data;
+    gameState.set_id = data.id;
+    gameState.level = data.difficulty_level;
+    gameState.isDemo = false;
+    gameState.questions = data.questions
+      .sort((a, b) => a.order_in_set - b.order_in_set)
+      .map(q => q.question_data);
+    
+    if (elements.setInfo) {
+      elements.setInfo.textContent = `Level ${gameState.level} - Set ${data.set_number}`;
+    }
+  } catch (error) {
+    console.error('Error loading set by ID:', error);
+    // Fallback to demo set
+    gameState.isDemo = true;
+    await loadDemoSet();
   }
 }
 
@@ -158,7 +216,7 @@ function loadPlaceholderSet(isDemo) {
   gameState.isDemo = isDemo;
   
   if (elements.setInfo) {
-    elements.setInfo.textContent = isDemo ? 'Demo Set - Level 1' : 'Level 1 - Set 1';
+    elements.setInfo.textContent = 'Level 1 - Set 1';
   }
 }
 

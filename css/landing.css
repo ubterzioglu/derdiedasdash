@@ -6,7 +6,7 @@
 /* === HERO SECTION === */
 .hero-section {
   background: #FFFFFF;
-  padding: var(--space-3xl) 0;
+  padding: var(--space-sm) 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -92,6 +92,7 @@
 
 /* === INFO SECTION ENHANCEMENT === */
 .info-section {
+  margin-top: var(--space-xs);
   margin-bottom: var(--space-md);
 }
 
