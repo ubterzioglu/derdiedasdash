@@ -92,7 +92,7 @@
 
 /* === INFO SECTION ENHANCEMENT === */
 .info-section {
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-md);
 }
 
 .info-section .accordion {
@@ -149,7 +149,7 @@
 
 /* === GAMES SECTION ENHANCEMENT === */
 .games-section {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
 .games-section > h2 {
