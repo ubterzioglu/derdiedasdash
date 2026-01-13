@@ -3,8 +3,7 @@
    Index page orchestrator
    ============================================ */
 
-import { t } from './core/i18n.js';
-import { getCurrentUser, isAuthenticated, onAuthStateChange, logout } from './core/auth.js';
+import { getCurrentUser } from './core/auth.js';
 import { getSupabase } from './core/supabase.js';
 
 // Initialize app
@@ -14,18 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function initApp() {
   // Check if language is selected
-  // Setup auth
-  setupAuth();
-  
   // Setup accordion
   setupAccordion();
 
   // Setup hamburger menu
   setupHamburgerMenu();
 
-  // Setup login/register modals
-  setupAuthModals();
-  
   // Check referral code
   checkReferralCode();
   
@@ -34,46 +27,6 @@ async function initApp() {
   if (user) {
     await loadUserStats(user.id);
   }
-}
-
-/**
- * Setup authentication UI
- */
-function setupAuth() {
-  onAuthStateChange((user) => {
-    const authButtons = document.getElementById('authButtons');
-    const userMenu = document.getElementById('userMenu');
-    const welcomeSection = document.getElementById('welcomeSection');
-    const stickyCta = document.getElementById('stickyCta');
-    
-    if (user) {
-      // User is logged in
-      if (authButtons) authButtons.style.display = 'none';
-      if (userMenu) {
-        userMenu.style.display = 'flex';
-        const userNameEl = document.getElementById('userName');
-        if (userNameEl) {
-          userNameEl.textContent = `👤 ${user.user_metadata?.display_name || user.email || 'User'}`;
-        }
-      }
-      if (welcomeSection) welcomeSection.style.display = 'block';
-      if (stickyCta) stickyCta.style.display = 'none';
-      
-      // Setup logout
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-          await logout();
-        });
-      }
-    } else {
-      // User is not logged in
-      if (authButtons) authButtons.style.display = 'flex';
-      if (userMenu) userMenu.style.display = 'none';
-      if (welcomeSection) welcomeSection.style.display = 'none';
-      if (stickyCta) stickyCta.style.display = 'block';
-    }
-  });
 }
 
 /**
@@ -102,198 +55,6 @@ function setupAccordion() {
           icon.style.transform = 'rotate(180deg)';
         }
       }
-    });
-  }
-}
-
-/**
- * Setup login/register modals
- */
-function setupAuthModals() {
-  const loginBtn = document.getElementById('loginBtn');
-  const registerBtn = document.getElementById('registerBtn');
-  const loginBtnSticky = document.getElementById('loginBtnSticky');
-  const registerBtnSticky = document.getElementById('registerBtnSticky');
-  
-  [loginBtn, loginBtnSticky].forEach(btn => {
-    if (btn) {
-      btn.addEventListener('click', () => showLoginModal());
-    }
-  });
-  
-  [registerBtn, registerBtnSticky].forEach(btn => {
-    if (btn) {
-      btn.addEventListener('click', () => showRegisterModal());
-    }
-  });
-}
-
-/**
- * Show login modal
- */
-function showLoginModal() {
-  const modal = document.getElementById('loginModal');
-  if (!modal) return;
-  
-  modal.innerHTML = `
-    <div class="modal">
-      <button class="modal-close" onclick="this.closest('.modal-overlay').style.display='none'">×</button>
-      <div class="modal-header">
-        <h2>${t('login')}</h2>
-      </div>
-      <div class="modal-body">
-        <form id="loginForm">
-          <div class="form-group">
-            <label class="form-label">${t('emailPlaceholder')}</label>
-            <input type="email" class="form-input" id="loginEmail" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">${t('passwordPlaceholder')}</label>
-            <input type="password" class="form-input" id="loginPassword" required>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">${t('login')}</button>
-        </form>
-        
-        <div class="divider">${t('or') || 'veya'}</div>
-        
-        <button class="btn btn-secondary" style="width: 100%;" id="googleLoginBtn">
-          ${t('loginWithGoogle')}
-        </button>
-        
-        <p style="text-align: center; margin-top: 1rem;">
-          ${t('dontHaveAccount')} <a href="#" id="switchToRegister">${t('register')}</a>
-        </p>
-      </div>
-    </div>
-  `;
-  
-  modal.style.display = 'flex';
-  
-  // Setup form handlers
-  const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      try {
-        const { loginWithEmail } = await import('./core/auth.js');
-        await loginWithEmail(email, password);
-        modal.style.display = 'none';
-        window.location.reload();
-      } catch (error) {
-        alert(t('errorAuth') + ': ' + error.message);
-      }
-    });
-  }
-  
-  const googleBtn = document.getElementById('googleLoginBtn');
-  if (googleBtn) {
-    googleBtn.addEventListener('click', async () => {
-      try {
-        const { loginWithGoogle } = await import('./core/auth.js');
-        await loginWithGoogle();
-      } catch (error) {
-        alert(t('errorAuth') + ': ' + error.message);
-      }
-    });
-  }
-  
-  const switchBtn = document.getElementById('switchToRegister');
-  if (switchBtn) {
-    switchBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.style.display = 'none';
-      showRegisterModal();
-    });
-  }
-}
-
-/**
- * Show register modal
- */
-function showRegisterModal() {
-  const modal = document.getElementById('loginModal');
-  if (!modal) return;
-  
-  modal.innerHTML = `
-    <div class="modal">
-      <button class="modal-close" onclick="this.closest('.modal-overlay').style.display='none'">×</button>
-      <div class="modal-header">
-        <h2>${t('register')}</h2>
-      </div>
-      <div class="modal-body">
-        <form id="registerForm">
-          <div class="form-group">
-            <label class="form-label">${t('displayNamePlaceholder')}</label>
-            <input type="text" class="form-input" id="registerName" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">${t('emailPlaceholder')}</label>
-            <input type="email" class="form-input" id="registerEmail" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">${t('passwordPlaceholder')}</label>
-            <input type="password" class="form-input" id="registerPassword" required minlength="6">
-          </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">${t('register')}</button>
-        </form>
-        
-        <div class="divider">${t('or') || 'veya'}</div>
-        
-        <button class="btn btn-secondary" style="width: 100%;" id="googleRegisterBtn">
-          ${t('loginWithGoogle')}
-        </button>
-        
-        <p style="text-align: center; margin-top: 1rem;">
-          ${t('alreadyHaveAccount')} <a href="#" id="switchToLogin">${t('login')}</a>
-        </p>
-      </div>
-    </div>
-  `;
-  
-  modal.style.display = 'flex';
-  
-  // Setup form handlers
-  const registerForm = document.getElementById('registerForm');
-  if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('registerName').value;
-      const email = document.getElementById('registerEmail').value;
-      const password = document.getElementById('registerPassword').value;
-      
-      try {
-        const { signUpWithEmail } = await import('./core/auth.js');
-        await signUpWithEmail(email, password, name);
-        modal.style.display = 'none';
-        alert(t('register') + ' başarılı! Giriş yapabilirsiniz.');
-        window.location.reload();
-      } catch (error) {
-        alert(t('errorAuth') + ': ' + error.message);
-      }
-    });
-  }
-  
-  const googleBtn = document.getElementById('googleRegisterBtn');
-  if (googleBtn) {
-    googleBtn.addEventListener('click', async () => {
-      try {
-        const { loginWithGoogle } = await import('./core/auth.js');
-        await loginWithGoogle();
-      } catch (error) {
-        alert(t('errorAuth') + ': ' + error.message);
-      }
-    });
-  }
-  
-  const switchBtn = document.getElementById('switchToLogin');
-  if (switchBtn) {
-    switchBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.style.display = 'none';
-      showLoginModal();
     });
   }
 }
