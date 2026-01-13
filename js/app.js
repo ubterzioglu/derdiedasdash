@@ -80,27 +80,28 @@ function setupAuth() {
  * Setup accordion for "How to Play"
  */
 function setupAccordion() {
+  const card = document.getElementById('howToPlayCard');
   const header = document.getElementById('howToPlayHeader');
   const body = document.getElementById('howToPlayBody');
   
-  if (header && body) {
+  if (card && header && body) {
     header.addEventListener('click', () => {
-      const isActive = header.classList.contains('active');
+      const isActive = card.classList.contains('active');
       
       if (isActive) {
-        header.classList.remove('active');
-        body.classList.remove('active');
+        card.classList.remove('active');
+        body.style.display = 'none';
       } else {
-        header.classList.add('active');
-        body.classList.add('active');
+        card.classList.add('active');
+        body.style.display = 'block';
       }
     });
     
     // Open by default on first visit
     const hasVisited = localStorage.getItem('hasVisited');
     if (!hasVisited) {
-      header.classList.add('active');
-      body.classList.add('active');
+      card.classList.add('active');
+      body.style.display = 'block';
       localStorage.setItem('hasVisited', 'true');
     }
   }

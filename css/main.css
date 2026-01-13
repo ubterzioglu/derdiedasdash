@@ -238,7 +238,8 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-md);
-  padding: var(--space-md);
+  padding: 0;
+  width: 100%;
 }
 
 .set-grid {

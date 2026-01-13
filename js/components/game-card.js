@@ -40,8 +40,8 @@ export function createGameCard(gameData) {
  */
 function getGameIcon(gameCode) {
   const icons = {
-    'der_die_dash': '🎯',
-    'case_control': '📍',
+    'der_die_dash': '🚀',
+    'case_control': '✏️',
     'word_salad': '🥗',
     'translation_quest': '🌍',
     'five_letter_blitz': '⚡'

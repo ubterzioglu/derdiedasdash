@@ -6,7 +6,8 @@
 /* === HERO SECTION === */
 .hero-section {
   background: #FFFFFF;
-  padding: var(--space-sm) 0;
+  padding: 0;
+  margin-top: calc(var(--space-sm) * -1);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -17,24 +18,41 @@
   z-index: 1;
   max-width: 800px;
   margin: 0 auto;
+  margin-top: 0;
 }
 
 .hero-title {
-  font-size: var(--text-4xl);
+  font-size: var(--text-base);
   font-weight: var(--font-weight-extrabold);
   line-height: var(--line-height-tight);
+  margin-top: 0;
   margin-bottom: var(--space-lg);
   background: linear-gradient(135deg, #0099FF 0%, #FF5C6E 50%, #FFCC00 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hero-subtitle {
   font-size: var(--text-xl);
   color: var(--text-secondary);
-  margin-bottom: var(--space-2xl);
+  margin: 0;
   line-height: var(--line-height-relaxed);
+}
+
+.intro-card {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+  border: 3px solid var(--color-green);
+  box-shadow: 0 4px 16px rgba(136, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.intro-card .card-body {
+  padding: var(--space-lg);
+  text-align: center;
 }
 
 .hero-cta {
@@ -100,6 +118,9 @@
   border: 2px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   transition: all 0.3s var(--ease-smooth);
+  width: 100%;
+  max-width: 365px;
+  box-sizing: border-box;
 }
 
 .info-section .accordion:hover {
@@ -138,6 +159,7 @@
   padding: var(--space-sm) 0;
   padding-left: var(--space-lg);
   position: relative;
+  text-align: justify;
 }
 
 .info-section ul li::before {
@@ -241,39 +263,50 @@
 
 .game-card-icon {
   transition: all 0.4s var(--ease-spring);
+  font-size: var(--text-lg);
+  line-height: 1;
 }
 
 .game-card:hover .game-card-icon {
-  transform: scale(1.2) rotate(5deg);
+  transform: scale(1.1);
 }
 
 .game-card-title {
   transition: color 0.3s var(--ease-smooth);
+  font-size: var(--text-lg);
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .game-card:hover .game-card-title {
   color: var(--color-blue);
+  text-decoration: none;
 }
 
 /* Game Card Title Colors */
 .game-card[data-game="der-die-dash"]:hover .game-card-title {
   color: #0099FF;
+  text-decoration: none;
 }
 
 .game-card[data-game="case-control"]:hover .game-card-title {
   color: #FF5C6E;
+  text-decoration: none;
 }
 
 .game-card[data-game="word-salad"]:hover .game-card-title {
   color: #FFCC00;
+  text-decoration: none;
 }
 
 .game-card[data-game="translation-quest"]:hover .game-card-title {
   color: #88CC00;
+  text-decoration: none;
 }
 
 .game-card[data-game="five-letter-blitz"]:hover .game-card-title {
   color: #0099FF;
+  text-decoration: none;
 }
 
 .game-card .btn {

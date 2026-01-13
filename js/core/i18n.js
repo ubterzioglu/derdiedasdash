@@ -31,7 +31,7 @@ const translations = {
     registerPrompt: 'Oyun tamamen ücretsizdir. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir.',
 
     // Hero Section
-    heroTitle: 'Almanca Artikellerini Oyunla Öğren!',
+    heroTitle: 'Almancayı oyunlarla öğren!',
     heroSubtitle: 'Der, Die, Das artikellerini 5 eğlenceli oyunla master et. Ücretsiz, eğlenceli ve etkili!',
     startLearning: 'Öğrenmeye Başla 🚀',
     exploreGames: 'Oyunları Keşfet',

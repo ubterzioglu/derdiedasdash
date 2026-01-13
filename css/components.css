@@ -316,6 +316,9 @@
   margin-bottom: var(--space-md);
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 365px;
+  box-sizing: border-box;
 }
 
 .faq-card:hover {
@@ -399,24 +402,73 @@
 .game-card {
   background: var(--bg-primary);
   border-radius: var(--border-radius-lg);
-  padding: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
   text-align: center;
   cursor: pointer;
   transition: all 0.4s var(--ease-smooth);
   border: 3px solid var(--color-blue);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: var(--space-md);
+  justify-content: center;
+  gap: var(--space-sm);
   box-shadow: var(--shadow-blue), 0 8px 24px rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: inherit;
+  min-height: auto;
+  width: 100%;
+  max-width: 365px;
+  box-sizing: border-box;
+}
+
+/* How to Play Card - Game Card Style */
+.how-to-play-card {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  margin-bottom: var(--space-md);
+}
+
+.how-to-play-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+}
+
+.how-to-play-card .accordion-body {
+  padding: var(--space-lg);
+  background: white;
+  text-align: justify;
+  border-top: 1px solid var(--border-color);
+}
+
+.how-to-play-card .accordion-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.how-to-play-card.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Section Separator */
+.section-separator {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  margin: var(--space-lg) 0;
+  width: 100%;
+  max-width: 365px;
 }
 
 .game-card:hover {
   border-color: var(--color-blue);
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 /* Game Card - Specific Colors */
@@ -455,6 +507,7 @@
 .game-card[data-game="der-die-dash"]:hover {
   border-color: #00AAFF;
   box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .game-card[data-game="case-control"] {
@@ -465,6 +518,7 @@
 .game-card[data-game="case-control"]:hover {
   border-color: #FF6C7E;
   box-shadow: 0 8px 20px rgba(255, 92, 110, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .game-card[data-game="word-salad"] {
@@ -475,6 +529,7 @@
 .game-card[data-game="word-salad"]:hover {
   border-color: #FFDD11;
   box-shadow: 0 8px 20px rgba(255, 204, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .game-card[data-game="translation-quest"] {
@@ -485,6 +540,7 @@
 .game-card[data-game="translation-quest"]:hover {
   border-color: #99DD00;
   box-shadow: 0 8px 20px rgba(136, 204, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .game-card[data-game="five-letter-blitz"] {
@@ -495,18 +551,22 @@
 .game-card[data-game="five-letter-blitz"]:hover {
   border-color: #00AAFF;
   box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 /* Legacy styles (keeping for compatibility) */
 .game-card-icon {
-  font-size: 4rem;
-  margin-bottom: var(--space-sm);
+  font-size: var(--text-lg);
+  margin: 0;
+  line-height: 1;
 }
 
 .game-card-title {
-  font-size: var(--text-2xl);
+  font-size: var(--text-lg);
   font-weight: 700;
-  margin-bottom: var(--space-xs);
+  margin: 0;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .game-card-meta {
@@ -733,6 +793,14 @@
   padding: var(--space-lg);
   background: white;
   display: none;
+  text-align: justify;
+}
+
+.accordion-body p,
+.accordion-body div p,
+.accordion-body h4,
+.accordion-body h5 {
+  text-align: justify;
 }
 
 .accordion-header.active + .accordion-body,
@@ -958,11 +1026,58 @@
 /* === HEADER === */
 .page-header {
   background: white;
-  padding: var(--space-md) 0;
+  padding: var(--space-md) 0 0 0;
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
   box-shadow: var(--shadow-sm);
+}
+
+.header-card {
+  margin-bottom: var(--space-sm);
+  border: 3px solid var(--color-blue);
+  box-shadow: var(--shadow-blue), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.header-card .card-body {
+  padding: var(--space-sm);
+}
+
+/* Brand Name and Buttons Outside Card */
+.navbar-brand-outside {
+  text-align: center;
+  margin: var(--space-md) 0;
+}
+
+.navbar-actions-outside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  width: 100%;
+}
+
+.navbar-actions-outside .auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.navbar-actions-outside .auth-buttons .btn {
+  width: 100%;
+}
+
+.navbar-actions-outside .user-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+  align-items: stretch;
+}
+
+.navbar-actions-outside .user-menu .btn {
+  width: 100%;
 }
 
 .navbar {
@@ -998,10 +1113,13 @@
 
 .navbar-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: nowrap;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.navbar-actions .btn,
+.navbar-actions .hamburger-btn {
   width: 100%;
 }
 
@@ -1020,27 +1138,33 @@
 
 .auth-buttons {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
 }
 
 .auth-buttons .btn {
-  flex: 1;
-  min-width: 70px;
-  width: 70px;
-  padding: 8px 4px;
-  font-size: 0.75rem;
-  white-space: nowrap;
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--text-base);
 }
 
 .user-menu {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--space-sm);
+  width: 100%;
+}
+
+.user-menu .btn {
+  width: 100%;
 }
 
 .user-name {
   font-weight: 600;
   color: var(--text-primary);
+  text-align: center;
+  width: 100%;
 }
 
 /* === HAMBURGER MENU === */
@@ -1077,12 +1201,46 @@
   font-size: 16px;
 }
 
+/* Top Hamburger Button - Geniş buton en üstte */
+.hamburger-btn-top {
+  width: 100%;
+  max-width: 365px;
+  margin: 0 auto var(--space-sm) auto;
+  padding: var(--space-md);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  border: 3px solid var(--color-blue);
+  background: linear-gradient(135deg, var(--color-blue) 0%, #0088EE 100%);
+  color: white;
+  box-shadow: var(--shadow-blue), 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  position: relative;
+  z-index: var(--z-sticky);
+  box-sizing: border-box;
+}
+
+.hamburger-btn-top:hover {
+  background: linear-gradient(135deg, #00AAFF 0%, #0099FF 100%);
+  box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 153, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+
 /* Slide-in Menu */
 .slide-menu {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  width: 160px; /* "MENÜYÜ KAPAT" için genişlik */
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
   height: 100vh; /* Tam yükseklik */
   background: white;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
@@ -1144,13 +1302,51 @@
   font-size: 0.85rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   white-space: nowrap;
+  text-align: center;
 }
 
 .slide-menu-item:hover {
   background: rgba(8, 145, 178, 0.05);
-  padding-left: 14px;
   color: var(--color-primary);
+}
+
+/* Auth Buttons in Menu */
+.slide-menu-auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-top: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.slide-menu-auth-buttons .btn {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--text-base);
+}
+
+/* User Menu in Menu */
+.slide-menu-user-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-top: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.slide-menu-user-menu .btn {
+  width: 100%;
+}
+
+.slide-menu-user-menu .user-name {
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
 }
 
 /* Language Selector in Menu */
