@@ -880,6 +880,34 @@
   width: 100%;
 }
 
+/* ============================================
+   SET SELECTION PAGE - DIFFICULTY HEADER
+   ============================================ */
+
+.difficulty-header-card {
+  background: var(--color-green); /* Tam dolu yeşil renk */
+  color: white;
+  padding: var(--space-lg);
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-green-lg);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.difficulty-header-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  color: white;
+}
+
+.difficulty-back-button {
+  width: 100%;
+  margin-top: var(--space-md);
+}
+
 .set-completed-badge {
   font-size: var(--text-xs);
   color: var(--color-green);
