@@ -259,6 +259,57 @@
   box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 0, 0, 0.1);
 }
 
+/* Game Card - Specific Colors */
+.game-card[data-game="der-die-dash"] {
+  border-color: #0099FF;
+  box-shadow: 0 4px 12px rgba(0, 153, 255, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.game-card[data-game="der-die-dash"]:hover {
+  border-color: #00AAFF;
+  box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game-card[data-game="case-control"] {
+  border-color: #FF5C6E;
+  box-shadow: 0 4px 12px rgba(255, 92, 110, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.game-card[data-game="case-control"]:hover {
+  border-color: #FF6C7E;
+  box-shadow: 0 8px 20px rgba(255, 92, 110, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game-card[data-game="word-salad"] {
+  border-color: #FFCC00;
+  box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.game-card[data-game="word-salad"]:hover {
+  border-color: #FFDD11;
+  box-shadow: 0 8px 20px rgba(255, 204, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game-card[data-game="translation-quest"] {
+  border-color: #88CC00;
+  box-shadow: 0 4px 12px rgba(136, 204, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.game-card[data-game="translation-quest"]:hover {
+  border-color: #99DD00;
+  box-shadow: 0 8px 20px rgba(136, 204, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game-card[data-game="five-letter-blitz"] {
+  border-color: #0099FF;
+  box-shadow: 0 4px 12px rgba(0, 153, 255, 0.3), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.game-card[data-game="five-letter-blitz"]:hover {
+  border-color: #00AAFF;
+  box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
 .game-card-icon {
   font-size: 4rem;
   margin-bottom: var(--space-sm);

@@ -202,6 +202,37 @@
   opacity: 1;
 }
 
+/* Game Card Specific Gradients */
+.game-card[data-game="der-die-dash"]::before {
+  background: linear-gradient(135deg,
+    rgba(0, 153, 255, 0.1) 0%,
+    rgba(0, 153, 255, 0.05) 100%);
+}
+
+.game-card[data-game="case-control"]::before {
+  background: linear-gradient(135deg,
+    rgba(255, 92, 110, 0.1) 0%,
+    rgba(255, 92, 110, 0.05) 100%);
+}
+
+.game-card[data-game="word-salad"]::before {
+  background: linear-gradient(135deg,
+    rgba(255, 204, 0, 0.1) 0%,
+    rgba(255, 204, 0, 0.05) 100%);
+}
+
+.game-card[data-game="translation-quest"]::before {
+  background: linear-gradient(135deg,
+    rgba(136, 204, 0, 0.1) 0%,
+    rgba(136, 204, 0, 0.05) 100%);
+}
+
+.game-card[data-game="five-letter-blitz"]::before {
+  background: linear-gradient(135deg,
+    rgba(0, 153, 255, 0.1) 0%,
+    rgba(0, 153, 255, 0.05) 100%);
+}
+
 .game-card > * {
   position: relative;
   z-index: 1;
@@ -221,6 +252,27 @@
 
 .game-card:hover .game-card-title {
   color: var(--color-blue);
+}
+
+/* Game Card Title Colors */
+.game-card[data-game="der-die-dash"]:hover .game-card-title {
+  color: #0099FF;
+}
+
+.game-card[data-game="case-control"]:hover .game-card-title {
+  color: #FF5C6E;
+}
+
+.game-card[data-game="word-salad"]:hover .game-card-title {
+  color: #FFCC00;
+}
+
+.game-card[data-game="translation-quest"]:hover .game-card-title {
+  color: #88CC00;
+}
+
+.game-card[data-game="five-letter-blitz"]:hover .game-card-title {
+  color: #0099FF;
 }
 
 .game-card .btn {
