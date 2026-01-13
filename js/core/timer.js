@@ -139,7 +139,7 @@ export function updateTimerDisplay(timerEl, currentTime) {
   if (timerValue) {
     timerValue.textContent = `${currentTime}s`;
     
-    // Add warning class if time is low
+    // Add warning class if time is low (works for both .timer and .timer-card)
     if (currentTime <= 2) {
       timerEl.classList.add('timer--warning');
     } else {

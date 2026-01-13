@@ -436,6 +436,42 @@
   background: var(--color-green);
 }
 
+/* === WRONG CONFETTI EFFECT (Negative) === */
+@keyframes wrongConfetti {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(150px) rotate(180deg) scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(300px) rotate(360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.wrong-confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.wrong-confetti-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: wrongConfetti 1.5s ease-out forwards;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
 /* === QUESTION TRANSITION === */
 @keyframes questionSlideOut {
   from {

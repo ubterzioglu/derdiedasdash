@@ -79,6 +79,42 @@ export function createWrongAnimation(container) {
 }
 
 /**
+ * Create negative confetti effect for wrong answers (like confetti but negative)
+ * Red/black particles falling down
+ */
+export function createWrongConfetti(container) {
+  if (!container) return;
+
+  const confettiContainer = document.createElement('div');
+  confettiContainer.className = 'wrong-confetti-container';
+  document.body.appendChild(confettiContainer);
+
+  const colors = ['#FF4444', '#CC0000', '#990000', '#000000', '#333333'];
+  const particleCount = 40;
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'wrong-confetti-particle';
+    
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = color;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = '-10px';
+    particle.style.animationDelay = `${Math.random() * 0.5}s`;
+    particle.style.animationDuration = `${0.8 + Math.random() * 0.7}s`;
+    
+    confettiContainer.appendChild(particle);
+  }
+
+  // Remove after animation
+  setTimeout(() => {
+    if (document.body.contains(confettiContainer)) {
+      document.body.removeChild(confettiContainer);
+    }
+  }, 2000);
+}
+
+/**
  * Create timeout animation (pulse/fade effect)
  */
 export function createTimeoutAnimation(container) {

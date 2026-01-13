@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createWrongConfetti, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -488,10 +488,11 @@ function showFeedback(isCorrect, userWord, correctWord, isTimeout = false) {
       createConfetti(elements.letterBuilder);
     }
   } else {
-    // Wrong answer - red flash animation
+    // Wrong answer - red flash animation + negative confetti
     if (elements.letterBuilder) {
       animateWrong(elements.letterBuilder);
       createWrongAnimation(elements.letterBuilder);
+      createWrongConfetti(elements.letterBuilder);
     }
     
     // Show correct answer

@@ -641,27 +641,27 @@
   z-index: 1; /* Timer ve combo'nun üstünde */
 }
 
-/* Timer - Kart içinde, sola yaslı */
+/* Timer - Kart içinde, sola yaslı (ESKİ - Artık kullanılmıyor, timer ayrı kartta) */
 .timer-in-card {
   position: absolute;
   left: var(--space-md);
   top: 50%;
   transform: translateY(-50%);
-  font-family: var(--font-primary); /* Ekrandaki diğer yazı tipleriyle aynı */
-  font-size: var(--text-base); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
   font-weight: 600;
   color: white;
   z-index: 2;
 }
 
 .timer-in-card .timer-value {
-  font-family: var(--font-primary); /* Ekrandaki diğer yazı tipleriyle aynı */
-  font-size: var(--text-base); /* Ekrandaki diğer yazı tipleriyle aynı */
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
   color: white;
 }
 
 .timer-in-card.timer--warning .timer-value {
-  color: #FF4444; /* Warning durumunda kırmızı */
+  color: #FF4444;
 }
 
 /* Combo - Kart içinde, sağa yaslı */
@@ -1029,7 +1029,49 @@
   box-shadow: var(--shadow-orange);
 }
 
-/* === TIMER DISPLAY === */
+/* === TIMER CARD (Ayrı Kart) === */
+.timer-card {
+  background: linear-gradient(135deg, #B794F6 0%, #9B7EDE 100%); /* Pastel mor */
+  color: white;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 12px rgba(155, 126, 222, 0.3);
+  margin: var(--space-md) auto;
+  text-align: center;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.timer-card .timer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-family: var(--font-primary);
+  color: white;
+  margin: 0;
+}
+
+.timer-card .timer-value {
+  color: white;
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.timer-card.timer--warning {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.timer-card.timer--warning .timer-value {
+  animation: timerPulse 1s infinite;
+}
+
+/* === TIMER DISPLAY (Eski stil - geriye dönük uyumluluk için) === */
 .timer {
   display: flex;
   align-items: center;

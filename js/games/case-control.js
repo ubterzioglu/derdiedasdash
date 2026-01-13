@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createTimeoutAnimation } from '../core/animations.js';
+import { animateCorrect, animateWrong, createConfetti, createWrongAnimation, createWrongConfetti, createTimeoutAnimation } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -382,9 +382,10 @@ function showFeedback(isCorrect, selectedForm, correctForm, isTimeout = false) {
       animateCorrect(buttons[selectedForm]);
       createConfetti(buttons[selectedForm]);
     } else {
-      // Wrong answer - red flash animation
+      // Wrong answer - red flash animation + negative confetti
       animateWrong(buttons[selectedForm]);
       createWrongAnimation(buttons[selectedForm]);
+      createWrongConfetti(buttons[selectedForm]);
       if (buttons[correctForm]) {
         animateCorrect(buttons[correctForm]);
       }
