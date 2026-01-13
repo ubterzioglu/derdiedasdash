@@ -961,21 +961,16 @@
    ============================================ */
 
 .difficulty-header-card {
-  padding: var(--space-sm) var(--space-md); /* Zorluk kartlarıyla aynı padding */
+  padding: var(--space-lg);
   border-radius: var(--border-radius-lg);
   text-align: center;
-  margin-bottom: var(--space-xs); /* Zorluk kartlarıyla aynı gap */
+  margin-bottom: var(--space-md);
   width: 100%;
   max-width: 365px;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
   box-shadow: var(--shadow-md);
-  height: 60px; /* Zorluk kartlarıyla aynı yükseklik */
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Zorluk seviyesine göre renkler */
@@ -1020,10 +1015,10 @@
 .difficulty-back-card {
   background: var(--color-yellow); /* Sarı arka plan */
   color: var(--text-primary); /* Siyah yazı */
-  padding: var(--space-sm) var(--space-md); /* Zorluk kartlarıyla aynı padding */
+  padding: var(--space-md);
   border-radius: var(--border-radius-lg);
   text-align: center;
-  margin-bottom: var(--space-xs); /* Zorluk kartlarıyla aynı gap */
+  margin-bottom: var(--space-lg);
   width: 100%;
   max-width: 365px;
   box-sizing: border-box;
@@ -1031,11 +1026,6 @@
   margin-right: auto;
   box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
   border: 3px solid var(--color-yellow);
-  height: 60px; /* Zorluk kartlarıyla aynı yükseklik */
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .difficulty-back-button {
