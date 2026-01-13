@@ -858,7 +858,6 @@
 
 .set-card-body {
   flex: 1;
-  margin-bottom: var(--space-md);
 }
 
 .set-card-title {

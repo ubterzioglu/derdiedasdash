@@ -1270,7 +1270,7 @@
   width: 100%;
   max-width: 375px;
   margin: 0 auto;
-  height: 100vh; /* Tam yükseklik */
+  max-height: 90vh; /* Yüksekliği azalt */
   background: white;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
   z-index: 1002;
@@ -1382,9 +1382,8 @@
 .slide-menu-language-selector {
   display: flex;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  margin-top: auto;
-  border-top: 2px solid var(--border-color);
+  padding: var(--space-sm) var(--space-md);
+  margin-top: var(--space-sm);
   justify-content: center;
 }
 

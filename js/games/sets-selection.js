@@ -197,27 +197,17 @@ function renderSets() {
         ${set.isCompleted ? '<span class="set-completed-badge">✓ ' + t('completed') + '</span>' : ''}
       </div>
       <div class="set-card-body">
-        <h3 class="set-card-title">Set ${set.set_number}</h3>
-        <p class="set-card-description">Level ${set.difficulty_level}</p>
-      </div>
-      <div class="set-card-footer">
-        ${set.isCompleted ? 
-          `<button class="btn btn-secondary" disabled>${t('completed')}</button>` :
-          `<button class="btn btn-primary" data-set-id="${set.id}">${t('play')}</button>`
-        }
+        <h3 class="set-card-title">Set ${set.set_number} - Level ${set.difficulty_level}</h3>
       </div>
     `;
 
-    // Add click handler if not completed
-    if (!set.isCompleted) {
-      const playBtn = card.querySelector('[data-set-id]');
-      if (playBtn) {
-        playBtn.addEventListener('click', () => {
-          const setId = playBtn.dataset.setId;
-          startGame(setId);
-        });
+    // Make entire card clickable
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      if (!set.isCompleted) {
+        startGame(set.id);
       }
-    }
+    });
 
     elements.setGrid.appendChild(card);
   });
