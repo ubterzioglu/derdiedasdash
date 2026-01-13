@@ -183,6 +183,7 @@ function renderSets() {
   availableSets.forEach(set => {
     const card = document.createElement('div');
     card.className = 'set-card';
+    card.setAttribute('data-difficulty-level', set.difficulty_level);
     if (set.isCompleted) {
       card.classList.add('set-card--completed');
     }

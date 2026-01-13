@@ -252,7 +252,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm);
   transition: all 0.3s ease;
   min-height: 50px;
 }
@@ -305,6 +304,95 @@
   font-size: var(--text-sm);
   line-height: 1.5;
   margin-bottom: var(--space-sm);
+}
+
+/* === FAQ CARDS === */
+/* FAQ cards styled like game cards with colored borders */
+.faq-card {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-lg);
+  border: 3px solid var(--color-blue);
+  box-shadow: var(--shadow-blue), 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-bottom: var(--space-md);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card-body {
+  padding: var(--space-lg);
+}
+
+.faq-card-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  color: var(--color-blue);
+  transition: color 0.3s ease;
+}
+
+.faq-card-text {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* FAQ Card Colors - Same as game cards */
+.faq-card[data-faq="1"] {
+  border-color: #0099FF;
+  box-shadow: 0 4px 16px rgba(0, 153, 255, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-card[data-faq="1"]:hover {
+  box-shadow: 0 8px 24px rgba(0, 153, 255, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card[data-faq="1"] .faq-card-title {
+  color: #0099FF;
+}
+
+.faq-card[data-faq="2"] {
+  border-color: #FF5C6E;
+  box-shadow: 0 4px 16px rgba(255, 92, 110, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-card[data-faq="2"]:hover {
+  box-shadow: 0 8px 24px rgba(255, 92, 110, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card[data-faq="2"] .faq-card-title {
+  color: #FF5C6E;
+}
+
+.faq-card[data-faq="3"] {
+  border-color: #FFCC00;
+  box-shadow: 0 4px 16px rgba(255, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-card[data-faq="3"]:hover {
+  box-shadow: 0 8px 24px rgba(255, 204, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card[data-faq="3"] .faq-card-title {
+  color: #FFCC00;
+}
+
+.faq-card[data-faq="4"] {
+  border-color: #88CC00;
+  box-shadow: 0 4px 16px rgba(136, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.faq-card[data-faq="4"]:hover {
+  box-shadow: 0 8px 24px rgba(136, 204, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.faq-card[data-faq="4"] .faq-card-title {
+  color: #88CC00;
 }
 
 /* Legacy game-card (keeping for compatibility) */
@@ -870,7 +958,6 @@
 /* === HEADER === */
 .page-header {
   background: white;
-  border-bottom: 1px solid var(--border-color);
   padding: var(--space-md) 0;
   position: sticky;
   top: 0;

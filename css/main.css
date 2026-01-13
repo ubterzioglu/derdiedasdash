@@ -233,6 +233,60 @@ a:hover {
 
 /* === GRID SYSTEM === */
 /* Fixed single column layout for all devices */
+/* Game Row - Contains game card and play button card side by side */
+.game-row {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  align-items: stretch;
+}
+
+.game-row .game-card-accordion {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Play Button Card - Right side card for play button */
+.game-play-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  background: linear-gradient(135deg, var(--color-blue) 0%, #0088EE 100%);
+  border-radius: var(--border-radius-lg);
+  border: 3px solid var(--color-blue);
+  box-shadow: var(--shadow-blue), 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: white;
+  padding: var(--space-md);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.game-play-card:hover {
+  background: linear-gradient(135deg, #00AAFF 0%, #0099FF 100%);
+  box-shadow: var(--shadow-blue-lg), 0 12px 32px rgba(0, 153, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.game-play-card:active {
+  transform: translateY(0);
+}
+
+.game-play-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-xs);
+  line-height: 1;
+}
+
+.game-play-text {
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
 .game-grid {
   display: grid;
   grid-template-columns: 1fr;

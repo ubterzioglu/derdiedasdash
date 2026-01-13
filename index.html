@@ -98,10 +98,15 @@
       <div id="slideMenu" class="slide-menu">
         <button id="closeMenuBtn" class="close-menu-btn">MENÜYÜ KAPAT</button>
         <nav class="slide-menu-nav">
-          <a href="contact.html" class="slide-menu-item" data-i18n="contact">İletişim</a>
-          <a href="leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Leaderboard</a>
-          <a href="badges.html" class="slide-menu-item" data-i18n="badges">Badges</a>
-          <a href="#howToPlayHeader" class="slide-menu-item" data-i18n="howToPlay">Nasıl Oynanır?</a>
+          <a href="index.html" class="slide-menu-item" data-i18n="backToHome">Ana Sayfa</a>
+          <a href="#faq-section" class="slide-menu-item">Sık Sorulan Sorular</a>
+          <a href="leaderboard.html" class="slide-menu-item" data-i18n="leaderboard">Skor Tablosu</a>
+          <a href="badges.html" class="slide-menu-item" data-i18n="badges">Rozetler</a>
+          <a href="games/der-die-dash-difficulty.html" class="slide-menu-item">🎯 Der Die Dash</a>
+          <a href="games/case-control-difficulty.html" class="slide-menu-item">📍 Case Control</a>
+          <a href="games/word-salad-difficulty.html" class="slide-menu-item">🥗 Word Salad</a>
+          <a href="games/translation-quest-difficulty.html" class="slide-menu-item">🌍 Translation Quest</a>
+          <a href="games/five-letter-blitz-difficulty.html" class="slide-menu-item">⚡ 5-Letter Blitz</a>
         </nav>
       </div>
     </div>
@@ -211,121 +216,146 @@
 
         <div class="game-grid">
           <!-- Der Die Dash -->
-          <div class="game-card-accordion" data-game="der-die-dash">
-            <div class="game-card-header">
-              <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
-                <span class="game-card-icon">🎯</span>
-                <h3 class="game-card-title">Der Die Dash</h3>
-                <span class="accordion-icon">▼</span>
+          <div class="game-row">
+            <div class="game-card-accordion" data-game="der-die-dash">
+              <div class="game-card-header">
+                <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
+                  <span class="game-card-icon">🎯</span>
+                  <h3 class="game-card-title">Der Die Dash</h3>
+                  <span class="accordion-icon">▼</span>
+                </div>
               </div>
-              <a href="games/der-die-dash-difficulty.html" class="btn btn-primary btn-sm">Oyna</a>
+              <div class="game-card-body">
+                <p class="game-card-description" data-i18n="derDieDashDesc">Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
+              </div>
             </div>
-            <div class="game-card-body">
-              <p class="game-card-description" data-i18n="derDieDashDesc">Kelimenin doğru artikelini (der, die, das) tahmin edin. Zamanla yarışın ve doğru artikeli seçin. Almanca artikel öğrenmenin en eğlenceli yolu!</p>
-            </div>
+            <a href="games/der-die-dash-difficulty.html" class="game-play-card">
+              <span class="game-play-icon">▶</span>
+              <span class="game-play-text">Oyna</span>
+            </a>
           </div>
 
           <!-- Case Control -->
-          <div class="game-card-accordion" data-game="case-control">
-            <div class="game-card-header">
-              <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
-                <span class="game-card-icon">📍</span>
-                <h3 class="game-card-title">Case Control</h3>
-                <span class="accordion-icon">▼</span>
+          <div class="game-row">
+            <div class="game-card-accordion" data-game="case-control">
+              <div class="game-card-header">
+                <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
+                  <span class="game-card-icon">📍</span>
+                  <h3 class="game-card-title">Case Control</h3>
+                  <span class="accordion-icon">▼</span>
+                </div>
               </div>
-              <a href="games/case-control-difficulty.html" class="btn btn-primary btn-sm">Oyna</a>
+              <div class="game-card-body">
+                <p class="game-card-description" data-i18n="caseControlDesc">Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
+              </div>
             </div>
-            <div class="game-card-body">
-              <p class="game-card-description" data-i18n="caseControlDesc">Preposition (edat) challenge! Verilen cümledeki boşluğa doğru edatı (in, an, auf, mit, etc.) yerleştirin. Almanca edatların hangi case ile kullanıldığını öğrenin.</p>
-            </div>
+            <a href="games/case-control-difficulty.html" class="game-play-card">
+              <span class="game-play-icon">▶</span>
+              <span class="game-play-text">Oyna</span>
+            </a>
           </div>
 
           <!-- Word Salad -->
-          <div class="game-card-accordion" data-game="word-salad">
-            <div class="game-card-header">
-              <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
-                <span class="game-card-icon">🥗</span>
-                <h3 class="game-card-title">Word Salad</h3>
-                <span class="accordion-icon">▼</span>
+          <div class="game-row">
+            <div class="game-card-accordion" data-game="word-salad">
+              <div class="game-card-header">
+                <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
+                  <span class="game-card-icon">🥗</span>
+                  <h3 class="game-card-title">Word Salad</h3>
+                  <span class="accordion-icon">▼</span>
+                </div>
               </div>
-              <a href="games/word-salad-difficulty.html" class="btn btn-primary btn-sm">Oyna</a>
+              <div class="game-card-body">
+                <p class="game-card-description" data-i18n="wordSaladDesc">Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
+              </div>
             </div>
-            <div class="game-card-body">
-              <p class="game-card-description" data-i18n="wordSaladDesc">Karışık kelimeleri doğru sıraya dizin ve anlamlı bir cümle oluşturun. Almanca cümle yapısını (syntax) öğrenmenin en etkili yolu!</p>
-            </div>
+            <a href="games/word-salad-difficulty.html" class="game-play-card">
+              <span class="game-play-icon">▶</span>
+              <span class="game-play-text">Oyna</span>
+            </a>
           </div>
 
           <!-- Translation Quest -->
-          <div class="game-card-accordion" data-game="translation-quest">
-            <div class="game-card-header">
-              <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
-                <span class="game-card-icon">🌍</span>
-                <h3 class="game-card-title">Translation Quest</h3>
-                <span class="accordion-icon">▼</span>
+          <div class="game-row">
+            <div class="game-card-accordion" data-game="translation-quest">
+              <div class="game-card-header">
+                <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
+                  <span class="game-card-icon">🌍</span>
+                  <h3 class="game-card-title">Translation Quest</h3>
+                  <span class="accordion-icon">▼</span>
+                </div>
               </div>
-              <a href="games/translation-quest-difficulty.html" class="btn btn-primary btn-sm">Oyna</a>
+              <div class="game-card-body">
+                <p class="game-card-description" data-i18n="translationQuestDesc">Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
+              </div>
             </div>
-            <div class="game-card-body">
-              <p class="game-card-description" data-i18n="translationQuestDesc">Almanca kelimeleri Türkçe veya İngilizce'ye çevirin. Kelime dağarcığınızı geliştirin ve hızlı düşünmeyi öğrenin.</p>
-            </div>
+            <a href="games/translation-quest-difficulty.html" class="game-play-card">
+              <span class="game-play-icon">▶</span>
+              <span class="game-play-text">Oyna</span>
+            </a>
           </div>
 
           <!-- 5-Letter Blitz -->
-          <div class="game-card-accordion" data-game="five-letter-blitz">
-            <div class="game-card-header">
-              <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
-                <span class="game-card-icon">⚡</span>
-                <h3 class="game-card-title">5-Letter Blitz</h3>
-                <span class="accordion-icon">▼</span>
+          <div class="game-row">
+            <div class="game-card-accordion" data-game="five-letter-blitz">
+              <div class="game-card-header">
+                <div class="game-card-header-content" onclick="toggleGameAccordion(this)">
+                  <span class="game-card-icon">⚡</span>
+                  <h3 class="game-card-title">5-Letter Blitz</h3>
+                  <span class="accordion-icon">▼</span>
+                </div>
               </div>
-              <a href="games/five-letter-blitz-difficulty.html" class="btn btn-primary btn-sm">Oyna</a>
+              <div class="game-card-body">
+                <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
+              </div>
             </div>
-            <div class="game-card-body">
-              <p class="game-card-description" data-i18n="fiveLetterBlitzDesc">5 harfli Almanca kelimelerin harflerini doğru sıraya dizin. Hızlı düşünün, kelimeleri tanıyın ve spelling becerilerinizi geliştirin!</p>
-            </div>
+            <a href="games/five-letter-blitz-difficulty.html" class="game-play-card">
+              <span class="game-play-icon">▶</span>
+              <span class="game-play-text">Oyna</span>
+            </a>
           </div>
         </div>
       </section>
 
       <!-- FAQ Section (AI-Friendly) -->
-      <section class="faq-section" style="margin: var(--space-xl) 0;">
+      <section id="faq-section" class="faq-section" style="margin: var(--space-xl) 0;">
         <h2 style="font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-lg); text-align: center;">
           💬 Sık Sorulan Sorular
         </h2>
 
-        <div class="card" style="margin-bottom: var(--space-md);">
-          <div class="card-body">
-            <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
+        <div class="faq-card" data-faq="1">
+          <div class="faq-card-body">
+            <h3 class="faq-card-title">
               Der Die Das nedir ve neden önemlidir?
             </h3>
-            <p>Der, die ve das Almanca'da "the" (artikel) demektir. Almanca'da her ismin bir artikeli vardır ve bu artikeli doğru kullanmak grammar için kritiktir. Der Die Das Space ile bu artikelleri oyunla öğrenebilirsiniz.</p>
+            <p class="faq-card-text">Der, die ve das Almanca'da "the" (artikel) demektir. Almanca'da her ismin bir artikeli vardır ve bu artikeli doğru kullanmak grammar için kritiktir. Der Die Das Space ile bu artikelleri oyunla öğrenebilirsiniz.</p>
           </div>
         </div>
 
-        <div class="card" style="margin-bottom: var(--space-md);">
-          <div class="card-body">
-            <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
+        <div class="faq-card" data-faq="2">
+          <div class="faq-card-body">
+            <h3 class="faq-card-title">
               Almanca artikel öğrenmek için en iyi yöntem nedir?
             </h3>
-            <p>Gamification (oyunlaştırma) en etkili yöntemdir. Der Die Das Space, 5 farklı oyunla artikelleri, case'leri ve prepositionları practice etmenize olanak tanır. Combo sistemi ve speed bonusları ile öğrenme daha eğlenceli hale gelir.</p>
+            <p class="faq-card-text">Gamification (oyunlaştırma) en etkili yöntemdir. Der Die Das Space, 5 farklı oyunla artikelleri, case'leri ve prepositionları practice etmenize olanak tanır. Combo sistemi ve speed bonusları ile öğrenme daha eğlenceli hale gelir.</p>
           </div>
         </div>
 
-        <div class="card" style="margin-bottom: var(--space-md);">
-          <div class="card-body">
-            <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
+        <div class="faq-card" data-faq="3">
+          <div class="faq-card-body">
+            <h3 class="faq-card-title">
               Platform ücretsiz mi?
             </h3>
-            <p>Evet! Platform tamamen ücretsizdir. Tüm oyunları ve tüm setleri ücretsiz oynayabilirsiniz. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz.</p>
+            <p class="faq-card-text">Evet! Platform tamamen ücretsizdir. Tüm oyunları ve tüm setleri ücretsiz oynayabilirsiniz. Üye olmak hem skor takibi hem de oynadığınız oyunları takip etmek için gereklidir. Kayıt olarak skorunuzu kaydedebilir, badge kazanabilir ve global leaderboard'da yarışabilirsiniz.</p>
           </div>
         </div>
 
-        <div class="card" style="margin-bottom: var(--space-md);">
-          <div class="card-body">
-            <h3 style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-sm); color: var(--color-blue);">
+        <div class="faq-card" data-faq="4">
+          <div class="faq-card-body">
+            <h3 class="faq-card-title">
               Hangi seviyedeki öğrenciler için uygun?
             </h3>
-            <p>A1'den C1 seviyesine kadar tüm German learners için uygundur. Farklı zorluk seviyelerinde setler bulunmaktadır.</p>
+            <p class="faq-card-text">A1'den C1 seviyesine kadar tüm German learners için uygundur. Farklı zorluk seviyelerinde setler bulunmaktadır.</p>
           </div>
         </div>
       </section>

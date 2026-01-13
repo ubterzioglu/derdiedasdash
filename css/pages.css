@@ -671,35 +671,53 @@
    SET SELECTION PAGE
    ============================================ */
 
-/* Difficulty Grid */
+/* Difficulty Grid - Single column, 5 cards stacked */
 .difficulty-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
   margin-bottom: var(--space-xl);
+  padding: 0 var(--space-md);
 }
 
-/* Difficulty Card */
+/* Difficulty Card - Full width, stacked vertically */
 .difficulty-card {
   background: white;
   border-radius: var(--border-radius-lg);
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   text-align: center;
   box-shadow: var(--shadow-md);
   border: 2px solid var(--border-color);
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 80px;
+  width: 100%;
 }
 
 .difficulty-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-blue);
 }
 
+.difficulty-card-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+}
+
 .difficulty-card-icon {
-  font-size: 3rem;
-  margin-bottom: var(--space-sm);
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.difficulty-card-info {
+  text-align: left;
+  flex: 1;
 }
 
 .difficulty-card-title {
@@ -712,6 +730,17 @@
 .difficulty-card-label {
   font-size: var(--text-sm);
   color: var(--text-secondary);
+}
+
+.difficulty-card-arrow {
+  font-size: var(--text-xl);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.difficulty-card:hover .difficulty-card-arrow {
+  color: var(--color-blue);
+  transform: translateX(4px);
 }
 
 /* Set Grid (for set selection) */
@@ -728,7 +757,7 @@
   border-radius: var(--border-radius-lg);
   padding: var(--space-md);
   box-shadow: var(--shadow-md);
-  border: 2px solid var(--border-color);
+  border: 3px solid var(--border-color);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -737,12 +766,87 @@
 .set-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--color-blue);
 }
 
 .set-card--completed {
   opacity: 0.7;
-  border-color: var(--color-green);
+}
+
+/* Set Card Colors by Difficulty Level */
+/* Level 1 - Easy (Green) */
+.set-card[data-difficulty-level="1"] {
+  border-color: #88CC00;
+  box-shadow: 0 4px 16px rgba(136, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.set-card[data-difficulty-level="1"]:hover {
+  box-shadow: 0 8px 24px rgba(136, 204, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #88CC00;
+}
+
+/* Level 2 - Medium-Easy (Yellow) */
+.set-card[data-difficulty-level="2"] {
+  border-color: #FFCC00;
+  box-shadow: 0 4px 16px rgba(255, 204, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.set-card[data-difficulty-level="2"]:hover {
+  box-shadow: 0 8px 24px rgba(255, 204, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #FFCC00;
+}
+
+/* Level 3 - Medium (Orange) */
+.set-card[data-difficulty-level="3"] {
+  border-color: #FF9933;
+  box-shadow: 0 4px 16px rgba(255, 153, 51, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.set-card[data-difficulty-level="3"]:hover {
+  box-shadow: 0 8px 24px rgba(255, 153, 51, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #FF9933;
+}
+
+/* Level 4 - Hard (Red) */
+.set-card[data-difficulty-level="4"] {
+  border-color: #FF5C6E;
+  box-shadow: 0 4px 16px rgba(255, 92, 110, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.set-card[data-difficulty-level="4"]:hover {
+  box-shadow: 0 8px 24px rgba(255, 92, 110, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #FF5C6E;
+}
+
+/* Level 5 - Very Hard (Dark) */
+.set-card[data-difficulty-level="5"] {
+  border-color: #333333;
+  box-shadow: 0 4px 16px rgba(51, 51, 51, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.set-card[data-difficulty-level="5"]:hover {
+  box-shadow: 0 8px 24px rgba(51, 51, 51, 0.3), 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: #333333;
+}
+
+/* Completed cards keep their color but with reduced opacity */
+.set-card--completed[data-difficulty-level="1"] {
+  border-color: #88CC00;
+}
+
+.set-card--completed[data-difficulty-level="2"] {
+  border-color: #FFCC00;
+}
+
+.set-card--completed[data-difficulty-level="3"] {
+  border-color: #FF9933;
+}
+
+.set-card--completed[data-difficulty-level="4"] {
+  border-color: #FF5C6E;
+}
+
+.set-card--completed[data-difficulty-level="5"] {
+  border-color: #333333;
 }
 
 .set-card-header {

@@ -53,6 +53,20 @@ body {
 }
 
 /* === GAME GRID - SINGLE COLUMN ALWAYS === */
+/* Game Row - Responsive */
+.game-row {
+  flex-direction: column;
+}
+
+.game-row .game-card-accordion {
+  width: 100%;
+}
+
+.game-play-card {
+  width: 100%;
+  min-height: 80px;
+}
+
 .game-grid {
   grid-template-columns: 1fr !important;
   gap: var(--space-md);

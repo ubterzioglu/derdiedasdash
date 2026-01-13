@@ -87,26 +87,23 @@ function renderDifficultyLevels() {
     const label = currentLang === 'tr' ? diff.label : diff.labelEn;
 
     card.innerHTML = `
-      <div class="difficulty-card-icon" style="font-size: 3rem; margin-bottom: var(--space-sm);">
-        ${diff.emoji}
+      <div class="difficulty-card-content">
+        <div class="difficulty-card-icon">
+          ${diff.emoji}
+        </div>
+        <div class="difficulty-card-info">
+          <h3 class="difficulty-card-title">
+            Level ${diff.level}
+          </h3>
+          <p class="difficulty-card-label">
+            ${label}
+          </p>
+        </div>
       </div>
-      <h3 class="difficulty-card-title" style="font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-xs);">
-        Level ${diff.level}
-      </h3>
-      <p class="difficulty-card-label" style="font-size: var(--text-sm); color: var(--text-secondary);">
-        ${label}
-      </p>
+      <div class="difficulty-card-arrow">→</div>
     `;
 
-    // Add hover effect
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-4px)';
-      card.style.boxShadow = 'var(--shadow-lg)';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0)';
-      card.style.boxShadow = 'var(--shadow-md)';
-    });
+    // Hover effects are handled by CSS
 
     // Click handler - navigate to sets page
     card.addEventListener('click', () => {
