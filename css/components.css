@@ -1029,27 +1029,27 @@
   box-shadow: var(--shadow-orange);
 }
 
-/* === TIMER CARD (Ayrı Kart) === */
+/* === TIMER CARD (Ayrı Kart - Daire) === */
 .timer-card {
   background: linear-gradient(135deg, #B794F6 0%, #9B7EDE 100%); /* Pastel mor */
   color: white;
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--border-radius-lg);
+  border-radius: 50%; /* Tam daire */
   box-shadow: 0 4px 12px rgba(155, 126, 222, 0.3);
   margin: var(--space-md) auto;
   text-align: center;
-  max-width: 200px;
+  width: 80px; /* Sabit genişlik */
+  height: 80px; /* Sabit yükseklik (daire için eşit olmalı) */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
 }
 
 .timer-card .timer {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  font-size: var(--text-lg);
+  gap: var(--space-xs);
+  font-size: var(--text-base);
   font-weight: 600;
   font-family: var(--font-primary);
   color: white;
@@ -1058,16 +1058,22 @@
 
 .timer-card .timer-value {
   color: white;
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 700;
 }
 
 .timer-card.timer--warning {
   background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
   box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  color: white; /* Yazı rengi her zaman beyaz */
+}
+
+.timer-card.timer--warning .timer {
+  color: white; /* Timer yazısı her zaman beyaz */
 }
 
 .timer-card.timer--warning .timer-value {
+  color: white !important; /* Timer değeri her zaman beyaz */
   animation: timerPulse 1s infinite;
 }
 
