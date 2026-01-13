@@ -80,6 +80,7 @@ function renderDifficultyLevels() {
   DIFFICULTY_LEVELS.forEach(diff => {
     const card = document.createElement('div');
     card.className = 'difficulty-card';
+    card.setAttribute('data-difficulty-level', diff.level);
     card.style.cursor = 'pointer';
     card.style.transition = 'all 0.3s ease';
 

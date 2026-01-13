@@ -677,30 +677,81 @@
   flex-direction: column;
   gap: var(--space-sm);
   margin-bottom: var(--space-xl);
-  padding: 0 var(--space-md);
+  padding: 0;
+  width: 100%;
+  max-width: 365px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Difficulty Card - Full width, stacked vertically */
 .difficulty-card {
   background: white;
   border-radius: var(--border-radius-lg);
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-md);
   text-align: center;
   box-shadow: var(--shadow-md);
-  border: 2px solid var(--border-color);
+  border: 3px solid var(--border-color);
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 80px;
+  min-height: 60px;
   width: 100%;
+  max-width: 365px;
+  box-sizing: border-box;
 }
 
 .difficulty-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+}
+
+/* Renkli kenarlıklar - Zorluk seviyelerine göre */
+.difficulty-card[data-difficulty-level="1"] {
+  border-color: var(--color-green);
+}
+
+.difficulty-card[data-difficulty-level="1"]:hover {
+  border-color: var(--color-green);
+  box-shadow: var(--shadow-green-lg);
+}
+
+.difficulty-card[data-difficulty-level="2"] {
   border-color: var(--color-blue);
+}
+
+.difficulty-card[data-difficulty-level="2"]:hover {
+  border-color: var(--color-blue);
+  box-shadow: var(--shadow-blue-lg);
+}
+
+.difficulty-card[data-difficulty-level="3"] {
+  border-color: var(--color-orange);
+}
+
+.difficulty-card[data-difficulty-level="3"]:hover {
+  border-color: var(--color-orange);
+  box-shadow: var(--shadow-orange-lg);
+}
+
+.difficulty-card[data-difficulty-level="4"] {
+  border-color: var(--color-red);
+}
+
+.difficulty-card[data-difficulty-level="4"]:hover {
+  border-color: var(--color-red);
+  box-shadow: var(--shadow-red);
+}
+
+.difficulty-card[data-difficulty-level="5"] {
+  border-color: #9933FF; /* Mor renk */
+}
+
+.difficulty-card[data-difficulty-level="5"]:hover {
+  border-color: #9933FF;
+  box-shadow: 0 8px 20px rgba(153, 51, 255, 0.35);
 }
 
 .difficulty-card-content {
@@ -711,7 +762,7 @@
 }
 
 .difficulty-card-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
@@ -721,10 +772,10 @@
 }
 
 .difficulty-card-title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 600;
   margin-bottom: var(--space-xs);
-  color: var(--color-blue);
+  color: var(--text-primary);
 }
 
 .difficulty-card-label {
@@ -733,14 +784,34 @@
 }
 
 .difficulty-card-arrow {
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   color: var(--text-secondary);
   transition: all 0.3s ease;
 }
 
 .difficulty-card:hover .difficulty-card-arrow {
-  color: var(--color-blue);
   transform: translateX(4px);
+}
+
+/* Arrow renkleri zorluk seviyelerine göre */
+.difficulty-card[data-difficulty-level="1"]:hover .difficulty-card-arrow {
+  color: var(--color-green);
+}
+
+.difficulty-card[data-difficulty-level="2"]:hover .difficulty-card-arrow {
+  color: var(--color-blue);
+}
+
+.difficulty-card[data-difficulty-level="3"]:hover .difficulty-card-arrow {
+  color: var(--color-orange);
+}
+
+.difficulty-card[data-difficulty-level="4"]:hover .difficulty-card-arrow {
+  color: var(--color-red);
+}
+
+.difficulty-card[data-difficulty-level="5"]:hover .difficulty-card-arrow {
+  color: #9933FF;
 }
 
 /* Set Grid (for set selection) */
