@@ -179,6 +179,53 @@ export function createArtikelExplosion(container, artikelColor) {
 }
 
 /**
+ * Create floating success message animation (screen-based)
+ */
+export function createFloatingSuccessMessage() {
+  const message = document.createElement('div');
+  message.className = 'floating-message';
+  message.textContent = '✓ Correct!';
+
+  const wash = document.createElement('div');
+  wash.className = 'color-wash';
+
+  document.body.appendChild(wash);
+  document.body.appendChild(message);
+
+  setTimeout(() => {
+    if (document.body.contains(message)) {
+      document.body.removeChild(message);
+    }
+    if (document.body.contains(wash)) {
+      document.body.removeChild(wash);
+    }
+  }, 1200);
+}
+
+/**
+ * Create warning lines animation (screen-based)
+ */
+export function createWarningLines() {
+  const line1 = document.createElement('div');
+  line1.className = 'warning-line warning-line-1';
+
+  const line2 = document.createElement('div');
+  line2.className = 'warning-line warning-line-2';
+
+  document.body.appendChild(line1);
+  document.body.appendChild(line2);
+
+  setTimeout(() => {
+    if (document.body.contains(line1)) {
+      document.body.removeChild(line1);
+    }
+    if (document.body.contains(line2)) {
+      document.body.removeChild(line2);
+    }
+  }, 600);
+}
+
+/**
  * Add correct answer animation classes
  * NOTE: Neon glow is NOT triggered here - call createNeonGlow separately only for correct user answers
  */
@@ -196,6 +243,8 @@ export function animateCorrect(element) {
     // Eski animasyonları da destekle (geriye dönük uyumluluk)
     element.classList.add('artikel-btn--correct', 'word-frame--correct', 'form-btn--correct', 'translation-option--correct', 'sentence-builder--correct', 'letter-builder--correct');
   }
+
+  createFloatingSuccessMessage();
 }
 
 /**
@@ -215,6 +264,8 @@ export function animateWrong(element) {
     // Eski animasyonları da destekle (geriye dönük uyumluluk)
     element.classList.add('artikel-btn--wrong', 'word-frame--wrong', 'form-btn--wrong', 'translation-option--wrong', 'sentence-builder--wrong', 'letter-builder--wrong', 'preposition-frame--wrong');
   }
+
+  createWarningLines();
 }
 
 /**
