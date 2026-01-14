@@ -1077,48 +1077,6 @@
 }
 
 /* === SCREEN-BASED CORRECT/WRONG ANIMATIONS === */
-@keyframes warningLines {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  12% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.08);
-  }
-}
-
-.warning-line {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 150vmax;
-  height: 4px;
-  background: rgba(255, 84, 84, 0.7);
-  border-radius: 2px;
-  transform-origin: center;
-  pointer-events: none;
-  z-index: 9997;
-  will-change: transform, opacity;
-}
-
-.warning-line-1 {
-  transform: translate(-50%, -50%) rotate(45deg);
-  animation: warningLines 0.6s ease-out;
-}
-
-.warning-line-2 {
-  transform: translate(-50%, -50%) rotate(-45deg);
-  animation: warningLines 0.6s ease-out;
-}
-
 @keyframes floatingMessage {
   0% {
     opacity: 0;
@@ -1150,6 +1108,11 @@
   animation: floatingMessage 1.2s ease-out;
   text-shadow: 0 0 10px rgba(136, 204, 0, 0.7);
   will-change: transform, opacity;
+}
+
+.floating-message--wrong {
+  color: #FF4444;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.7);
 }
 
 @keyframes colorWash {
@@ -1191,7 +1154,6 @@
   .artikel-btn--glitch,
   .word-frame--glitch,
   .clock-icon,
-  .warning-line,
   .floating-message,
   .color-wash {
     animation: none !important;
@@ -1208,7 +1170,6 @@
 .form-btn--wrong,
 .translation-option--correct,
 .translation-option--wrong,
-.warning-line,
 .floating-message,
 .color-wash {
   will-change: transform, opacity;
