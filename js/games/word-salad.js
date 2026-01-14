@@ -632,33 +632,33 @@ function showResults(scoreData) {
   if (elements.gameResults) {
     elements.gameResults.style.display = 'block';
     elements.gameResults.innerHTML = `
-      <div class="card">
+      <div class="card result-card">
         <div class="card-header text-center">
-          <h2>🎉 ${t('setComplete')}</h2>
+          <h2 class="result-title">🎉 ${t('setComplete')}</h2>
         </div>
         <div class="card-body">
-          <div class="text-center" style="margin: var(--space-xl) 0;">
-            <div style="font-size: var(--text-4xl); font-weight: 700; color: var(--color-blue);">
+          <div class="text-center result-score-wrap">
+            <div class="result-score">
               ${scoreData.setScore}
             </div>
-            <p style="color: var(--text-secondary);">${t('yourScore')}</p>
+            <p class="result-score-label">${t('yourScore')}</p>
           </div>
 
           <div class="result-stats-grid">
             <div class="result-stat-card">
-              <div class="result-stat-label">✅ ${t('correctAnswers')}</div>
+              <div class="result-stat-label">${t('correctAnswers')}</div>
               <div class="result-stat-value">${scoreData.correctAnswers}</div>
             </div>
             <div class="result-stat-card">
-              <div class="result-stat-label">❌ ${t('wrongAnswers')}</div>
+              <div class="result-stat-label">${t('wrongAnswers')}</div>
               <div class="result-stat-value">${scoreData.wrongAnswers}</div>
             </div>
             <div class="result-stat-card">
-              <div class="result-stat-label">⏱ ${t('avgTime')}</div>
+              <div class="result-stat-label">${t('avgTime')}</div>
               <div class="result-stat-value">${scoreData.avgResponseTime.toFixed(1)}s</div>
             </div>
             <div class="result-stat-card">
-              <div class="result-stat-label">🔥 ${t('maxCombo')}</div>
+              <div class="result-stat-label">${t('maxCombo')}</div>
               <div class="result-stat-value">${scoreData.maxCombo}</div>
             </div>
           </div>

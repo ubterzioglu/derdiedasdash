@@ -3,7 +3,7 @@
    Combo tracking and display
    ============================================ */
 
-import { calculateComboBonus } from './scoring.js';
+import { COMBO_START, COMBO_MAX } from './scoring.js';
 
 /**
  * Combo Manager class
@@ -12,6 +12,7 @@ export class ComboManager {
   constructor() {
     this.currentStreak = 0;
     this.maxCombo = 0;
+    this.pendingReset = false;
     this.onComboStart = null;
     this.onComboUpdate = null;
     this.onComboReset = null;
@@ -21,25 +22,22 @@ export class ComboManager {
    * Add correct answer (increment streak)
    */
   addCorrect() {
-    this.currentStreak++;
+    this.currentStreak = Math.min(this.currentStreak + 1, COMBO_MAX);
     this.maxCombo = Math.max(this.maxCombo, this.currentStreak);
     
     // Check if combo started (3 in a row)
-    if (this.currentStreak === 3 && this.onComboStart) {
+    if (this.currentStreak === COMBO_START && this.onComboStart) {
       this.onComboStart(this.currentStreak);
     }
     
     // Update combo display
-    if (this.currentStreak >= 3 && this.onComboUpdate) {
+    if (this.currentStreak >= COMBO_START && this.onComboUpdate) {
       this.onComboUpdate(this.currentStreak);
     }
     
-    // Reset after 5 (combo completes)
-    if (this.currentStreak === 5) {
-      this.currentStreak = 0;
-      if (this.onComboReset) {
-        this.onComboReset();
-      }
+    // Reset after max combo is scored
+    if (this.currentStreak >= COMBO_MAX) {
+      this.pendingReset = true;
     }
   }
 
@@ -47,17 +45,28 @@ export class ComboManager {
    * Add wrong answer (reset streak)
    */
   addWrong() {
-    if (this.currentStreak >= 3 && this.onComboReset) {
+    if (this.currentStreak >= COMBO_START && this.onComboReset) {
       this.onComboReset();
     }
     this.currentStreak = 0;
+    this.pendingReset = false;
   }
 
   /**
    * Get current streak
    */
   getStreak() {
-    return this.currentStreak;
+    const streak = this.currentStreak;
+
+    if (this.pendingReset) {
+      this.pendingReset = false;
+      this.currentStreak = 0;
+      if (this.onComboReset) {
+        this.onComboReset();
+      }
+    }
+
+    return streak;
   }
 
   /**
@@ -71,17 +80,18 @@ export class ComboManager {
    * Check if combo is active
    */
   isComboActive() {
-    return this.currentStreak >= 3;
+    return this.currentStreak >= COMBO_START;
   }
 
   /**
    * Reset combo
    */
   reset() {
-    if (this.currentStreak >= 3 && this.onComboReset) {
+    if (this.currentStreak >= COMBO_START && this.onComboReset) {
       this.onComboReset();
     }
     this.currentStreak = 0;
+    this.pendingReset = false;
   }
 
   /**
@@ -108,7 +118,7 @@ export function createComboIndicator() {
  * Update combo indicator
  */
 export function updateComboIndicator(indicator, streak) {
-  if (streak >= 3) {
+  if (streak >= COMBO_START) {
     indicator.style.display = 'flex';
     const comboCount = indicator.querySelector('.combo-count');
     if (comboCount) {
@@ -116,7 +126,7 @@ export function updateComboIndicator(indicator, streak) {
     }
     
     // Add burst animation for new combos
-    if (streak === 3) {
+    if (streak === COMBO_START) {
       indicator.classList.add('combo-indicator--burst', 'combo-indicator--new');
       setTimeout(() => {
         indicator.classList.remove('combo-indicator--burst', 'combo-indicator--new');

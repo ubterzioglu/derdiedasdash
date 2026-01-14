@@ -30,6 +30,21 @@ const PENALTIES = {
   five_letter_blitz: -7
 };
 
+export const COMBO_START = 3;
+export const COMBO_MAX = 10;
+const COMBO_BONUSES = {
+  3: 5,
+  4: 5,
+  5: 8,
+  6: 8,
+  7: 12,
+  8: 12,
+  9: 16,
+  10: 16
+};
+
+const QUESTIONS_PER_SET = 10;
+
 /**
  * Calculate speed bonus based on time used
  * @param {number} timeUsed - Time used in seconds
@@ -52,10 +67,25 @@ export function calculateSpeedBonus(timeUsed, maxTime) {
  * @returns {number} Combo bonus points
  */
 export function calculateComboBonus(streak) {
-  if (streak < 3) return 0;
-  if (streak < 5) return 5;
-  if (streak === 5) return 8;
-  return 0; // Reset after 5
+  if (streak < COMBO_START) return 0;
+  const cappedStreak = Math.min(streak, COMBO_MAX);
+  return COMBO_BONUSES[cappedStreak] || 0;
+}
+
+function maxComboBonusForSet(questionCount) {
+  let total = 0;
+  let streak = 0;
+
+  for (let i = 0; i < questionCount; i++) {
+    streak++;
+    total += calculateComboBonus(streak);
+
+    if (streak >= COMBO_MAX) {
+      streak = 0;
+    }
+  }
+
+  return total;
 }
 
 /**
@@ -105,10 +135,10 @@ export function calculateQuestionScore(params) {
 export function maxPossibleSetScore(gameKey, level) {
   const base = BASE_SCORES[gameKey] || 20;
   const mult = DIFFICULTY_MULTIPLIERS[level] || 1.0;
-  const perfectSpeed = 100; // 10 questions × +10 bonus
-  const perfectCombo = 36;  // Max combo bonus (5 streak at question 5)
-  
-  return (10 * base * mult) + perfectSpeed + perfectCombo;
+  const perfectSpeed = QUESTIONS_PER_SET * 10;
+  const perfectCombo = maxComboBonusForSet(QUESTIONS_PER_SET);
+
+  return (QUESTIONS_PER_SET * base * mult) + perfectSpeed + perfectCombo;
 }
 
 /**
@@ -146,23 +176,19 @@ export function calculateSetScore(questions) {
       correctCount++;
       maxCombo = Math.max(maxCombo, currentStreak);
       totalTime += q.timeUsed || 0;
-      
-      // Reset combo after 5
-      if (currentStreak === 5) {
-        currentStreak = 0;
-      }
     } else {
       currentStreak = 0;
       wrongCount++;
     }
 
+    const streakForScore = q.isCorrect ? currentStreak : 0;
     const score = calculateQuestionScore({
       gameKey: q.gameKey,
       level: q.level,
       isCorrect: q.isCorrect,
       timeUsed: q.timeUsed || 0,
       maxTime: q.maxTime || 5,
-      comboStreak: q.isCorrect ? currentStreak : 0
+      comboStreak: streakForScore
     });
 
     // Track breakdown
@@ -174,17 +200,21 @@ export function calculateSetScore(questions) {
       const speedBonus = calculateSpeedBonus(q.timeUsed || 0, q.maxTime || 5);
       speedBonusTotal += speedBonus;
       
-      const comboBonus = calculateComboBonus(q.isCorrect ? currentStreak : 0);
+      const comboBonus = calculateComboBonus(streakForScore);
       comboBonusTotal += comboBonus;
     } else {
       penaltyTotal += Math.abs(score);
     }
 
     totalScore += Math.max(0, score); // Never go below 0
+
+    if (q.isCorrect && currentStreak >= COMBO_MAX) {
+      currentStreak = 0;
+    }
   });
 
   // Perfect set bonus
-  if (correctCount === 10) {
+  if (correctCount === QUESTIONS_PER_SET) {
     totalScore += 50;
   }
 
@@ -194,7 +224,7 @@ export function calculateSetScore(questions) {
     wrongAnswers: wrongCount,
     maxCombo: maxCombo,
     avgResponseTime: correctCount > 0 ? totalTime / correctCount : 0,
-    accuracyPercentage: (correctCount / 10) * 100,
+    accuracyPercentage: (correctCount / QUESTIONS_PER_SET) * 100,
     baseTotal: baseTotal,
     speedBonusTotal: speedBonusTotal,
     comboBonusTotal: comboBonusTotal,
