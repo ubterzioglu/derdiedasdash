@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -396,36 +396,15 @@ function showFeedback(isCorrect, selectedArticle, correctArticle, isTimeout = fa
   // Disable buttons
   disableButtons();
 
-  // Highlight selected button
-  const buttons = {
-    'der': elements.btnDer,
-    'die': elements.btnDie,
-    'das': elements.btnDas
-  };
-
   if (isTimeout) {
-    // Timeout - highlight correct answer
-    if (buttons[correctArticle]) {
-      animateCorrect(buttons[correctArticle]);
-    }
-    if (elements.wordFrame) {
-      animateWrong(elements.wordFrame);
-    }
+    animateWrong();
     // Clock explosion animation
     createClockExplosion();
-  } else if (selectedArticle && buttons[selectedArticle]) {
+  } else if (selectedArticle) {
     if (isCorrect) {
-      // Correct answer - neon glow!
-      animateCorrect(buttons[selectedArticle]);
-      createNeonGlow(buttons[selectedArticle], elements.wordFrame);
+      animateCorrect();
     } else {
-      // Wrong answer - glitch error
-      animateWrong(buttons[selectedArticle]);
-      createGlitchError(buttons[selectedArticle], elements.wordFrame);
-      // Highlight correct answer
-      if (buttons[correctArticle]) {
-        animateCorrect(buttons[correctArticle]);
-      }
+      animateWrong();
     }
   }
 }

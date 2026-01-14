@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -467,7 +467,7 @@ function showFeedback(isCorrect, userWord, correctWord, isTimeout = false) {
   if (isTimeout) {
     // Timeout - show wrong animation
     if (elements.letterBuilder) {
-      animateWrong(elements.letterBuilder);
+      animateWrong();
     }
     // Clock explosion animation
     createClockExplosion();
@@ -482,16 +482,12 @@ function showFeedback(isCorrect, userWord, correctWord, isTimeout = false) {
       elements.letterSlot.parentNode.insertBefore(correctEl, elements.letterSlot.nextSibling);
     }
   } else if (isCorrect) {
-    // Correct answer - neon glow!
     if (elements.letterBuilder) {
-      animateCorrect(elements.letterBuilder);
-      createNeonGlow(elements.letterBuilder, elements.letterBuilder);
+      animateCorrect();
     }
   } else {
-    // Wrong answer - glitch error
     if (elements.letterBuilder) {
-      animateWrong(elements.letterBuilder);
-      createGlitchError(elements.letterBuilder, elements.letterBuilder);
+      animateWrong();
     }
     
     // Show correct answer

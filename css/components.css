@@ -635,6 +635,9 @@
   justify-content: center;
   position: relative; /* Timer ve combo için relative positioning */
 }
+.word-frame--raised {
+  margin: var(--space-lg) 0 var(--space-sm);
+}
 
 /* Kelime - Ortada */
 .word-frame-word {
@@ -1117,6 +1120,11 @@
   background: rgba(255, 102, 51, 0.1);
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--border-radius-sm);
+}
+.combo-indicator--centered {
+  justify-content: center;
+  margin: var(--space-sm) auto var(--space-md);
+  width: fit-content;
 }
 
 .combo-indicator::before {

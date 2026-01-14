@@ -179,93 +179,68 @@ export function createArtikelExplosion(container, artikelColor) {
 }
 
 /**
- * Create floating success message animation (screen-based)
+ * Create floating status message animation (screen-based)
+ * @param {Object} options
+ * @param {string} options.text
+ * @param {boolean} [options.withWash]
+ * @param {boolean} [options.isWrong]
  */
-export function createFloatingSuccessMessage() {
+export function createFloatingStatusMessage({ text, withWash = false, isWrong = false }) {
   const message = document.createElement('div');
-  message.className = 'floating-message';
-  message.textContent = '✓ Correct!';
+  message.className = isWrong ? 'floating-message floating-message--wrong' : 'floating-message';
+  message.textContent = text;
 
-  const wash = document.createElement('div');
-  wash.className = 'color-wash';
+  let wash = null;
+  if (withWash) {
+    wash = document.createElement('div');
+    wash.className = 'color-wash';
+    document.body.appendChild(wash);
+  }
 
-  document.body.appendChild(wash);
   document.body.appendChild(message);
 
   setTimeout(() => {
     if (document.body.contains(message)) {
       document.body.removeChild(message);
     }
-    if (document.body.contains(wash)) {
+    if (wash && document.body.contains(wash)) {
       document.body.removeChild(wash);
     }
   }, 1200);
 }
 
 /**
- * Create warning lines animation (screen-based)
+ * Create floating success message animation (screen-based)
  */
-export function createWarningLines() {
-  const line1 = document.createElement('div');
-  line1.className = 'warning-line warning-line-1';
-
-  const line2 = document.createElement('div');
-  line2.className = 'warning-line warning-line-2';
-
-  document.body.appendChild(line1);
-  document.body.appendChild(line2);
-
-  setTimeout(() => {
-    if (document.body.contains(line1)) {
-      document.body.removeChild(line1);
-    }
-    if (document.body.contains(line2)) {
-      document.body.removeChild(line2);
-    }
-  }, 600);
+export function createFloatingSuccessMessage() {
+  createFloatingStatusMessage({
+    text: '\u2713 Correct!',
+    withWash: true
+  });
 }
 
 /**
- * Add correct answer animation classes
- * NOTE: Neon glow is NOT triggered here - call createNeonGlow separately only for correct user answers
+ * Create floating error message animation (screen-based)
+ */
+export function createFloatingErrorMessage() {
+  createFloatingStatusMessage({
+    text: '\u2717 False!',
+    isWrong: true
+  });
+}
+
+/**
+ * Show correct answer feedback (screen-based)
  */
 export function animateCorrect(element) {
-  if (!element) return;
-  
-  // V2 - Dramatic Edition: Neon glow class
-  if (element.classList.contains('artikel-btn')) {
-    element.classList.add('artikel-btn--neon');
-    // Remove class after animation
-    setTimeout(() => {
-      element.classList.remove('artikel-btn--neon');
-    }, 800);
-  } else {
-    // Eski animasyonları da destekle (geriye dönük uyumluluk)
-    element.classList.add('artikel-btn--correct', 'word-frame--correct', 'form-btn--correct', 'translation-option--correct', 'sentence-builder--correct', 'letter-builder--correct');
-  }
-
   createFloatingSuccessMessage();
 }
 
 /**
- * Add wrong answer animation classes
+ * Show wrong answer feedback (screen-based)
  */
 export function animateWrong(element) {
-  if (!element) return;
-  
-  // V2 - Dramatic Edition: Glitch class
-  if (element.classList.contains('artikel-btn')) {
-    element.classList.add('artikel-btn--glitch');
-    // Remove class after animation
-    setTimeout(() => {
-      element.classList.remove('artikel-btn--glitch');
-    }, 600);
-  } else {
-    // Eski animasyonları da destekle (geriye dönük uyumluluk)
-    element.classList.add('artikel-btn--wrong', 'word-frame--wrong', 'form-btn--wrong', 'translation-option--wrong', 'sentence-builder--wrong', 'letter-builder--wrong', 'preposition-frame--wrong');
-  }
-
-  createWarningLines();
+  createFloatingErrorMessage();
 }
 
 /**

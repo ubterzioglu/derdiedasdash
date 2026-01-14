@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -505,7 +505,7 @@ function showFeedback(isCorrect, userSentence, correctSentence, isTimeout = fals
   if (isTimeout) {
     // Timeout - show wrong animation
     if (elements.sentenceBuilder) {
-      animateWrong(elements.sentenceBuilder);
+      animateWrong();
     }
     // Clock explosion animation
     createClockExplosion();
@@ -520,16 +520,12 @@ function showFeedback(isCorrect, userSentence, correctSentence, isTimeout = fals
       elements.sentenceSlot.parentNode.insertBefore(correctEl, elements.sentenceSlot.nextSibling);
     }
   } else if (isCorrect) {
-    // Correct answer - neon glow!
     if (elements.sentenceBuilder) {
-      animateCorrect(elements.sentenceBuilder);
-      createNeonGlow(elements.sentenceBuilder, elements.sentenceBuilder);
+      animateCorrect();
     }
   } else {
-    // Wrong answer - glitch error
     if (elements.sentenceBuilder) {
-      animateWrong(elements.sentenceBuilder);
-      createGlitchError(elements.sentenceBuilder, elements.sentenceBuilder);
+      animateWrong();
     }
     
     // Show correct answer

@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -360,34 +360,15 @@ async function handleAnswer(selectedForm, isTimeout = false) {
 function showFeedback(isCorrect, selectedForm, correctForm, isTimeout = false) {
   disableButtons();
 
-  const buttons = {
-    [elements.option1.dataset.form]: elements.option1,
-    [elements.option2.dataset.form]: elements.option2,
-    [elements.option3.dataset.form]: elements.option3
-  };
-
   if (isTimeout) {
-    // Timeout - highlight correct answer
-    if (buttons[correctForm]) {
-      animateCorrect(buttons[correctForm]);
-    }
-    if (elements.prepositionFrame) {
-      animateWrong(elements.prepositionFrame);
-    }
+    animateWrong();
     // Clock explosion animation
     createClockExplosion();
-  } else if (selectedForm && buttons[selectedForm]) {
+  } else if (selectedForm) {
     if (isCorrect) {
-      // Correct answer - neon glow!
-      animateCorrect(buttons[selectedForm]);
-      createNeonGlow(buttons[selectedForm], elements.prepositionFrame);
+      animateCorrect();
     } else {
-      // Wrong answer - glitch error
-      animateWrong(buttons[selectedForm]);
-      createGlitchError(buttons[selectedForm], elements.prepositionFrame);
-      if (buttons[correctForm]) {
-        animateCorrect(buttons[correctForm]);
-      }
+      animateWrong();
     }
   }
 }

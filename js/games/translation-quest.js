@@ -9,7 +9,7 @@ import { GameTimer, updateTimerDisplay } from '../core/timer.js';
 import { ComboManager, updateComboIndicator, hideComboIndicator } from '../core/combo.js';
 import { calculateQuestionScore, calculateSetScore, normalizedScore } from '../core/scoring.js';
 import { t, getCurrentLanguage } from '../core/i18n.js';
-import { animateCorrect, animateWrong, createNeonGlow, createGlitchError, createClockExplosion } from '../core/animations.js';
+import { animateCorrect, animateWrong, createClockExplosion } from '../core/animations.js';
 
 // Game state
 let gameState = {
@@ -465,50 +465,18 @@ async function handleAnswer(selectedTranslation, isTimeout = false) {
 function showFeedback(isCorrect, selectedTranslation, correctTranslation, isTimeout = false) {
   disableButtons();
 
-  const options = [elements.optionA, elements.optionB, elements.optionC, elements.optionD];
-  
   if (isTimeout) {
-    // Timeout - highlight correct answer (no confetti)
-    options.forEach(btn => {
-      if (!btn) return;
-      const isCorrectOption = btn.dataset.isCorrect === 'true';
-      if (isCorrectOption) {
-        animateCorrect(btn);
-      }
-    });
-    // Timeout animation
+    animateWrong();
     createClockExplosion();
-  } else {
-    let correctButton = null;
-    
-    options.forEach(btn => {
-      if (!btn) return;
-      const translation = btn.dataset.translation;
-      const isCorrectOption = btn.dataset.isCorrect === 'true';
-      
-      if (translation === selectedTranslation) {
-        if (isCorrect) {
-          // Correct answer - neon glow!
-          animateCorrect(btn);
-          createNeonGlow(btn, elements.wordFrame);
-          correctButton = btn;
-        } else {
-          // Wrong answer - glitch error
-          animateWrong(btn);
-          createGlitchError(btn, elements.wordFrame);
-        }
-      }
-      
-      if (isCorrectOption && !isCorrect) {
-        animateCorrect(btn);
-        correctButton = btn;
-        // Hint glow için doğru butonu vurgula
-        btn.classList.add('artikel-btn--hint');
-        setTimeout(() => {
-          btn.classList.remove('artikel-btn--hint');
-        }, 2000);
-      }
-    });
+    return;
+  }
+
+  if (selectedTranslation) {
+    if (isCorrect) {
+      animateCorrect();
+    } else {
+      animateWrong();
+    }
   }
 }
 
