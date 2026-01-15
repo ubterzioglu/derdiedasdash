@@ -108,8 +108,7 @@ export class ComboManager {
  */
 export function createComboIndicator() {
   const indicator = document.createElement('div');
-  indicator.className = 'combo-indicator';
-  indicator.style.display = 'none';
+  indicator.className = 'combo-indicator combo-indicator--hidden';
   indicator.innerHTML = '🔥 <span class="combo-count">0x</span> COMBO!';
   return indicator;
 }
@@ -119,7 +118,7 @@ export function createComboIndicator() {
  */
 export function updateComboIndicator(indicator, streak) {
   if (streak >= COMBO_START) {
-    indicator.style.display = 'flex';
+    indicator.classList.remove('combo-indicator--hidden');
     const comboCount = indicator.querySelector('.combo-count');
     if (comboCount) {
       comboCount.textContent = `${streak}x`;
@@ -134,7 +133,7 @@ export function updateComboIndicator(indicator, streak) {
       }, 500);
     }
   } else {
-    indicator.style.display = 'none';
+    indicator.classList.add('combo-indicator--hidden');
     indicator.classList.remove('combo-indicator--active', 'combo-indicator--burst');
   }
 }
@@ -143,6 +142,6 @@ export function updateComboIndicator(indicator, streak) {
  * Hide combo indicator
  */
 export function hideComboIndicator(indicator) {
-  indicator.style.display = 'none';
+  indicator.classList.add('combo-indicator--hidden');
   indicator.classList.remove('combo-indicator--active', 'combo-indicator--burst');
 }

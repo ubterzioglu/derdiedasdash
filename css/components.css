@@ -1121,6 +1121,10 @@
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--border-radius-sm);
 }
+.combo-indicator--hidden {
+  visibility: hidden;
+  opacity: 0;
+}
 .combo-indicator--centered {
   justify-content: center;
   margin: var(--space-sm) auto var(--space-md);
